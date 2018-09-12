@@ -80,12 +80,14 @@
         if (window.history.replaceState) {
           window.history.replaceState(null, "", best);
         }
-        var thisTitle = $best.data("title")
-        if (thisTitle !== undefined && thisTitle.length > 0) {
-          document.title = thisTitle + " – " + originalTitle;
-        } else {
-          document.title = originalTitle;
-        }
+
+        // Disable dynamic titles
+        // var thisTitle = $best.data("title")
+        // if (thisTitle !== undefined && thisTitle.length > 0) {
+        //   document.title = thisTitle + " – " + originalTitle;
+        // } else {
+        //   document.title = originalTitle;
+        // }
       }
     };
 
