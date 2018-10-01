@@ -7,10 +7,10 @@ toc_footers:
   - <a href="https://codex-viewer.com">Codex Viewer</a>
 
 includes:
-  - todo
   - introduction
   - authentication
   - errors
+  - todo
 
 search: true
 ---
