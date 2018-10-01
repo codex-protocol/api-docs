@@ -1,22 +1,21 @@
 # Errors
 
-<aside class="notice">
-This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
-</aside>
+<!--
+Slate allows you to optionally separate out your docs into many files... just
+save them to the includes folder and add them to the top of your index.md
+frontmatter. Files are included in the order listed.
+-->
 
-The Kittn API uses the following error codes:
+The Codex API can return the following error codes:
 
-
-Error Code | Meaning
----------- | -------
-400 | Bad Request -- Your request is invalid.
-401 | Unauthorized -- Your API key is wrong.
-403 | Forbidden -- The kitten requested is hidden for administrators only.
-404 | Not Found -- The specified kitten could not be found.
-405 | Method Not Allowed -- You tried to access a kitten with an invalid method.
-406 | Not Acceptable -- You requested a format that isn't json.
-410 | Gone -- The kitten requested has been removed from our servers.
-418 | I'm a teapot.
-429 | Too Many Requests -- You're requesting too many kittens! Slow down!
-500 | Internal Server Error -- We had a problem with our server. Try again later.
-503 | Service Unavailable -- We're temporarily offline for maintenance. Please try again later.
+Error Code | Error Description
+---------- | -----------------
+401        | Unauthorized Error - Your access token is invalid (e.g. it has expired and you need to request a new one.)
+402        | Payment Required Error - You do not have enough [gas allowance](#gas-allowance) to perform the requested action. Wait for your allowance to reset, or purchase more allowance.
+403        | Forbidden Error - Your access token is valid, but you do not have permission to perform the request action (e.g. "admin only" actions.)
+404        | Not Found Error - The requested resource (or route) does not exist.
+409        | Missing Parameter Error - A required parameter was not specified in the request data. See error message for details.
+409        | Invalid Argument Error - An invalid parameter was specified in the request data (e.g. an invalid email address), or the requested action can not be performed (e.g. cancelling a transfer that hasn't been initiated yet.) See error message for details.
+409        | Conflict Error - The requested resource could not be created because a record with a matching unique identifier already exists. See error message for details.
+500        | Internal Server Error - There was an unknown problem processing the request. Please try again later.
+503        | Service Unavailable - We're temporarily offline for maintenance. Please try again later.
