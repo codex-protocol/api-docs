@@ -58,7 +58,7 @@ gasAllowance                  | The amount of gas left that the application can 
 Property                      | Description
 ----------------------------- | -----------
 tokenId                       | The unique identifier of this Codex Record
-metadata                      | Will `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address. See [Metadata](#metadata) for details.
+metadata                      | Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address. See [Metadata](#metadata) for details.
 provider                      | See [Metadata Provider](#metadata-provider) for details.
 nameHash                      | The hash of the metadata's plain text name.
 isIgnored                     | This flag indicates that a user has chosen to "ignore" an incoming Codex Record transfer. This is useful to hide incoming transfers in a User Interface since there's no blockchain mechanism to explicitly reject a transfer.
@@ -114,13 +114,13 @@ isHistoricalProvenancePrivate | This flag indicates whether or not [historical p
 Property           | Description
 ------------------ | -----------
 id                 | The unique ID of the metadata.
-name               | The plain text name of the Codex Record. Will `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
+name               | The plain text name of the Codex Record. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
 files              | An array of supplemental files that belong to this metadata. This is considered the "[historical provenance](#historical-provenance)". Can `undefined` if `isHistoricalProvenancePrivate` is `true` on the Codex Record. See [File](#file) for details.
-images             | An array of supplemental images that belong to this metadata. Will `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address. See [File](#file) for details.
+images             | An array of supplemental images that belong to this metadata. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address. See [File](#file) for details.
 nameHash           | The hash of the plain text name.
-mainImage          | The main image of this Codex Record. Will `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
+mainImage          | The main image of this Codex Record. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
 fileHashes         | An array of file hashes that belong to this metadata.
-description        | The plain text description of the Codex Record. Will `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
+description        | The plain text description of the Codex Record. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
 creatorAddress     | The Ethereum address of the client / user who created this metadata (not necessarily the current Codex Record owner!)
 descriptionHash    | The hash of the plain text description.
 hasPendingUpdates  | This flag is true if there is currently a "modify" transaction processing on the blockchain (e.g. after you [modify an existing record](#modify-an-existing-record)). This is useful for showing some sort of loading state on a Codex Record while modifications are pending.
