@@ -38,12 +38,16 @@
   <span class="s2">"isIgnored"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
   <span class="s2">"isInGallery"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
   <span class="s2">"providerId"</span><span class="p">:</span> <span class="s2">"codex"</span><span class="p">,</span>
-  <span class="s2">"approvedAddress"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
   <span class="s2">"isHistoricalProvenancePrivate"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
   <span class="s2">"providerMetadataId"</span><span class="p">:</span> <span class="s2">"5bae56f75d7971becf854a72"</span><span class="p">,</span>
   <span class="s2">"ownerAddress"</span><span class="p">:</span> <span class="s2">"0x627306090abab3a6e1400e9345bc60c78a8bef57"</span><span class="p">,</span>
+  <span class="s2">"approvedAddress"</span><span class="p">:</span> <span class="s2">"0x821aea9a577a9b44299b9c15c88cf3087f3b5544"</span><span class="p">,</span>
   <span class="s2">"nameHash"</span><span class="p">:</span> <span class="s2">"0x4955c7fd1cb2de006320e77b157409b84ab2df69d9c0720f609d7a17dd2a674c"</span><span class="p">,</span>
   <span class="s2">"descriptionHash"</span><span class="p">:</span> <span class="s2">"0xcb7ab38fbc9919a3b04eabc343d7e649335ad748213df20e65d1979d0d3aa800"</span><span class="p">,</span>
+  <span class="s2">"whitelistedAddresses"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">"0xf17f52151ebef6c7334fad080c5704d77216b732"</span><span class="p">,</span>
+    <span class="s2">"0xc5fdf4076b8f3a5357c5e395ab970b5b54098fef"</span>
+  <span class="p">],</span>
   <span class="s2">"fileHashes"</span><span class="p">:</span> <span class="p">[</span>
     <span class="s2">"0xb39e1bbc6d50670aafa88955217ddf1e9e1f635a2cfc8d5d806a730f014c7210"</span>
   <span class="p">],</span>
@@ -72,7 +76,7 @@
 </tr>
 <tr>
 <td>metadata</td>
-<td>Will <code>undefined</code> if <code>isPrivate</code> is <code>true</code> and you are not the owner or a whitelisted address. See <a href="#metadata">Metadata</a> for details.</td>
+<td>Will be <code>undefined</code> if <code>isPrivate</code> is <code>true</code> and you are not the owner or a whitelisted address. See <a href="#metadata">Metadata</a> for details.</td>
 </tr>
 <tr>
 <td>provider</td>
@@ -172,7 +176,7 @@
 </tr>
 <tr>
 <td>name</td>
-<td>The plain text name of the Codex Record. Will <code>undefined</code> if <code>isPrivate</code> is <code>true</code> and you are not the owner or a whitelisted address.</td>
+<td>The plain text name of the Codex Record. Will be <code>undefined</code> if <code>isPrivate</code> is <code>true</code> and you are not the owner or a whitelisted address.</td>
 </tr>
 <tr>
 <td>files</td>
@@ -180,7 +184,7 @@
 </tr>
 <tr>
 <td>images</td>
-<td>An array of supplemental images that belong to this metadata. Will <code>undefined</code> if <code>isPrivate</code> is <code>true</code> and you are not the owner or a whitelisted address. See <a href="#file">File</a> for details.</td>
+<td>An array of supplemental images that belong to this metadata. Will be <code>undefined</code> if <code>isPrivate</code> is <code>true</code> and you are not the owner or a whitelisted address. See <a href="#file">File</a> for details.</td>
 </tr>
 <tr>
 <td>nameHash</td>
@@ -188,7 +192,7 @@
 </tr>
 <tr>
 <td>mainImage</td>
-<td>The main image of this Codex Record. Will <code>undefined</code> if <code>isPrivate</code> is <code>true</code> and you are not the owner or a whitelisted address.</td>
+<td>The main image of this Codex Record. Will be <code>undefined</code> if <code>isPrivate</code> is <code>true</code> and you are not the owner or a whitelisted address.</td>
 </tr>
 <tr>
 <td>fileHashes</td>
@@ -196,7 +200,7 @@
 </tr>
 <tr>
 <td>description</td>
-<td>The plain text description of the Codex Record. Will <code>undefined</code> if <code>isPrivate</code> is <code>true</code> and you are not the owner or a whitelisted address.</td>
+<td>The plain text description of the Codex Record. Will be <code>undefined</code> if <code>isPrivate</code> is <code>true</code> and you are not the owner or a whitelisted address.</td>
 </tr>
 <tr>
 <td>creatorAddress</td>
