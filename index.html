@@ -237,6 +237,48 @@
               </ul>
           </li>
           <li>
+            <a href="#client-routes" class="toc-h1 toc-link" data-title="Client Routes">Client Routes</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-client" class="toc-h2 toc-link" data-title="Get Client">Get Client</a>
+                  </li>
+                  <li>
+                    <a href="#get-all-codex-records" class="toc-h2 toc-link" data-title="Get All Codex Records">Get All Codex Records</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#public-routes" class="toc-h1 toc-link" data-title="Public Routes">Public Routes</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#get-a-specific-codex-record" class="toc-h2 toc-link" data-title="Get a Specific Codex Record">Get a Specific Codex Record</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#response-examples" class="toc-h1 toc-link" data-title="Response Examples">Response Examples</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#client" class="toc-h2 toc-link" data-title="Client">Client</a>
+                  </li>
+                  <li>
+                    <a href="#codex-record" class="toc-h2 toc-link" data-title="Codex Record">Codex Record</a>
+                  </li>
+                  <li>
+                    <a href="#metadata" class="toc-h2 toc-link" data-title="Metadata">Metadata</a>
+                  </li>
+                  <li>
+                    <a href="#provenance-event" class="toc-h2 toc-link" data-title="Provenance Event">Provenance Event</a>
+                  </li>
+                  <li>
+                    <a href="#metadata-provider" class="toc-h2 toc-link" data-title="Metadata Provider">Metadata Provider</a>
+                  </li>
+                  <li>
+                    <a href="#file" class="toc-h2 toc-link" data-title="File">File</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
           </li>
           <li>
@@ -267,7 +309,7 @@ and/or <a href="https://github.com/codex-protocol/site.dev-codexprotocol-com/pul
 <aside class="notice">
   For the sake of brevity, all JavaScript code examples in this documentation
   assume the use of a convenient HTTP request library (e.g.
-  <a href="https://www.npmjs.com/package/request" target="_blank">request</a>).
+  <a href="https://www.npmjs.com/package/request" rel="noopener noreferrer">request</a>).
   Of course, you're free to make requests to The Codex API in any manner you see
   fit.
 </aside>
@@ -293,14 +335,14 @@ blockchain transactions are asynchronous, this webhookUrl will be used to
 inform your application that an event has occurred, for example when your
 Codex Records have been minted.</p></li>
 </ul>
-<h2 id='access-tokens'>Access Tokens</h2>
+<h2 id='access-tokens'>Access Tokens</h2><h3 id='obtaining-an-access-token'>Obtaining an Access Token</h3>
 <blockquote>
-<p>Obtaining an access token:</p>
+<p>Request an access token:</p>
 </blockquote>
 <pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
 
 <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">url</span><span class="p">:</span> <span class="s1">'http://localhost:3001/v1/oauth2/token'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/oauth2/token'</span><span class="p">,</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'post'</span><span class="p">,</span>
   <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
 
@@ -318,7 +360,7 @@ Codex Records have been minted.</p></li>
 <span class="p">})</span>
 </code></pre>
 <blockquote>
-<p>Remember to replace the example client_id and client_secret with your applications client_id and client_secret.</p>
+<p>Remember to replace the example <code>client_id</code> and <code>client_secret</code> with your applications <code>client_id</code> and <code>client_secret</code>.</p>
 </blockquote>
 
 <p>Before you can make API calls, you&#39;ll need an access token. Send a POST request
@@ -334,8 +376,10 @@ supported is <code>client_credentials</code>.</p>
 <aside class="warning">
   When requesting access tokens, you <em>must</em> send the request as
   <code>Content-Type: application/x-www-form-urlencoded</code>. This is required
-  by the <a href="https://tools.ietf.org/html/rfc6749?#section-4.1.3" target="_blank">OAuth2 Specification</a>.
+  by the <a href="https://tools.ietf.org/html/rfc6749?#section-4.1.3" rel="noopener noreferrer">OAuth2 Specification</a>.
 </aside>
+<h3 id='access-token-expiration'>Access Token Expiration</h3>
+<p><strong>@TODO:</strong> write about access token expiration here</p>
 <h2 id='making-api-calls'>Making API Calls</h2>
 <blockquote>
 <p>Making an authenticated API call:</p>
@@ -344,7 +388,7 @@ supported is <code>client_credentials</code>.</p>
 
 <span class="c1">// retrieve a list of your application's Codex Records</span>
 <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">url</span><span class="p">:</span> <span class="s1">'http://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records'</span><span class="p">,</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
   <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
   <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
@@ -357,13 +401,480 @@ supported is <code>client_credentials</code>.</p>
 <span class="p">})</span>
 </code></pre>
 <blockquote>
-<p>Remember to replace the example access token with your personal access token.</p>
+<p>Remember to replace the example <code>accessToken</code> with your personal <code>accessToken</code>.</p>
 </blockquote>
 
 <p>The Codex API expects an OAuth2 access token to be included with all requests
 made to the server in the Authorization header as follows:</p>
 
 <p><code>Authorization: Bearer d49694e5a3459759cc7ac1741de246e184e51d6e</code></p>
+<h1 id='client-routes'>Client Routes</h1>
+<p>Unlike <a href="#public-routes">public routes</a>, client routes are all prefixed with
+<code>/v1/client</code> and only perform actions on data owned by your application. All
+client routes require an <code>accessToken</code> in the Authorization header, as described
+in the <a href="#access-tokens">Access Tokens</a> section.</p>
+
+<aside class="success">
+  All requests to client routes require an <a href="#access-tokens">Access Token</a>.
+</aside>
+<h2 id='get-client'>Get Client</h2>
+<p>This endpoint can be used to retrieve the details of your application. This is
+useful if you want to check your <a href="#gas-allowance">gas allowance</a> before sending
+a request that would consume gas.</p>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// your Client record</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns a single <a href="#client">Client</a>.</p>
+</blockquote>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code>GET /v1/client</code></p>
+<h2 id='get-all-codex-records'>Get All Codex Records</h2>
+<p>This endpoint can be used to retrieve all of your application&#39;s Codex Records.</p>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// an array of your application's Codex Records</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns an array of <a href="#codex-record">Codex Records</a>.</p>
+</blockquote>
+<h3 id='http-request-2'>HTTP Request</h3>
+<p><code>GET /v1/client/records</code></p>
+<h3 id='query-parameters'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>limit</td>
+<td>100</td>
+<td>How many records to retrieve; use with <code>offset</code> to paginate through Codex Records.</td>
+</tr>
+<tr>
+<td>offset</td>
+<td>0</td>
+<td>How many records to skip before applying the <code>limit</code>; use with limit to paginate through Codex Records.</td>
+</tr>
+<tr>
+<td>order</td>
+<td>createdAt</td>
+<td>To sort in reverse order, specify this value as <code>-createdAt</code>.</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+  There is no public route to list all Codex Records; you may only list Codex
+  Records that your application currently owns.
+</aside>
+<h1 id='public-routes'>Public Routes</h1>
+<p>Unlike <a href="#client-routes">client routes</a>, public routes do not require an
+<code>accessToken</code> in the Authorization header. However, sometimes an <code>accessToken</code>
+is required to retrieve a full response.</p>
+
+<p>For example, to retrieve public information about a Codex Record, you could call
+<code>GET /v1/record/:tokenId</code> without an <code>accessToken</code>. If the Codex Record is
+public, then you will receive a full response. However, if the Codex Record is
+private, calling this route without an <code>accessToken</code> (or an <code>accessToken</code> that
+doesn&#39;t belong to the owner of the Codex Record) will return a response with all
+private information removed (i.e. no <code>metadata</code>).</p>
+
+<p>Similarly, you will not be able to call public routes such as <code>GET /v1/record/:tokenId/metadata</code>
+if the record is private and the <code>accessToken</code> is missing (or if you provide
+your <code>accessToken</code> but you are not the owner.)</p>
+
+<aside class="success">
+  It's generally a good idea to just <em>always</em> include an
+  <a href="#access-tokens">Access Token</a> with every API request.
+</aside>
+<h2 id='get-a-specific-codex-record'>Get a Specific Codex Record</h2>
+<p>This endpoint can be used to retrieve a specific Codex Record.</p>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/records/0'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// Codex Record with tokenId 0</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns a single <a href="#codex-record">Codex Record</a>.</p>
+</blockquote>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code>GET /v1/records/:tokenId</code></p>
+<h3 id='url-parameters'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tokenId</td>
+<td>The <code>tokenId</code> of the Codex Record to retrieve.</td>
+</tr>
+</tbody></table>
+<h1 id='response-examples'>Response Examples</h1>
+<p><strong>@TODO:</strong> write about general response structure here</p>
+
+<p><strong>@TODO:</strong> note that createdAt &amp; updatedAt are omitted</p>
+<h2 id='client'>Client</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"gasAllowance"</span><span class="p">:</span><span class="w"> </span><span class="s2">"40500000"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"email@example.com"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My Codex Application"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x627306090abab3a6e1400e9345bc60c78a8bef57"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>The name of the application. This will be shown in the Codex Viewer as a registered application, taking the place of the Ethereum address in the Codex Record’s provenance section.</td>
+</tr>
+<tr>
+<td>email</td>
+<td>The application developer’s email address. This will be used to communicate any breaking API changes or development updates.</td>
+</tr>
+<tr>
+<td>address</td>
+<td>The Ethereum address that identifies the application, provisioned and managed by Codex behalf of the application developer.</td>
+</tr>
+<tr>
+<td>gasAllowance</td>
+<td>The amount of gas left that the application can spend until it resets. See the <a href="#gas-allowance">Gas Allowance</a> section for details.</td>
+</tr>
+</tbody></table>
+<h2 id='codex-record'>Codex Record</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"tokenId"</span><span class="p">:</span> <span class="s2">"0"</span><span class="p">,</span>
+  <span class="s2">"isPrivate"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="s2">"isIgnored"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="s2">"isInGallery"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="s2">"providerId"</span><span class="p">:</span> <span class="s2">"codex"</span><span class="p">,</span>
+  <span class="s2">"approvedAddress"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="s2">"isHistoricalProvenancePrivate"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+  <span class="s2">"providerMetadataId"</span><span class="p">:</span> <span class="s2">"5bae56f75d7971becf854a72"</span><span class="p">,</span>
+  <span class="s2">"ownerAddress"</span><span class="p">:</span> <span class="s2">"0x627306090abab3a6e1400e9345bc60c78a8bef57"</span><span class="p">,</span>
+  <span class="s2">"nameHash"</span><span class="p">:</span> <span class="s2">"0x4955c7fd1cb2de006320e77b157409b84ab2df69d9c0720f609d7a17dd2a674c"</span><span class="p">,</span>
+  <span class="s2">"descriptionHash"</span><span class="p">:</span> <span class="s2">"0xcb7ab38fbc9919a3b04eabc343d7e649335ad748213df20e65d1979d0d3aa800"</span><span class="p">,</span>
+  <span class="s2">"fileHashes"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">"0xb39e1bbc6d50670aafa88955217ddf1e9e1f635a2cfc8d5d806a730f014c7210"</span>
+  <span class="p">],</span>
+  <span class="s2">"provenance"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="c1">// see " Provenance Entry" below</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="s2">"metadata"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="c1">// see "File" below</span>
+  <span class="p">},</span>
+  <span class="s2">"provider"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="c1">// see "Provider" below</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tokenId</td>
+<td>The unique identifier of this Codex Record</td>
+</tr>
+<tr>
+<td>metadata</td>
+<td>Will <code>undefined</code> if <code>isPrivate</code> is <code>true</code> and you are not the owner or a whitelisted address. See <a href="#metadata">Metadata</a> for details.</td>
+</tr>
+<tr>
+<td>provider</td>
+<td>See <a href="#metadata-provider">Metadata Provider</a> for details.</td>
+</tr>
+<tr>
+<td>nameHash</td>
+<td>The hash of the metadata&#39;s plain text name.</td>
+</tr>
+<tr>
+<td>isIgnored</td>
+<td>This flag indicates that a user has chosen to &quot;ignore&quot; an incoming Codex Record transfer. This is useful to hide incoming transfers in a User Interface since there&#39;s no blockchain mechanism to explicitly reject a transfer.</td>
+</tr>
+<tr>
+<td>isPrivate</td>
+<td>This flag indicates that the metadata for this record is private and can only be retrieved by the owner, the <code>approvedAddress</code>, and the</td>
+</tr>
+<tr>
+<td>provenance</td>
+<td>An array of <a href="#provenance-event">Provenance Events</a>.</td>
+</tr>
+<tr>
+<td>fileHashes</td>
+<td>An array of file hashes that belong to this Codex Record&#39;s metadata.</td>
+</tr>
+<tr>
+<td>providerId</td>
+<td>See unique id of the <a href="#metadata-provider">Metadata Provider</a>.</td>
+</tr>
+<tr>
+<td>ownerAddress</td>
+<td>The Ethereum address of the client / user that currently owns this Codex Record.</td>
+</tr>
+<tr>
+<td>descriptionHash</td>
+<td>The hash of the metadata&#39;s plain text description.</td>
+</tr>
+<tr>
+<td>approvedAddress</td>
+<td>The Ethereum address of the user currently approved to accept the transfer of this Codex Record. See <a href="#transferring-a-codex-record">Transferring a Codex Record</a> for details. Approved addresses are considered part of the <code>whitelistedAddresses</code> array.</td>
+</tr>
+<tr>
+<td>providerMetadataId</td>
+<td>The unique ID of the metadata that belongs to this Codex Record.</td>
+</tr>
+<tr>
+<td>whitelistedAddresses</td>
+<td>An array of Ethereum addresses allowed to view all private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records. Will be <code>undefined</code> if you are not the owner.</td>
+</tr>
+<tr>
+<td>isHistoricalProvenancePrivate</td>
+<td>This flag indicates whether or not <a href="#historical-provenance">historical provenance</a> (i.e. <code>metadata.files</code>) should be hidden, regardless of the value of <code>isPrivate</code>.</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+  <code>nameHash</code>, <code>descriptionHash</code>, and <code>fileHashes</code> can be used to verify the data sent from a metadata provider (e.g. The Codex API) matches the information on the blockchain, and therefore has not been tampered with.
+</aside>
+<h2 id='metadata'>Metadata</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"codexRecordTokenId"</span><span class="p">:</span> <span class="s2">"0"</span><span class="p">,</span>
+  <span class="s2">"hasPendingUpdates"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"5bae56f75d7971becf854a72"</span><span class="p">,</span>
+  <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Really Cool Codex Record"</span><span class="p">,</span>
+  <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"This is a really cool Codex Record!"</span><span class="p">,</span>
+  <span class="s2">"creatorAddress"</span><span class="p">:</span> <span class="s2">"0x627306090abab3a6e1400e9345bc60c78a8bef57"</span><span class="p">,</span>
+  <span class="s2">"nameHash"</span><span class="p">:</span> <span class="s2">"0x4955c7fd1cb2de006320e77b157409b84ab2df69d9c0720f609d7a17dd2a674c"</span><span class="p">,</span>
+  <span class="s2">"descriptionHash"</span><span class="p">:</span> <span class="s2">"0xcb7ab38fbc9919a3b04eabc343d7e649335ad748213df20e65d1979d0d3aa800"</span><span class="p">,</span>
+  <span class="s2">"fileHashes"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">"0xb39e1bbc6d50670aafa88955217ddf1e9e1f635a2cfc8d5d806a730f014c7210"</span>
+  <span class="p">],</span>
+  <span class="s2">"mainImage"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="c1">// see "File" below</span>
+  <span class="p">},</span>
+  <span class="s2">"files"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="c1">// see "File" below</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="s2">"images"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="c1">// see "File" below</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre>
+<p><strong>@TODO:</strong> Explain metadata here</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>The unique ID of the metadata.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The plain text name of the Codex Record. Will <code>undefined</code> if <code>isPrivate</code> is <code>true</code> and you are not the owner or a whitelisted address.</td>
+</tr>
+<tr>
+<td>files</td>
+<td>An array of supplemental files that belong to this metadata. This is considered the &quot;<a href="#historical-provenance">historical provenance</a>&quot;. Can <code>undefined</code> if <code>isHistoricalProvenancePrivate</code> is <code>true</code> on the Codex Record. See <a href="#file">File</a> for details.</td>
+</tr>
+<tr>
+<td>images</td>
+<td>An array of supplemental images that belong to this metadata. Will <code>undefined</code> if <code>isPrivate</code> is <code>true</code> and you are not the owner or a whitelisted address. See <a href="#file">File</a> for details.</td>
+</tr>
+<tr>
+<td>nameHash</td>
+<td>The hash of the plain text name.</td>
+</tr>
+<tr>
+<td>mainImage</td>
+<td>The main image of this Codex Record. Will <code>undefined</code> if <code>isPrivate</code> is <code>true</code> and you are not the owner or a whitelisted address.</td>
+</tr>
+<tr>
+<td>fileHashes</td>
+<td>An array of file hashes that belong to this metadata.</td>
+</tr>
+<tr>
+<td>description</td>
+<td>The plain text description of the Codex Record. Will <code>undefined</code> if <code>isPrivate</code> is <code>true</code> and you are not the owner or a whitelisted address.</td>
+</tr>
+<tr>
+<td>creatorAddress</td>
+<td>The Ethereum address of the client / user who created this metadata (not necessarily the current Codex Record owner!)</td>
+</tr>
+<tr>
+<td>descriptionHash</td>
+<td>The hash of the plain text description.</td>
+</tr>
+<tr>
+<td>hasPendingUpdates</td>
+<td>This flag is true if there is currently a &quot;modify&quot; transaction processing on the blockchain (e.g. after you <a href="#modify-an-existing-record">modify an existing record</a>). This is useful for showing some sort of loading state on a Codex Record while modifications are pending.</td>
+</tr>
+<tr>
+<td>codexRecordTokenId</td>
+<td>The <code>tokenId</code> of the Codex Record this metadata belongs to.</td>
+</tr>
+</tbody></table>
+<h2 id='provenance-event'>Provenance Event</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"transferred"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"oldOwnerAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x627306090abab3a6e1400e9345bc60c78a8bef57"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"newOwnerAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xf17f52151ebef6c7334fad080c5704d77216b732"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"transactionHash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x0a3a518d1a0786cbdc6265dc24fc0112411c996363465a2789dc3d8021cd4c44"</span><span class="p">,</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p><strong>@TODO:</strong> Explain provenance events here</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>One of <code>[&#39;created&#39;, &#39;modified&#39;, &#39;transferred&#39;]</code>.</td>
+</tr>
+<tr>
+<td>oldOwnerAddress</td>
+<td>The Ethereum address of the owner before this transaction occurred. For <code>created</code> events, this will be the <a href="#zero-address">zero address</a>. For <code>modified</code> events, this will be the same as <code>newOwnerAddress</code>.</td>
+</tr>
+<tr>
+<td>newOwnerAddress</td>
+<td>The Ethereum address of the after before this transaction occurred. For <code>modified</code> events, this will be the same as <code>oldOwnerAddress</code>.</td>
+</tr>
+<tr>
+<td>transactionHash</td>
+<td>The Ethereum transaction hash of the transaction that emitted this event.</td>
+</tr>
+</tbody></table>
+<h2 id='metadata-provider'>Metadata Provider</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"codex"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The Codex API"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"metadataUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://rinkeby-codex-registry-api.codexprotocol.com/v1/records/"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p><strong>@TODO:</strong> Explain what a metadata provider is here</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>The unique ID of the metadata provider.</td>
+</tr>
+<tr>
+<td>description</td>
+<td>A description of the metadata provider.</td>
+</tr>
+<tr>
+<td>metadataUrl</td>
+<td>The URL to request Codex Record Metadata from. The Codex Record&#39;s <code>tokenId</code> should be appended to this URL to retrieve metadata about that record.</td>
+</tr>
+</tbody></table>
+<h2 id='file'>File</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"width"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1024"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="s2">"181516"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"height"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1024"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"fileType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cool-file.jpg"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"mimeType"</span><span class="p">:</span><span class="w"> </span><span class="s2">"image/jpeg"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5bae56f65d7971becf854a71"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"creatorAddress"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x627306090abab3a6e1400e9345bc60c78a8bef57"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xb39e1bbc6d50670aafa88955217ddf1e9e1f635a2cfc8d5d806a730f014c7210"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3.amazonaws.com/codex.registry/files/1538152180696.c8a9ec69-0ed8-4516-a34c-e15ebbe4749c.jpg"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p><strong>@TODO:</strong> Explain files here</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>The unique ID of the file.</td>
+</tr>
+<tr>
+<td>uri</td>
+<td>The URL of the file.</td>
+</tr>
+<tr>
+<td>size</td>
+<td>The size (in bytes) of the file.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name of the file, as passed in <a href="#create-a-codex-record">when created</a>.</td>
+</tr>
+<tr>
+<td>hash</td>
+<td>The hash of the file data.</td>
+</tr>
+<tr>
+<td>width</td>
+<td>The width (in pixels) of the file, if it is an image. Otherwise <code>null</code>.</td>
+</tr>
+<tr>
+<td>height</td>
+<td>The height (in pixels) of the file, if it is an image. Otherwise <code>null</code>.</td>
+</tr>
+<tr>
+<td>fileType</td>
+<td>One of <code>[&#39;file&#39;, &#39;video&#39;, or &#39;document&#39;]</code>. Useful when displaying this file on a web page.</td>
+</tr>
+<tr>
+<td>mimeType</td>
+<td>The <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types">MIME type</a> of the file.</td>
+</tr>
+<tr>
+<td>creatorAddress</td>
+<td>The Ethereum address of the client / user created this file (not necessarily the current Codex Record owner!)</td>
+</tr>
+</tbody></table>
 <h1 id='errors'>Errors</h1>
 <!--
 Slate allows you to optionally separate out your docs into many files... just
@@ -418,9 +929,26 @@ frontmatter. Files are included in the order listed.
 </tbody></table>
 <h1 id='todo'>@TODO</h1>
 <ul>
-<li>replace &quot;kittens&quot; include with includes describing actual API routes</li>
-<li>put in a section about response format &amp; structure</li>
+<li>write about access token expiration in the <a href="#access-tokens">access tokens</a> section</li>
+<li>address various inline <code>@TODO</code> comments</li>
+<li>put in a section about gas allowances (update #gas-allowance links if section name changes)
+
+<ul>
+<li>maybe this should be a &quot;miscellaneous concepts&quot; section to talk about stuff
+like historical provenance, gas allowance, the zero address, the two-step
+transfer process, ERC-721 etc</li>
+</ul></li>
 <li>theme the stylesheets to be more codex-y? (see <code>source/stylesheets/_overrides.scss</code>)</li>
+<li>ensure all links have anchors
+
+<ul>
+<li>zero-address</li>
+<li>gas-allowance</li>
+<li>modify-an-existing-record</li>
+<li>create-a-codex-record</li>
+<li>historical-provenance</li>
+<li>transferring-a-codex-record</li>
+</ul></li>
 </ul>
 
       </div>
