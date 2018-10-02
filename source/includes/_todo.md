@@ -7,10 +7,11 @@
     like historical provenance, gas allowance, the zero address, the two-step
     transfer process, ERC-721 etc
 - theme the stylesheets to be more codex-y? (see `source/stylesheets/_overrides.scss`)
-- ensure all links have anchors
+- write these sections and ensure all placeholder links have anchors
   - zero-address
   - gas-allowance
   - modify-an-existing-record
   - create-a-codex-record
   - historical-provenance
   - transferring-a-codex-record
+  - webhooks

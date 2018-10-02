@@ -11,17 +11,11 @@ API should be happening on a server application and not from within the browser.
 
 To register an application, send us email with the following information:
 
-  - `name`: The name of the application. This will be shown in the Codex Viewer
-    as a registered application, taking the place of the Ethereum address in the
-    Codex Record’s provenance section.
-
-  - `email`: The application developer’s email address. This will be used to
-    communicate any breaking API changes or development updates.
-
-  - `webhookUrl`: e.g. `https://your-api.example.com/codex-webhook`. Since
-    blockchain transactions are asynchronous, this webhookUrl will be used to
-    inform your application that an event has occurred, for example when your
-    Codex Records have been minted.
+Property   | Description
+---------- | -----------
+name       | The name of the application. This will be shown in the Codex Viewer as a registered application, taking the place of the Ethereum address in the Codex Record’s provenance section.
+email      | The application developer’s email address. This will be used to communicate any breaking API changes or development updates.
+webhookUrl | For example, `https://your-api.example.com/codex-webhook`. Since blockchain transactions are asynchronous, this `webhookUrl` will be used to inform your application that an event has occurred, for example when your Codex Records have been minted. See the [webhooks](#webhooks) sections for details.
 
 
 ## Access Tokens
