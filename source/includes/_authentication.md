@@ -11,7 +11,6 @@ API should be happening on a server application and not from within the browser.
 
 To register an application, send us email with the following information:
 
-
   - `name`: The name of the application. This will be shown in the Codex Viewer
     as a registered application, taking the place of the Ethereum address in the
     Codex Record’s provenance section.
@@ -24,15 +23,18 @@ To register an application, send us email with the following information:
     inform your application that an event has occurred, for example when your
     Codex Records have been minted.
 
+
 ## Access Tokens
 
-> Obtaining an access token:
+### Obtaining an Access Token
+
+> Request an access token:
 
 ```javascript
 import request from 'request'
 
 const options = {
-  url: 'http://localhost:3001/v1/oauth2/token',
+  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/oauth2/token',
   method: 'post',
   json: true,
 
@@ -50,7 +52,7 @@ request(options, (error, response) => {
 })
 ```
 
-> Remember to replace the example client_id and client_secret with your applications client_id and client_secret.
+> Remember to replace the example `client_id` and `client_secret` with your applications `client_id` and `client_secret`.
 
 Before you can make API calls, you'll need an access token. Send a POST request
 to `/v1/oauth2/token` with your `client_id` and `client_secret` (provided to
@@ -64,8 +66,12 @@ supported is `client_credentials`.
 <aside class="warning">
   When requesting access tokens, you <em>must</em> send the request as
   <code>Content-Type: application/x-www-form-urlencoded</code>. This is required
-  by the <a href="https://tools.ietf.org/html/rfc6749?#section-4.1.3" target="_blank">OAuth2 Specification</a>.
+  by the <a href="https://tools.ietf.org/html/rfc6749?#section-4.1.3" rel="noopener noreferrer">OAuth2 Specification</a>.
 </aside>
+
+### Access Token Expiration
+**@TODO:** write about access token expiration here
+
 
 ## Making API Calls
 > Making an authenticated API call:
@@ -75,7 +81,7 @@ import request from 'request'
 
 // retrieve a list of your application's Codex Records
 const options = {
-  url: 'http://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records',
+  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records',
   method: 'get',
   json: true,
   headers: {
@@ -88,7 +94,7 @@ request(options, (error, response) => {
 })
 ```
 
-> Remember to replace the example access token with your personal access token.
+> Remember to replace the example `accessToken` with your personal `accessToken`.
 
 The Codex API expects an OAuth2 access token to be included with all requests
 made to the server in the Authorization header as follows:

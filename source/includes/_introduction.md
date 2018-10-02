@@ -15,7 +15,7 @@ and/or [pull request.](https://github.com/codex-protocol/site.dev-codexprotocol-
 <aside class="notice">
   For the sake of brevity, all JavaScript code examples in this documentation
   assume the use of a convenient HTTP request library (e.g.
-  <a href="https://www.npmjs.com/package/request" target="_blank">request</a>).
+  <a href="https://www.npmjs.com/package/request" rel="noopener noreferrer">request</a>).
   Of course, you're free to make requests to The Codex API in any manner you see
   fit.
 </aside>
