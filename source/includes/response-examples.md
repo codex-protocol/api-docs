@@ -32,12 +32,16 @@ gasAllowance                  | The amount of gas left that the application can 
   "isIgnored": false,
   "isInGallery": false,
   "providerId": "codex",
-  "approvedAddress": null,
   "isHistoricalProvenancePrivate": true,
   "providerMetadataId": "5bae56f75d7971becf854a72",
   "ownerAddress": "0x627306090abab3a6e1400e9345bc60c78a8bef57",
+  "approvedAddress": "0x821aea9a577a9b44299b9c15c88cf3087f3b5544",
   "nameHash": "0x4955c7fd1cb2de006320e77b157409b84ab2df69d9c0720f609d7a17dd2a674c",
   "descriptionHash": "0xcb7ab38fbc9919a3b04eabc343d7e649335ad748213df20e65d1979d0d3aa800",
+  "whitelistedAddresses": [
+    "0xf17f52151ebef6c7334fad080c5704d77216b732",
+    "0xc5fdf4076b8f3a5357c5e395ab970b5b54098fef"
+  ],
   "fileHashes": [
     "0xb39e1bbc6d50670aafa88955217ddf1e9e1f635a2cfc8d5d806a730f014c7210"
   ],
