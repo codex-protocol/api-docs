@@ -324,17 +324,25 @@ API should be happening on a server application and not from within the browser.
 
 <p>To register an application, send us email with the following information:</p>
 
-<ul>
-<li><p><code>name</code>: The name of the application. This will be shown in the Codex Viewer
-as a registered application, taking the place of the Ethereum address in the
-Codex Record’s provenance section.</p></li>
-<li><p><code>email</code>: The application developer’s email address. This will be used to
-communicate any breaking API changes or development updates.</p></li>
-<li><p><code>webhookUrl</code>: e.g. <code>https://your-api.example.com/codex-webhook</code>. Since
-blockchain transactions are asynchronous, this webhookUrl will be used to
-inform your application that an event has occurred, for example when your
-Codex Records have been minted.</p></li>
-</ul>
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>The name of the application. This will be shown in the Codex Viewer as a registered application, taking the place of the Ethereum address in the Codex Record’s provenance section.</td>
+</tr>
+<tr>
+<td>email</td>
+<td>The application developer’s email address. This will be used to communicate any breaking API changes or development updates.</td>
+</tr>
+<tr>
+<td>webhookUrl</td>
+<td>For example, <code>https://your-api.example.com/codex-webhook</code>. Since blockchain transactions are asynchronous, this <code>webhookUrl</code> will be used to inform your application that an event has occurred, for example when your Codex Records have been minted. See the <a href="#webhooks">webhooks</a> sections for details.</td>
+</tr>
+</tbody></table>
 <h2 id='access-tokens'>Access Tokens</h2><h3 id='obtaining-an-access-token'>Obtaining an Access Token</h3>
 <blockquote>
 <p>Request an access token:</p>
@@ -943,7 +951,7 @@ like historical provenance, gas allowance, the zero address, the two-step
 transfer process, ERC-721 etc</li>
 </ul></li>
 <li>theme the stylesheets to be more codex-y? (see <code>source/stylesheets/_overrides.scss</code>)</li>
-<li>ensure all links have anchors
+<li>write these sections and ensure all placeholder links have anchors
 
 <ul>
 <li>zero-address</li>
@@ -952,6 +960,7 @@ transfer process, ERC-721 etc</li>
 <li>create-a-codex-record</li>
 <li>historical-provenance</li>
 <li>transferring-a-codex-record</li>
+<li>webhooks</li>
 </ul></li>
 </ul>
 
