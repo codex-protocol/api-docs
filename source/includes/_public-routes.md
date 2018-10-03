@@ -83,7 +83,9 @@ client_secret | String | Your application's secret, provided by Codex.
 
 ## Get a Specific Codex Record
 
-This endpoint can be used to retrieve a specific Codex Record.
+This endpoint can be used to retrieve a specific Codex Record. This will return
+a full [Codex Record](#codex-record) document, including it's
+[metadata](#metadata) and [provenance](#provenance-event).
 
 ```javascript
 import request from 'request'

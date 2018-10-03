@@ -44,7 +44,8 @@ request(options, (error, response) => {
 
 ## Get All Codex Records
 
-This endpoint can be used to retrieve all of your application's Codex Records.
+This endpoint can be used to retrieve all Codex Records _that your application
+currently owns._
 
 ```javascript
 import request from 'request'
