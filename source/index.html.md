@@ -9,8 +9,8 @@ toc_footers:
 includes:
   - introduction
   - authentication
-  - client-routes
   - public-routes
+  - client-routes
   - response-examples
   - errors
   - todo
