@@ -112,3 +112,99 @@ request(options, (error, response) => {
 Parameter    | Type   | Description
 ------------ | ------ | --------------------------------------------------------
 tokenId      | Number | The `tokenId` of the Codex Record to retrieve.
+
+<aside class="warning">
+  If the Codex Record is private, certain fields (e.g. <code>metadata</code>)
+  will be <code>undefined</code>. Additionally, some fields may be
+  <code>undefined</code> if you are not the owner of the Codex Record. See the
+  <a href="#codex-record">Codex Record</a> description for details.
+</aside>
+
+
+## Get a Specific Codex Record's Metadata Only
+
+This endpoint can be used to retrieve a _only_ the [metadata](#metadata) for a
+specific Codex Record. This is useful if you do not need the entire Codex Record
+document.
+
+```javascript
+import request from 'request'
+
+const options = {
+  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/records/0/metadata',
+  method: 'get',
+  json: true,
+}
+
+request(options, (error, response) => {
+  console.log(response.body.result) // metadata for Codex Record with tokenId 0
+})
+```
+
+> The above API call returns a Codex Record's <a href="#metadata">metadata</a>.
+
+### HTTP Request
+
+`GET /v1/records/:tokenId/metadata`
+
+### URL Parameters
+
+Parameter    | Type   | Description
+------------ | ------ | --------------------------------------------------------
+tokenId      | Number | The `tokenId` of the Codex Record for which to retrieve the metadata of.
+
+<aside class="warning">
+  This route will return <code>null</code> if the Codex Record is private.
+</aside>
+
+## Get a Specific Codex Record's Provenance Only
+
+This endpoint can be used to retrieve a _only_ the [provenance](#provenance-event)
+for a specific Codex Record. This is useful if you do not need the entire Codex
+Record document.
+
+```javascript
+import request from 'request'
+
+const options = {
+  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/records/0/provenance',
+  method: 'get',
+  json: true,
+
+  // sort by date created in reverse
+  body: {
+    order: '-createdAt',
+  }
+}
+
+request(options, (error, response) => {
+  console.log(response.body.result) // provenance for Codex Record with tokenId 0
+})
+```
+
+> The above API call returns a Codex Record's <a href="#provenance-event">provenance</a>.
+
+### HTTP Request
+
+`GET /v1/records/:tokenId/provenance`
+
+### URL Parameters
+
+Parameter    | Type   | Description
+------------ | ------ | --------------------------------------------------------
+tokenId      | Number | The `tokenId` of the Codex Record for which to retrieve the provenance of.
+
+### Query Parameters
+
+Parameter    | Type   | Default   | Description
+------------ | ------ | --------- | --------------------------------------------------------
+order        | String | createdAt | To sort in reverse order, specify this value as `-createdAt`.
+
+<aside class="warning">
+  This route will return <code>null</code> if the Codex Record is private.
+</aside>
+
+<aside class="notice">
+  This route always returns an array, because "provenance" is really a list of
+  events.
+</aside>
