@@ -1,5 +1,16 @@
-.content {
+aside {
+  border: 1px solid rgba(black, .05);
+  border-right: none;
+  border-left: none;
+}
 
+.toc-wrapper {
+  .logo {
+    margin: 2em auto 0;
+  }
+}
+
+.content {
   // the default slate word-break for code blocks in "break-all" with hyphens,
   //  but that actually breaks up snake_case_variables like this:
   //

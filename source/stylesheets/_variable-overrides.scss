@@ -1,4 +1,24 @@
-// a lot more variables need to be overridden for these to look good
-//
-// $nav-bg: #31184c;
-// $nav-text: #d6bd76;
+$codex-purple: #31184c;
+$codex-yellow: #d6bd76;
+
+$main-text: desaturate($codex-purple, 25%);
+
+$nav-bg: desaturate($codex-purple, 15%);
+$nav-text: lighten(desaturate($codex-yellow, 10%), 5%);
+
+$nav-active-bg: rgba(white, .1);
+$nav-subitem-bg: rgba(black, .25);
+$nav-active-parent-bg: rgba(black, .35);
+$nav-footer-border-color: rgba(white, .25);
+$search-box-border-color: rgba(white, .25);
+
+$code-bg: rgba(black, .25);
+$code-annotation-bg: rgba(black, .30);
+$examples-bg: desaturate($codex-purple, 40%);
+
+$lang-select-bg: darken($examples-bg, 5%);
+$lang-select-active-bg: lighten($examples-bg, 5%);
+
+$aside-notice-bg: rgba($codex-purple, .30);
+$aside-warning-bg: rgba($aside-warning-bg, .5);
+$aside-success-bg: rgba($aside-success-bg, .5);
