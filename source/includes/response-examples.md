@@ -16,7 +16,7 @@
 ```
 
 Property                      | Type   | Description
------------------------------ | ------ | -----------
+----------------------------- | ------ | ---------------------------------------
 name                          | String | The name of the application. This will be shown in the Codex Viewer as a registered application, taking the place of the Ethereum address in the Codex Record’s provenance section.
 email                         | String | The application developer’s email address. This will be used to communicate any breaking API changes or development updates.
 address                       | String | The Ethereum address that identifies the application, provisioned and managed by Codex behalf of the application developer.

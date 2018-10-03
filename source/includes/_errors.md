@@ -1,11 +1,5 @@
 # Errors
 
-<!--
-Slate allows you to optionally separate out your docs into many files... just
-save them to the includes folder and add them to the top of your index.md
-frontmatter. Files are included in the order listed.
--->
-
 The Codex API can return the following error codes:
 
 Error Code | Error Description

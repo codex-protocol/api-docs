@@ -56,7 +56,7 @@ request(options, (error, response) => {
 
 `GET /v1/oauth2/token`
 
-### URL Parameters
+### Query Parameters
 
 Parameter     | Type   | Description
 ------------- | ------ | -------------------------------------------------------
