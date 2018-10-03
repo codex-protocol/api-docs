@@ -59,8 +59,8 @@ gasAllowance                  | String | The amount of gas left that the applica
 }
 ```
 
-Property                      | Description
------------------------------ | -----------
+Property                      | Type                                         | Description
+----------------------------- | -------------------------------------------- | -----------
 tokenId                       | String                                       | The unique identifier of this Codex Record
 metadata                      | [Metadata](#metadata)                        | Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address. See [Metadata](#metadata) for details.
 provider                      | [Metadata Provider](#metadata-provider)      | See [Metadata Provider](#metadata-provider) for details.
