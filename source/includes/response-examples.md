@@ -15,12 +15,12 @@
 }
 ```
 
-Property                      | Description
------------------------------ | -----------
-name                          | The name of the application. This will be shown in the Codex Viewer as a registered application, taking the place of the Ethereum address in the Codex Record’s provenance section.
-email                         | The application developer’s email address. This will be used to communicate any breaking API changes or development updates.
-address                       | The Ethereum address that identifies the application, provisioned and managed by Codex behalf of the application developer.
-gasAllowance                  | The amount of gas left that the application can spend until it resets. See the [Gas Allowance](#gas-allowance) section for details.
+Property                      | Type   | Description
+----------------------------- | ------ | -----------
+name                          | String | The name of the application. This will be shown in the Codex Viewer as a registered application, taking the place of the Ethereum address in the Codex Record’s provenance section.
+email                         | String | The application developer’s email address. This will be used to communicate any breaking API changes or development updates.
+address                       | String | The Ethereum address that identifies the application, provisioned and managed by Codex behalf of the application developer.
+gasAllowance                  | String | The amount of gas left that the application can spend until it resets. See the [Gas Allowance](#gas-allowance) section for details.
 
 
 ## Codex Record
@@ -61,21 +61,21 @@ gasAllowance                  | The amount of gas left that the application can 
 
 Property                      | Description
 ----------------------------- | -----------
-tokenId                       | The unique identifier of this Codex Record
-metadata                      | Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address. See [Metadata](#metadata) for details.
-provider                      | See [Metadata Provider](#metadata-provider) for details.
-nameHash                      | The hash of the metadata's plain text name.
-isIgnored                     | This flag indicates that a user has chosen to "ignore" an incoming Codex Record transfer. This is useful to hide incoming transfers in a User Interface since there's no blockchain mechanism to explicitly reject a transfer.
-isPrivate                     | This flag indicates that the metadata for this record is private and can only be retrieved by the owner, the `approvedAddress`, and the
-provenance                    | An array of [Provenance Events](#provenance-event).
-fileHashes                    | An array of file hashes that belong to this Codex Record's metadata.
-providerId                    | See unique id of the [Metadata Provider](#metadata-provider).
-ownerAddress                  | The Ethereum address of the client / user that currently owns this Codex Record.
-descriptionHash               | The hash of the metadata's plain text description.
-approvedAddress               | The Ethereum address of the user currently approved to accept the transfer of this Codex Record. See [Transferring a Codex Record](#transferring-a-codex-record) for details. Approved addresses are considered part of the `whitelistedAddresses` array.
-providerMetadataId            | The unique ID of the metadata that belongs to this Codex Record.
-whitelistedAddresses          | An array of Ethereum addresses allowed to view all private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records. Will be `undefined` if you are not the owner.
-isHistoricalProvenancePrivate | This flag indicates whether or not [historical provenance](#historical-provenance) (i.e. `metadata.files`) should be hidden, regardless of the value of `isPrivate`.
+tokenId                       | String                                       | The unique identifier of this Codex Record
+metadata                      | [Metadata](#metadata)                        | Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address. See [Metadata](#metadata) for details.
+provider                      | [Metadata Provider](#metadata-provider)      | See [Metadata Provider](#metadata-provider) for details.
+nameHash                      | String                                       | The hash of the metadata's plain text name.
+isIgnored                     | Boolean                                      | This flag indicates that a user has chosen to "ignore" an incoming Codex Record transfer. This is useful to hide incoming transfers in a User Interface since there's no blockchain mechanism to explicitly reject a transfer.
+isPrivate                     | Boolean                                      | This flag indicates that the metadata for this record is private and can only be retrieved by the owner, the `approvedAddress`, and the
+provenance                    | Array[[Provenance Event](#provenance-event)] | An array of [Provenance Events](#provenance-event).
+fileHashes                    | Array[String]                                | An array of file hashes that belong to this Codex Record's metadata.
+providerId                    | String                                       | See unique id of the [Metadata Provider](#metadata-provider).
+ownerAddress                  | String                                       | The Ethereum address of the client / user that currently owns this Codex Record.
+descriptionHash               | String                                       | The hash of the metadata's plain text description.
+approvedAddress               | String                                       | The Ethereum address of the user currently approved to accept the transfer of this Codex Record. See [Transferring a Codex Record](#transferring-a-codex-record) for details. Approved addresses are considered part of the `whitelistedAddresses` array.
+providerMetadataId            | String                                       | The unique ID of the metadata that belongs to this Codex Record.
+whitelistedAddresses          | Array[String]                                | An array of Ethereum addresses allowed to view all private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records. Will be `undefined` if you are not the owner.
+isHistoricalProvenancePrivate | Boolean                                      | This flag indicates whether or not [historical provenance](#historical-provenance) (i.e. `metadata.files`) should be hidden, regardless of the value of `isPrivate`.
 
 <aside class="notice">
   <code>nameHash</code>, <code>descriptionHash</code>, and <code>fileHashes</code> can be used to verify the data sent from a metadata provider (e.g. The Codex API) matches the information on the blockchain, and therefore has not been tampered with.
@@ -115,20 +115,20 @@ isHistoricalProvenancePrivate | This flag indicates whether or not [historical p
 
 **@TODO:** Explain metadata here
 
-Property           | Description
------------------- | -----------
-id                 | The unique ID of the metadata.
-name               | The plain text name of the Codex Record. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
-files              | An array of supplemental files that belong to this metadata. This is considered the "[historical provenance](#historical-provenance)". Can `undefined` if `isHistoricalProvenancePrivate` is `true` on the Codex Record. See [File](#file) for details.
-images             | An array of supplemental images that belong to this metadata. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address. See [File](#file) for details.
-nameHash           | The hash of the plain text name.
-mainImage          | The main image of this Codex Record. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
-fileHashes         | An array of file hashes that belong to this metadata.
-description        | The plain text description of the Codex Record. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
-creatorAddress     | The Ethereum address of the client / user who created this metadata (not necessarily the current Codex Record owner!)
-descriptionHash    | The hash of the plain text description.
-hasPendingUpdates  | This flag is true if there is currently a "modify" transaction processing on the blockchain (e.g. after you [modify an existing record](#modify-an-existing-record)). This is useful for showing some sort of loading state on a Codex Record while modifications are pending.
-codexRecordTokenId | The `tokenId` of the Codex Record this metadata belongs to.
+Property           | Type                 | Description
+------------------ | -------------------- | ------------------------------------
+id                 | String               | The unique ID of the metadata.
+name               | String               | The plain text name of the Codex Record. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
+files              | Array[[File](#file)] | An array of supplemental files that belong to this metadata. This is considered the "[historical provenance](#historical-provenance)". Can `undefined` if `isHistoricalProvenancePrivate` is `true` on the Codex Record. See [File](#file) for details.
+images             | Array[[File](#file)] | An array of supplemental images that belong to this metadata. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address. See [File](#file) for details.
+nameHash           | String               | The hash of the plain text name.
+mainImage          | [File](#file)        | The main image of this Codex Record. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
+fileHashes         | Array[String]        | An array of file hashes that belong to this metadata.
+description        | String               | The plain text description of the Codex Record. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
+creatorAddress     | String               | The Ethereum address of the client / user who created this metadata (not necessarily the current Codex Record owner!)
+descriptionHash    | String               | The hash of the plain text description.
+hasPendingUpdates  | Boolean              | This flag is true if there is currently a "modify" transaction processing on the blockchain (e.g. after you [modify an existing record](#modify-an-existing-record)). This is useful for showing some sort of loading state on a Codex Record while modifications are pending.
+codexRecordTokenId | String               | The `tokenId` of the Codex Record this metadata belongs to.
 
 
 ## Provenance Event
@@ -144,12 +144,12 @@ codexRecordTokenId | The `tokenId` of the Codex Record this metadata belongs to.
 
 **@TODO:** Explain provenance events here
 
-Property        | Description
---------------- | -----------
-type            | One of `['created', 'modified', 'transferred']`.
-oldOwnerAddress | The Ethereum address of the owner before this transaction occurred. For `created` events, this will be the [zero address](#zero-address). For `modified` events, this will be the same as `newOwnerAddress`.
-newOwnerAddress | The Ethereum address of the after before this transaction occurred. For `modified` events, this will be the same as `oldOwnerAddress`.
-transactionHash | The Ethereum transaction hash of the transaction that emitted this event.
+Property        | Type   | Description
+--------------- | ------ | -----------------------------------------------------
+type            | String | One of `['created', 'modified', 'transferred']`.
+oldOwnerAddress | String | The Ethereum address of the owner before this transaction occurred. For `created` events, this will be the [zero address](#zero-address). For `modified` events, this will be the same as `newOwnerAddress`.
+newOwnerAddress | String | The Ethereum address of the after before this transaction occurred. For `modified` events, this will be the same as `oldOwnerAddress`.
+transactionHash | String | The Ethereum transaction hash of the transaction that emitted this event.
 
 
 ## Metadata Provider
@@ -164,11 +164,11 @@ transactionHash | The Ethereum transaction hash of the transaction that emitted 
 
 **@TODO:** Explain what a metadata provider is here
 
-Property    | Description
------------ | -----------
-id          | The unique ID of the metadata provider.
-description | A description of the metadata provider.
-metadataUrl | The URL to request Codex Record Metadata from. The Codex Record's `tokenId` should be appended to this URL to retrieve metadata about that record.
+Property    | Type   | Description
+----------- | ------ | ---------------------------------------------------------
+id          | String | The unique ID of the metadata provider.
+description | String | A description of the metadata provider.
+metadataUrl | String | The URL to request Codex Record Metadata from. The Codex Record's `tokenId` should be appended to this URL to retrieve metadata about that record.
 
 
 ## File
@@ -190,15 +190,15 @@ metadataUrl | The URL to request Codex Record Metadata from. The Codex Record's 
 
 **@TODO:** Explain files here
 
-Property       | Description
--------------- | -----------
-id             | The unique ID of the file.
-uri            | The URL of the file.
-size           | The size (in bytes) of the file.
-name           | The name of the file, as passed in [when created](#create-a-codex-record).
-hash           | The hash of the file data.
-width          | The width (in pixels) of the file, if it is an image. Otherwise `null`.
-height         | The height (in pixels) of the file, if it is an image. Otherwise `null`.
-fileType       | One of `['file', 'video', or 'document']`. Useful when displaying this file on a web page.
-mimeType       | The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the file.
-creatorAddress | The Ethereum address of the client / user created this file (not necessarily the current Codex Record owner!)
+Property       | Type   | Description
+-------------- | ------ | ------------------------------------------------------
+id             | String | The unique ID of the file.
+uri            | String | The URL of the file.
+size           | String | The size (in bytes) of the file.
+name           | String | The name of the file, as passed in [when created](#create-a-codex-record).
+hash           | String | The hash of the file data.
+width          | String | The width (in pixels) of the file, if it is an image. Otherwise `null`.
+height         | String | The height (in pixels) of the file, if it is an image. Otherwise `null`.
+fileType       | String | One of `['file', 'video', or 'document']`. Useful when displaying this file on a web page.
+mimeType       | String | The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the file.
+creatorAddress | String | The Ethereum address of the client / user created this file (not necessarily the current Codex Record owner!)
