@@ -1,0 +1,14 @@
+.content {
+
+  // the default slate word-break for code blocks in "break-all" with hyphens,
+  //  but that actually breaks up snake_case_variables like this:
+  //
+  // snake_c-
+  // ase_variables
+  //
+  // which is pretty undesirable IMO, so let's reset that here
+  code {
+    hyphens: none;
+    word-break: unset;
+  }
+}
