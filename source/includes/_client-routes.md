@@ -54,6 +54,13 @@ const options = {
   method: 'get',
   json: true,
 
+  // sort by date created in reverse and get 5 records, skipping the first ten
+  body: {
+    limit: 5,
+    offset: 10,
+    order: '-createdAt',
+  }
+
   headers: {
     Authorization: 'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e',
   },
@@ -72,11 +79,11 @@ request(options, (error, response) => {
 
 ### Query Parameters
 
-Parameter    | Default   | Description
------------- | --------- | -----------
-limit        | 100       | How many records to retrieve; use with `offset` to paginate through Codex Records.
-offset       | 0         | How many records to skip before applying the `limit`; use with limit to paginate through Codex Records.
-order        | createdAt | To sort in reverse order, specify this value as `-createdAt`.
+Parameter    | Type   | Default   | Description
+------------ | ------ | --------- | --------------------------------------------
+limit        | Number | 100       | How many records to retrieve; use with `offset` to paginate through Codex Records.
+offset       | Number | 0         | How many records to skip before applying the `limit`; use with limit to paginate through Codex Records.
+order        | String | createdAt | To sort in reverse order, specify this value as `-createdAt`.
 
 <aside class="notice">
   There is no public route to list all Codex Records; you may only list Codex
