@@ -23,6 +23,10 @@ const options = {
   url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client',
   method: 'get',
   json: true,
+
+  headers: {
+    Authorization: 'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e',
+  },
 }
 
 request(options, (error, response) => {
@@ -49,6 +53,10 @@ const options = {
   url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records',
   method: 'get',
   json: true,
+
+  headers: {
+    Authorization: 'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e',
+  },
 }
 
 request(options, (error, response) => {

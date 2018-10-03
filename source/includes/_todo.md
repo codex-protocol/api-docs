@@ -1,6 +1,5 @@
 # @TODO
 
-- write about access token expiration in the [access tokens](#access-tokens) section
 - address various inline `@TODO` comments
 - put in a section about gas allowances (update #gas-allowance links if section name changes)
   - maybe this should be a "miscellaneous concepts" section to talk about stuff

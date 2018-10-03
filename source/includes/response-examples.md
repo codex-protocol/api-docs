@@ -23,6 +23,22 @@ address                       | String | The Ethereum address that identifies th
 gasAllowance                  | String | The amount of gas left that the application can spend until it resets. See the [Gas Allowance](#gas-allowance) section for details.
 
 
+## OAuth2 Access Token
+
+```json
+{
+  "accessTokenExpiresAt": "2018-10-02T22:36:57.808Z",
+  "accessToken": "d49694e5a3459759cc7ac1741de246e184e51d6e"
+}
+```
+
+Property             | Type   | Description
+-------------------- | ------ | ------------------------------------------------
+accessTokenExpiresAt | Date   | The date at which this access token will expire. See the [Access Token Expiration](#access-token-expiration) section for details.
+accessToken          | String | The access token itself. This should be [added to the Authorization header](#making-authenticated-requests) of all requests made to The Codex API.
+
+
+
 ## Codex Record
 
 ```javascript
