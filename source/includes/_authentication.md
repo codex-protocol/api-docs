@@ -30,7 +30,7 @@ Before you can make API calls, you'll need an access token. Please see the
 
 > Example response when an expired access token is provided:
 
-```json
+```javascript
 {
   "error": {
     "code": 401,

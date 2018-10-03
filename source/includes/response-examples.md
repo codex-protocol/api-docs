@@ -6,7 +6,7 @@
 
 ## Client
 
-```json
+```javascript
 {
   "gasAllowance": "40500000",
   "email": "email@example.com",
@@ -25,7 +25,7 @@ gasAllowance                  | String | The amount of gas left that the applica
 
 ## OAuth2 Access Token
 
-```json
+```javascript
 {
   "accessTokenExpiresAt": "2018-10-02T22:36:57.808Z",
   "accessToken": "d49694e5a3459759cc7ac1741de246e184e51d6e"
@@ -149,7 +149,7 @@ codexRecordTokenId | String               | The `tokenId` of the Codex Record th
 
 ## Provenance Event
 
-```json
+```javascript
 {
   "type": "transferred",
   "oldOwnerAddress": "0x627306090abab3a6e1400e9345bc60c78a8bef57",
@@ -170,7 +170,7 @@ transactionHash | String | The Ethereum transaction hash of the transaction that
 
 ## Metadata Provider
 
-```json
+```javascript
 {
   "id": "codex",
   "description": "The Codex API",
@@ -189,7 +189,7 @@ metadataUrl | String | The URL to request Codex Record Metadata from. The Codex 
 
 ## File
 
-```json
+```javascript
 {
   "width": "1024",
   "size": "181516",
