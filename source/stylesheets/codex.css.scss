@@ -1,3 +1,5 @@
+@import 'variables';
+
 aside {
   border: 1px solid rgba(black, .05);
   border-right: none;
@@ -22,4 +24,28 @@ aside {
     hyphens: none;
     word-break: unset;
   }
+}
+
+@media (max-width: $phone-width) {
+  .toc-wrapper .lang-selector {
+    display: none;
+    color: red;
+  }
+
+  .highlight, .highlight .w {
+    background-color: rgba(black, .8); // $code-bg
+  }
+
+  .content {
+    pre, blockquote {
+      background-color: rgba(black, .8); // $code-bg
+    }
+
+    blockquote {
+      &>p {
+        background-color: rgba(black, .5); // $code-annotation-bg
+      }
+    }
+  }
+
 }
