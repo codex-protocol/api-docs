@@ -1,4 +1,5 @@
 @import 'variables';
+@import 'variable-overrides';
 
 aside {
   border: 1px solid rgba(black, .05);
@@ -23,6 +24,14 @@ aside {
   code {
     hyphens: none;
     word-break: unset;
+  }
+
+  a, a:visited {
+    color: lighten($codex-purple, 20%);
+  }
+
+  blockquote a, blockquote a:visited {
+    color: inherit;
   }
 }
 
