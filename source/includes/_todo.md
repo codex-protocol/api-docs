@@ -6,3 +6,4 @@
     like historical provenance, gas allowance, the zero address, the two-step
     transfer process, whitelisted addresses, ERC-721 etc
 - ensure all links have anchors
+- document ProvenanceEvent.codexRecordModifiedEvent?
