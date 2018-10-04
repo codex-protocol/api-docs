@@ -19,7 +19,7 @@
 <tr>
 <td>name</td>
 <td>String</td>
-<td>The name of the application. This will be shown in the Codex Viewer as a registered application, taking the place of the Ethereum address in the Codex Record’s provenance section.</td>
+<td>The name of the application. This will be shown in the Codex Viewer as a registered application, taking the place of your application&#39;s Ethereum address in the Codex Record’s provenance.</td>
 </tr>
 <tr>
 <td>email</td>
@@ -34,7 +34,7 @@
 <tr>
 <td>gasAllowance</td>
 <td>String</td>
-<td>The amount of gas left that the application can spend until it resets. See the <a href="#gas-allowance">Gas Allowance</a> section for details.</td>
+<td>The amount of gas left that the application can spend until it resets. See <a href="#gas-allowance">Gas Allowance</a> for details.</td>
 </tr>
 </tbody></table>
 <h2 id='oauth2-access-token'>OAuth2 Access Token</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
@@ -52,7 +52,7 @@
 <tr>
 <td>accessTokenExpiresAt</td>
 <td>Date</td>
-<td>The date at which this access token will expire. See the <a href="#access-token-expiration">Access Token Expiration</a> section for details.</td>
+<td>The date at which this access token will expire. See <a href="#access-token-expiration">Access Token Expiration</a> for details.</td>
 </tr>
 <tr>
 <td>accessToken</td>
@@ -127,7 +127,7 @@
 <tr>
 <td>isPrivate</td>
 <td>Boolean</td>
-<td>This flag indicates that the metadata for this record is private and can only be retrieved by the owner, the <code>approvedAddress</code>, and the</td>
+<td>This flag indicates that the metadata for this record is private and can only be retrieved by the owner, the <code>approvedAddress</code>, and the addresses listed in <code>whitelistedAddresses</code>.</td>
 </tr>
 <tr>
 <td>provenance</td>
@@ -157,7 +157,7 @@
 <tr>
 <td>approvedAddress</td>
 <td>String</td>
-<td>The Ethereum address of the user currently approved to accept the transfer of this Codex Record. See <a href="#transferring-a-codex-record">Transferring a Codex Record</a> for details. Approved addresses are considered part of the <code>whitelistedAddresses</code> array.</td>
+<td>The Ethereum address of the user currently approved to accept the transfer of this Codex Record. See <a href="#transferring-codex-records">Transferring a Codex Record</a> for details. Approved addresses are considered part of the <code>whitelistedAddresses</code> array.</td>
 </tr>
 <tr>
 <td>providerMetadataId</td>
@@ -181,7 +181,7 @@
 </aside>
 <h2 id='metadata'>Metadata</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
   <span class="s2">"codexRecordTokenId"</span><span class="p">:</span> <span class="s2">"0"</span><span class="p">,</span>
-  <span class="s2">"hasPendingUpdates"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="s2">"hasPendingUpdates"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
   <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"5bae56f75d7971becf854a72"</span><span class="p">,</span>
   <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Really Cool Codex Record"</span><span class="p">,</span>
   <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"This is a really cool Codex Record!"</span><span class="p">,</span>
@@ -190,6 +190,11 @@
   <span class="s2">"descriptionHash"</span><span class="p">:</span> <span class="s2">"0xcb7ab38fbc9919a3b04eabc343d7e649335ad748213df20e65d1979d0d3aa800"</span><span class="p">,</span>
   <span class="s2">"fileHashes"</span><span class="p">:</span> <span class="p">[</span>
     <span class="s2">"0xb39e1bbc6d50670aafa88955217ddf1e9e1f635a2cfc8d5d806a730f014c7210"</span>
+  <span class="p">],</span>
+  <span class="s2">"pendingUpdates"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="c1">// see "Pending Update" below</span>
+    <span class="p">}</span>
   <span class="p">],</span>
   <span class="s2">"mainImage"</span><span class="p">:</span> <span class="p">{</span>
     <span class="c1">// see "File" below</span>
@@ -256,6 +261,11 @@
 <td>The plain text description of the Codex Record. Will be <code>undefined</code> if <code>isPrivate</code> is <code>true</code> and you are not the owner or a whitelisted address.</td>
 </tr>
 <tr>
+<td>pendingUpdates</td>
+<td>Array[<a href="#pending-update">Pending Update</a>]</td>
+<td>An array of updates that are currently being processed for this metadata. See <a href="#pending-update">Pending Update</a> for details. Will be <code>undefined</code> if you are not the owner.</td>
+</tr>
+<tr>
 <td>creatorAddress</td>
 <td>String</td>
 <td>The Ethereum address of the client / user who created this metadata (not necessarily the current Codex Record owner!)</td>
@@ -268,7 +278,7 @@
 <tr>
 <td>hasPendingUpdates</td>
 <td>Boolean</td>
-<td>This flag is true if there is currently a &quot;modify&quot; transaction processing on the blockchain (e.g. after you <a href="#modify-an-existing-record">modify an existing record</a>). This is useful for showing some sort of loading state on a Codex Record while modifications are pending.</td>
+<td>This flag is true if there is currently a &quot;modify&quot; transaction processing on the blockchain (e.g. after <a href="#modify-a-codex-record-39-s-metadata">modifying a Codex Record&#39;s metadata</a>). This is useful for showing some sort of loading state on a Codex Record while modifications are pending. See <a href="#pending-update">Pending Update</a> for details.</td>
 </tr>
 <tr>
 <td>codexRecordTokenId</td>
@@ -276,6 +286,93 @@
 <td>The <code>tokenId</code> of the Codex Record this metadata belongs to.</td>
 </tr>
 </tbody></table>
+<h2 id='pending-update'>Pending Update</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"5bb661ab92d258fdf2efa29b"</span><span class="p">,</span>
+  <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Super Duper New Title"</span><span class="p">,</span>
+  <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"This will replace the current description!"</span><span class="p">,</span>
+  <span class="s2">"nameHash"</span><span class="p">:</span> <span class="s2">"0x444df25b54a53b842bb2af218e79e8cd2f1efca5c8f7a439451686fb3b825636"</span><span class="p">,</span>
+  <span class="s2">"descriptionHash"</span><span class="p">:</span> <span class="s2">"0xcb7ab38fbc9919a3b04eabc343d7e649335ad748213df20e65d1979d0d3aa800"</span><span class="p">,</span>
+  <span class="s2">"fileHashes"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">"0xd7bbfd8fd047f48c6724adb0633059f00f55339ed2fc96a529ef606d6ec76593"</span>
+  <span class="p">],</span>
+  <span class="s2">"mainImage"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="c1">// see "File" below</span>
+  <span class="p">},</span>
+  <span class="s2">"files"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="c1">// see "File" below</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="s2">"images"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="c1">// see "File" below</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+<span class="p">}</span>
+</code></pre>
+<p>Typically generated after <a href="#modify-a-codex-record-39-s-metadata">modifying a Codex Record&#39;s metadata</a>,
+a Pending Update represents the new state metadata should have after a &quot;modify&quot;
+transaction has been mined on the blockchain. This process is necessary due to
+the asynchronous nature of blockchain transactions.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>String</td>
+<td>The unique ID of the pending update.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>The new plain text name.</td>
+</tr>
+<tr>
+<td>files</td>
+<td>Array[<a href="#file">File</a>]</td>
+<td>The new array of supplemental files.</td>
+</tr>
+<tr>
+<td>images</td>
+<td>Array[<a href="#file">File</a>]</td>
+<td>The new array of supplemental images.</td>
+</tr>
+<tr>
+<td>nameHash</td>
+<td>String</td>
+<td>The hash of the new plain text name.</td>
+</tr>
+<tr>
+<td>mainImage</td>
+<td><a href="#file">File</a></td>
+<td>The new main image.</td>
+</tr>
+<tr>
+<td>fileHashes</td>
+<td>Array[String]</td>
+<td>An array of file hashes representing all the new files &amp; images.</td>
+</tr>
+<tr>
+<td>description</td>
+<td>String</td>
+<td>The new plain text description.</td>
+</tr>
+<tr>
+<td>descriptionHash</td>
+<td>String</td>
+<td>The hash of the new plain text description.</td>
+</tr>
+</tbody></table>
+
+<aside class="success">
+  Since a Pending Update is essentially a "placeholder" for a Codex Record's
+  metadata, the structure is essentially the same.
+</aside>
 <h2 id='provenance-event'>Provenance Event</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
   <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"transferred"</span><span class="p">,</span>
   <span class="s2">"oldOwnerAddress"</span><span class="p">:</span> <span class="s2">"0x627306090abab3a6e1400e9345bc60c78a8bef57"</span><span class="p">,</span>

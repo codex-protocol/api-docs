@@ -244,13 +244,22 @@
                     <a href="#get-an-access-token" class="toc-h2 toc-link" data-title="Get an Access Token">Get an Access Token</a>
                   </li>
                   <li>
-                    <a href="#get-a-specific-codex-record" class="toc-h2 toc-link" data-title="Get a Specific Codex Record">Get a Specific Codex Record</a>
+                    <a href="#get-a-codex-record" class="toc-h2 toc-link" data-title="Get a Codex Record">Get a Codex Record</a>
                   </li>
                   <li>
-                    <a href="#get-a-specific-codex-record-39-s-metadata-only" class="toc-h2 toc-link" data-title="Get a Specific Codex Record's Metadata Only">Get a Specific Codex Record's Metadata Only</a>
+                    <a href="#get-a-codex-record-39-s-metadata-only" class="toc-h2 toc-link" data-title="Get a Codex Record's Metadata Only">Get a Codex Record's Metadata Only</a>
                   </li>
                   <li>
-                    <a href="#get-a-specific-codex-record-39-s-provenance-only" class="toc-h2 toc-link" data-title="Get a Specific Codex Record's Provenance Only">Get a Specific Codex Record's Provenance Only</a>
+                    <a href="#get-a-codex-record-39-s-provenance-only" class="toc-h2 toc-link" data-title="Get a Codex Record's Provenance Only">Get a Codex Record's Provenance Only</a>
+                  </li>
+                  <li>
+                    <a href="#get-a-codex-record-39-s-main-image-only" class="toc-h2 toc-link" data-title="Get a Codex Record's Main Image Only">Get a Codex Record's Main Image Only</a>
+                  </li>
+                  <li>
+                    <a href="#get-a-codex-record-39-s-images-only" class="toc-h2 toc-link" data-title="Get a Codex Record's Images Only">Get a Codex Record's Images Only</a>
+                  </li>
+                  <li>
+                    <a href="#get-a-codex-record-39-s-files-only" class="toc-h2 toc-link" data-title="Get a Codex Record's Files Only">Get a Codex Record's Files Only</a>
                   </li>
               </ul>
           </li>
@@ -262,6 +271,44 @@
                   </li>
                   <li>
                     <a href="#get-all-codex-records" class="toc-h2 toc-link" data-title="Get All Codex Records">Get All Codex Records</a>
+                  </li>
+                  <li>
+                    <a href="#create-a-codex-record" class="toc-h2 toc-link" data-title="Create a Codex Record">Create a Codex Record</a>
+                  </li>
+                  <li>
+                    <a href="#modify-a-codex-record" class="toc-h2 toc-link" data-title="Modify a Codex Record">Modify a Codex Record</a>
+                  </li>
+                  <li>
+                    <a href="#modify-a-codex-record-39-s-metadata" class="toc-h2 toc-link" data-title="Modify a Codex Record's Metadata">Modify a Codex Record's Metadata</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#general-concepts" class="toc-h1 toc-link" data-title="General Concepts">General Concepts</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#api-requests" class="toc-h2 toc-link" data-title="API Requests">API Requests</a>
+                  </li>
+                  <li>
+                    <a href="#webhooks" class="toc-h2 toc-link" data-title="Webhooks">Webhooks</a>
+                  </li>
+                  <li>
+                    <a href="#gas-allowance" class="toc-h2 toc-link" data-title="Gas Allowance">Gas Allowance</a>
+                  </li>
+                  <li>
+                    <a href="#zero-address" class="toc-h2 toc-link" data-title="Zero Address">Zero Address</a>
+                  </li>
+                  <li>
+                    <a href="#privacy" class="toc-h2 toc-link" data-title="Privacy">Privacy</a>
+                  </li>
+                  <li>
+                    <a href="#historical-provenance" class="toc-h2 toc-link" data-title="Historical Provenance">Historical Provenance</a>
+                  </li>
+                  <li>
+                    <a href="#quot-off-chain-quot-vs-quot-on-chain-quot-data" class="toc-h2 toc-link" data-title=""Off-Chain" vs "On-Chain" Data">"Off-Chain" vs "On-Chain" Data</a>
+                  </li>
+                  <li>
+                    <a href="#transferring-codex-records" class="toc-h2 toc-link" data-title="Transferring Codex Records">Transferring Codex Records</a>
                   </li>
               </ul>
           </li>
@@ -279,6 +326,9 @@
                   </li>
                   <li>
                     <a href="#metadata" class="toc-h2 toc-link" data-title="Metadata">Metadata</a>
+                  </li>
+                  <li>
+                    <a href="#pending-update" class="toc-h2 toc-link" data-title="Pending Update">Pending Update</a>
                   </li>
                   <li>
                     <a href="#provenance-event" class="toc-h2 toc-link" data-title="Provenance Event">Provenance Event</a>
@@ -312,7 +362,7 @@ to create Codex Records on the Ethereum Blockchain without the need for any
 direct blockchain interaction.</p>
 
 <p>To use The Codex API, you will need to register an OAuth2 application with us.
-Please see the <a href="#authentication">Authentication</a> section for more information.</p>
+See <a href="#authentication">Authentication</a> for more information.</p>
 
 <p>If you have any questions or suggestions for edits to this documentation, please
 visit the <a href="https://github.com/codex-protocol/site.dev-codexprotocol-com">GitHub</a>
@@ -345,7 +395,7 @@ API should be happening on a server application and not from within the browser.
 </thead><tbody>
 <tr>
 <td>name</td>
-<td>The name of the application. This will be shown in the Codex Viewer as a registered application, taking the place of the Ethereum address in the Codex Record’s provenance section.</td>
+<td>The name of the application. This will be shown in the Codex Viewer as a registered application, taking the place of your application&#39;s Ethereum address in the Codex Record’s provenance.</td>
 </tr>
 <tr>
 <td>email</td>
@@ -353,12 +403,12 @@ API should be happening on a server application and not from within the browser.
 </tr>
 <tr>
 <td>webhookUrl</td>
-<td>For example, <code>https://your-api.example.com/codex-webhook</code>. Since blockchain transactions are asynchronous, this <code>webhookUrl</code> will be used to inform your application that an event has occurred, for example when your Codex Records have been minted. See the <a href="#webhooks">webhooks</a> sections for details.</td>
+<td>For example, <code>https://your-api.example.com/codex-webhook</code>. Since blockchain transactions are asynchronous, this <code>webhookUrl</code> will be used to inform your application that an event has occurred, for example when your Codex Records have been minted. See <a href="#webhooks">webhooks</a> for details.</td>
 </tr>
 </tbody></table>
 <h2 id='access-tokens'>Access Tokens</h2><h3 id='obtaining-an-access-token'>Obtaining an Access Token</h3>
-<p>Before you can make API calls, you&#39;ll need an access token. Please see the
-<a href="#get-an-access-token">Get an Access Token</a> section for more details.</p>
+<p>Before you can make API calls, you&#39;ll need an access token. See
+<a href="#get-an-access-token">Get an Access Token</a> for more details.</p>
 <h3 id='access-token-expiration'>Access Token Expiration</h3>
 <blockquote>
 <p>Example response when an expired access token is provided:</p>
@@ -456,6 +506,24 @@ your <code>accessToken</code> but you are not the owner.)</p>
 <h2 id='get-an-access-token'>Get an Access Token</h2>
 <p>This endpoint can be used to generate an access token, which is required for
 <a href="#making-authenticated-requests">making authenticated requests</a>.</p>
+
+<!--
+  @TODO: is this "warning" class too much? maybe it should just be a "notice",
+  but it feels important to call this out
+-->
+
+<aside class="warning">
+  When requesting access tokens, you <em>must</em> send the request as
+  <code>Content-Type: application/x-www-form-urlencoded</code>. This is required
+  by the <a href="https://tools.ietf.org/html/rfc6749?#section-4.1.3" rel="noopener noreferrer">OAuth2 Specification</a>.
+</aside>
+
+<aside class="notice">
+  This route has <code>snake_case</code> parameters. This is required by the
+  <a href="https://tools.ietf.org/html/rfc6749?#section-4.1.3" rel="noopener noreferrer">OAuth2 Specification</a>.
+  This is the only route with <code>snake_case</code> parameters, all other
+  routes have <code>camelCase</code> parameters.
+</aside>
 <pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
 
 <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
@@ -507,28 +575,17 @@ your <code>accessToken</code> but you are not the owner.)</p>
 <td>Your application&#39;s secret, provided by Codex.</td>
 </tr>
 </tbody></table>
-
-<!--
-  @TODO: is this "warning" class too much? maybe it should just be a "notice",
-  but it feels important to call this out
--->
-
-<aside class="warning">
-  When requesting access tokens, you <em>must</em> send the request as
-  <code>Content-Type: application/x-www-form-urlencoded</code>. This is required
-  by the <a href="https://tools.ietf.org/html/rfc6749?#section-4.1.3" rel="noopener noreferrer">OAuth2 Specification</a>.
-</aside>
-
-<aside class="notice">
-  This route has <code>snake_case</code> parameters. This is required by the
-  <a href="https://tools.ietf.org/html/rfc6749?#section-4.1.3" rel="noopener noreferrer">OAuth2 Specification</a>.
-  This is the only route with <code>snake_case</code> parameters, all other
-  routes have <code>camelCase</code> parameters.
-</aside>
-<h2 id='get-a-specific-codex-record'>Get a Specific Codex Record</h2>
+<h2 id='get-a-codex-record'>Get a Codex Record</h2>
 <p>This endpoint can be used to retrieve a specific Codex Record. This will return
 a full <a href="#codex-record">Codex Record</a> document, including it&#39;s
 <a href="#metadata">metadata</a> and <a href="#provenance-event">provenance</a>.</p>
+
+<aside class="warning">
+  If the Codex Record is private, certain fields (e.g. <code>metadata</code>)
+  will be <code>undefined</code>. Additionally, some fields may be
+  <code>undefined</code> if you are not the owner of the Codex Record. See the
+  <a href="#codex-record">Codex Record</a> description for details.
+</aside>
 <pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
 
 <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
@@ -560,17 +617,16 @@ a full <a href="#codex-record">Codex Record</a> document, including it&#39;s
 <td>The <code>tokenId</code> of the Codex Record to retrieve.</td>
 </tr>
 </tbody></table>
-
-<aside class="warning">
-  If the Codex Record is private, certain fields (e.g. <code>metadata</code>)
-  will be <code>undefined</code>. Additionally, some fields may be
-  <code>undefined</code> if you are not the owner of the Codex Record. See the
-  <a href="#codex-record">Codex Record</a> description for details.
-</aside>
-<h2 id='get-a-specific-codex-record-39-s-metadata-only'>Get a Specific Codex Record&#39;s Metadata Only</h2>
-<p>This endpoint can be used to retrieve a <em>only</em> the <a href="#metadata">metadata</a> for a
+<h2 id='get-a-codex-record-39-s-metadata-only'>Get a Codex Record&#39;s Metadata Only</h2>
+<p>This endpoint can be used to retrieve <em>only</em> the <a href="#metadata">metadata</a> of a
 specific Codex Record. This is useful if you do not need the entire Codex Record
 document.</p>
+
+<aside class="warning">
+  This route will return <code>null</code> if the Codex Record is private,
+  unless you are the owner or a whitelisted address. See
+  <a href="#privacy">Privacy</a> for details.
+</aside>
 <pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
 
 <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
@@ -580,7 +636,7 @@ document.</p>
 <span class="p">}</span>
 
 <span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// metadata for Codex Record with tokenId 0</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// the metadata of Codex Record with tokenId 0</span>
 <span class="p">})</span>
 </code></pre>
 <blockquote>
@@ -602,14 +658,15 @@ document.</p>
 <td>The <code>tokenId</code> of the Codex Record for which to retrieve the metadata of.</td>
 </tr>
 </tbody></table>
-
-<aside class="warning">
-  This route will return <code>null</code> if the Codex Record is private.
-</aside>
-<h2 id='get-a-specific-codex-record-39-s-provenance-only'>Get a Specific Codex Record&#39;s Provenance Only</h2>
-<p>This endpoint can be used to retrieve a <em>only</em> the <a href="#provenance-event">provenance</a>
-for a specific Codex Record. This is useful if you do not need the entire Codex
+<h2 id='get-a-codex-record-39-s-provenance-only'>Get a Codex Record&#39;s Provenance Only</h2>
+<p>This endpoint can be used to retrieve <em>only</em> the <a href="#provenance-event">provenance</a>
+of a specific Codex Record. This is useful if you do not need the entire Codex
 Record document.</p>
+
+<aside class="notice">
+  This route always returns an array, because "provenance" is really a list of
+  events.
+</aside>
 <pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
 
 <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
@@ -620,11 +677,11 @@ Record document.</p>
   <span class="c1">// sort by date created in reverse</span>
   <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
     <span class="na">order</span><span class="p">:</span> <span class="s1">'-createdAt'</span><span class="p">,</span>
-  <span class="p">}</span>
+  <span class="p">},</span>
 <span class="p">}</span>
 
 <span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// provenance for Codex Record with tokenId 0</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// the provenance of Codex Record with tokenId 0</span>
 <span class="p">})</span>
 </code></pre>
 <blockquote>
@@ -662,15 +719,141 @@ Record document.</p>
 <td>To sort in reverse order, specify this value as <code>-createdAt</code>.</td>
 </tr>
 </tbody></table>
+<h2 id='get-a-codex-record-39-s-main-image-only'>Get a Codex Record&#39;s Main Image Only</h2>
+<p>This endpoint can be used to retrieve <em>only</em> the main image for a specific Codex
+Record. This is useful if you do not need the entire Codex Record document.</p>
 
 <aside class="warning">
-  This route will return <code>null</code> if the Codex Record is private.
+  This route will return <code>null</code> if the Codex Record is private,
+  unless you are the owner or a whitelisted address. See
+  <a href="#privacy">Privacy</a> for details.
 </aside>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
 
-<aside class="notice">
-  This route always returns an array, because "provenance" is really a list of
-  events.
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/records/0/main-image'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="c1">// sort by date created in reverse</span>
+  <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">order</span><span class="p">:</span> <span class="s1">'-createdAt'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// the mainImage of Codex Record with tokenId 0</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns a single <a href="#file">File</a>.</p>
+</blockquote>
+<h3 id='http-request-5'>HTTP Request</h3>
+<p><code>GET /v1/records/:tokenId/main-image</code></p>
+<h3 id='url-parameters-4'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tokenId</td>
+<td>Number</td>
+<td>The <code>tokenId</code> of the Codex Record for which to retrieve the main image of.</td>
+</tr>
+</tbody></table>
+<h2 id='get-a-codex-record-39-s-images-only'>Get a Codex Record&#39;s Images Only</h2>
+<p>This endpoint can be used to retrieve <em>only</em> the <code>images</code> array for a specific
+Codex Record. This is useful if you do not need the entire Codex Record document.</p>
+
+<aside class="warning">
+  This route will return <code>null</code> if the Codex Record is private,
+  unless you are the owner or a whitelisted address. See
+  <a href="#privacy">Privacy</a> for details.
 </aside>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/records/0/images'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="c1">// sort by date created in reverse</span>
+  <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">order</span><span class="p">:</span> <span class="s1">'-createdAt'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// the images array of Codex Record with tokenId 0</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns an array of <a href="#file">Files</a>.</p>
+</blockquote>
+<h3 id='http-request-6'>HTTP Request</h3>
+<p><code>GET /v1/records/:tokenId/images</code></p>
+<h3 id='url-parameters-5'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tokenId</td>
+<td>Number</td>
+<td>The <code>tokenId</code> of the Codex Record for which to retrieve the images array of.</td>
+</tr>
+</tbody></table>
+<h2 id='get-a-codex-record-39-s-files-only'>Get a Codex Record&#39;s Files Only</h2>
+<p>This endpoint can be used to retrieve <em>only</em> the <code>files</code> array for a specific
+Codex Record. This is useful if you do not need the entire Codex Record document.</p>
+
+<aside class="warning">
+  This route will return <code>null</code> if the Codex Record is private,
+  unless you are the owner or a whitelisted address. See
+  <a href="#privacy">Privacy</a> for details.
+</aside>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/records/0/files'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="c1">// sort by date created in reverse</span>
+  <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">order</span><span class="p">:</span> <span class="s1">'-createdAt'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// the files array of Codex Record with tokenId 0</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns an array of <a href="#file">Files</a>.</p>
+</blockquote>
+<h3 id='http-request-7'>HTTP Request</h3>
+<p><code>GET /v1/records/:tokenId/files</code></p>
+<h3 id='url-parameters-6'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tokenId</td>
+<td>Number</td>
+<td>The <code>tokenId</code> of the Codex Record for which to retrieve the files array of.</td>
+</tr>
+</tbody></table>
 <h1 id='client-routes'>Client Routes</h1>
 <p>Unlike <a href="#public-routes">public routes</a>, client routes are all prefixed with
 <code>/v1/client</code> and only perform actions on data owned by your application. All
@@ -708,6 +891,11 @@ a request that would consume gas.</p>
 <h2 id='get-all-codex-records'>Get All Codex Records</h2>
 <p>This endpoint can be used to retrieve all Codex Records <em>that your application
 currently owns.</em></p>
+
+<aside class="notice">
+  There is no public route to list all Codex Records; you may only list Codex
+  Records that your application currently owns.
+</aside>
 <pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
 
 <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
@@ -715,15 +903,15 @@ currently owns.</em></p>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
   <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
 
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
+  <span class="p">},</span>
+
   <span class="c1">// sort by date created in reverse and get 5 records, skipping the first ten</span>
   <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
     <span class="na">limit</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
     <span class="na">offset</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
     <span class="na">order</span><span class="p">:</span> <span class="s1">'-createdAt'</span><span class="p">,</span>
-  <span class="p">}</span>
-
-  <span class="nl">headers</span><span class="p">:</span> <span class="p">{</span>
-    <span class="nl">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
   <span class="p">},</span>
 <span class="p">}</span>
 
@@ -749,13 +937,13 @@ currently owns.</em></p>
 <td>limit</td>
 <td>Number</td>
 <td>100</td>
-<td>How many records to retrieve; use with <code>offset</code> to paginate through Codex Records.</td>
+<td>How many records to retrieve. Use with <code>offset</code> to paginate through Codex Records.</td>
 </tr>
 <tr>
 <td>offset</td>
 <td>Number</td>
 <td>0</td>
-<td>How many records to skip before applying the <code>limit</code>; use with limit to paginate through Codex Records.</td>
+<td>How many records to skip before applying the <code>limit</code>. Use with limit to paginate through Codex Records.</td>
 </tr>
 <tr>
 <td>order</td>
@@ -764,11 +952,428 @@ currently owns.</em></p>
 <td>To sort in reverse order, specify this value as <code>-createdAt</code>.</td>
 </tr>
 </tbody></table>
+<h2 id='create-a-codex-record'>Create a Codex Record</h2>
+<p>This endpoint can be used to begin the creation of a Codex Record. With this
+request, you&#39;re actually creating the Codex Record&#39;s <a href="#metadata">metadata</a> since
+the Codex Record itself can&#39;t be created until the transaction has been mined on
+the blockchain.</p>
+
+<aside class="success">
+  This is an asynchronous action. When the Codex Record has been created and
+  logged on the blockchain, your application's webhook will be called with the
+  new Codex Record in the request body. See <a href="#webhooks">webhooks</a>
+  for details.
+</aside>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">fs</span> <span class="nx">from</span> <span class="s1">'fs'</span>
+<span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/record'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'post'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
+  <span class="p">},</span>
+
+  <span class="c1">// by using "formData" here instead of "body", request will send this request</span>
+  <span class="c1">//  as multipart/form-data, which is necessary for sending file data</span>
+  <span class="na">formData</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">name</span><span class="p">:</span> <span class="s1">'Really Cool Codex Record'</span><span class="p">,</span>
+    <span class="na">description</span><span class="p">:</span> <span class="s1">'This is a really cool Codex Record!'</span><span class="p">,</span>
+    <span class="na">mainImage</span><span class="p">:</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">createReadStream</span><span class="p">(</span><span class="s1">'/tmp/uploads/cool-main-image.jpg'</span><span class="p">),</span>
+    <span class="na">images</span><span class="p">:</span> <span class="p">[</span>
+      <span class="nx">fs</span><span class="p">.</span><span class="nx">createReadStream</span><span class="p">(</span><span class="s1">'/tmp/uploads/cool-supplemental-image-1.jpg'</span><span class="p">),</span>
+      <span class="nx">fs</span><span class="p">.</span><span class="nx">createReadStream</span><span class="p">(</span><span class="s1">'/tmp/uploads/cool-supplemental-image-2.jpg'</span><span class="p">),</span>
+    <span class="p">],</span>
+    <span class="na">files</span><span class="p">:</span> <span class="p">[</span>
+      <span class="nx">fs</span><span class="p">.</span><span class="nx">createReadStream</span><span class="p">(</span><span class="s1">'/tmp/uploads/author-notes.txt'</span><span class="p">),</span>
+      <span class="nx">fs</span><span class="p">.</span><span class="nx">createReadStream</span><span class="p">(</span><span class="s1">'/tmp/uploads/certificate-of-authenticity.pdf'</span><span class="p">),</span>
+    <span class="p">],</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// the metadata for the soon-to-be-created Codex Record</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns Codex Record <a href="#metadata">metadata</a>, since the
+Codex Record itself can&#39;t be created until the transaction has been mined.</p>
+</blockquote>
+<h3 id='http-request-3'>HTTP Request</h3>
+<p><code>POST /v1/client/record</code></p>
+<h3 id='query-parameters-2'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>The plain text name of this Codex Record.</td>
+</tr>
+<tr>
+<td>description</td>
+<td>String</td>
+<td><em>(Optional)</em> The plain text description of this Codex Record. The field can be set to <code>null</code> or simply omitted to leave the description empty.</td>
+</tr>
+<tr>
+<td>mainImage</td>
+<td>File Data</td>
+<td>The main image of this Codex Record.</td>
+</tr>
+<tr>
+<td>images</td>
+<td>Array[File Data]</td>
+<td><em>(Optional)</em> An array of supplemental images that belong to this metadata.</td>
+</tr>
+<tr>
+<td>files</td>
+<td>Array[File Data]</td>
+<td><em>(Optional)</em> An array of supplemental files that belong to this metadata. This is considered the &quot;<a href="#historical-provenance">historical provenance</a>&quot; of the Codex Record.</td>
+</tr>
+</tbody></table>
+<h2 id='modify-a-codex-record'>Modify a Codex Record</h2>
+<p>This endpoint can be used to modify the &quot;<a href="#quot-off-chain-quot-vs-quot-on-chain-quot-data">off-chain</a>&quot;
+data for a Codex Record. Since no &quot;on-chain&quot; data can be modified with this
+request, the response will be the immediately-updated Codex Record.</p>
 
 <aside class="notice">
-  There is no public route to list all Codex Records; you may only list Codex
-  Records that your application currently owns.
+  To update "<a href="#quot-off-chain-quot-vs-quot-on-chain-quot-data">on-chain</a>"
+  data such as a Codex Record's name, description, and/or images, you must use
+  the <a href="#modify-a-codex-record-39-s-metadata">modify metadata route</a>.
 </aside>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/record/0'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'put'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
+  <span class="p">},</span>
+
+  <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">isPrivate</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="na">isHistoricalProvenancePrivate</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="na">whitelistedAddresses</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s1">'0xf17f52151ebef6c7334fad080c5704d77216b732'</span><span class="p">,</span>
+      <span class="s1">'0xc5fdf4076b8f3a5357c5e395ab970b5b54098fef'</span><span class="p">,</span>
+      <span class="s1">'0x821aea9a577a9b44299b9c15c88cf3087f3b5544'</span><span class="p">,</span>
+      <span class="s1">'0x0d1d4e623d10f9fba5db95830f7d3839406c6af2'</span><span class="p">,</span>
+    <span class="p">],</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// the immediately-updated Codex Record</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns the immediately-updated <a href="#codex-record">Codex Record</a>.</p>
+</blockquote>
+<h3 id='http-request-4'>HTTP Request</h3>
+<p><code>PUT /v1/client/record/:tokenId</code></p>
+<h3 id='url-parameters'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tokenId</td>
+<td>Number</td>
+<td>The <code>tokenId</code> of the Codex Record to update.</td>
+</tr>
+</tbody></table>
+<h3 id='query-parameters-3'>Query Parameters</h3>
+<p>At least one of the following query parameters is required for this route:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>isPrivate</td>
+<td>Boolean</td>
+<td>This flag indicates that the metadata for the Codex Record is private and can only be retrieved by the owner, the <code>approvedAddress</code>, and the addresses listed in <code>whitelistedAddresses</code>.</td>
+</tr>
+<tr>
+<td>whitelistedAddresses</td>
+<td>Array[String]</td>
+<td>An array of Ethereum addresses allowed to view all private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records.</td>
+</tr>
+<tr>
+<td>isHistoricalProvenancePrivate</td>
+<td>Boolean</td>
+<td>This flag indicates whether or not <a href="#historical-provenance">historical provenance</a> (i.e. <code>metadata.files</code>) should be hidden, regardless of the value of <code>isPrivate</code>.</td>
+</tr>
+</tbody></table>
+
+<aside class="warning">
+  <code>whitelistedAddresses</code> is provided in this route as a convenience
+  for replacing the list along with other "off-chain" data. Whatever you pass in
+  will replacing the existing list, so be careful not to accidentally override
+  existing data.
+
+  <br><br>
+
+  There are also dedicated routes to manage the <code>whitelistedAddresses</code>
+  array, which are more suitable for adding and removing addresses one-by-one.
+  See <a href="#get-a-codex-record-39-s-whitelisted-addresses">Get a Codex
+  Record's Whitelisted Addresses</a> (and subsequent sections) for details.
+</aside>
+<h2 id='modify-a-codex-record-39-s-metadata'>Modify a Codex Record&#39;s Metadata</h2>
+<p>This endpoint can be used to modify the &quot;<a href="#quot-off-chain-quot-vs-quot-on-chain-quot-data">on-chain</a>&quot;
+data for a Codex Record. With this request, you&#39;re actually creating a
+<a href="#pending-update">Pending Update</a> since the metadata itself can&#39;t be modified
+until the transaction has been mined on the blockchain.</p>
+
+<aside class="notice">
+  To update "<a href="#quot-off-chain-quot-vs-quot-on-chain-quot-data">off-chain</a>"
+  data such as a Codex Record's privacy settings, you must use the
+  <a href="#modify-a-codex-record">modify Codex Record route</a>.
+</aside>
+
+<aside class="success">
+  This is an asynchronous action. When the Codex Record has been updated and
+  logged on the blockchain, your application's webhook will be called with the
+  updated Codex Record in the request body. See <a href="#webhooks">webhooks</a>
+  for details.
+</aside>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">fs</span> <span class="nx">from</span> <span class="s1">'fs'</span>
+<span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/record/0/metadata'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'put'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
+  <span class="p">},</span>
+
+  <span class="c1">// by using "formData" here instead of "body", request will send this request</span>
+  <span class="c1">//  as multipart/form-data, which is necessary for sending file data</span>
+  <span class="na">formData</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">name</span><span class="p">:</span> <span class="s1">'Super Duper New Title'</span><span class="p">,</span>
+    <span class="na">description</span><span class="p">:</span> <span class="s1">'This will replace the current description!'</span><span class="p">,</span>
+
+    <span class="c1">// replace the current mainImage</span>
+    <span class="na">newMainImage</span><span class="p">:</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">createReadStream</span><span class="p">(</span><span class="s1">'/tmp/uploads/super-duper-new-main-image.jpg'</span><span class="p">),</span>
+
+    <span class="c1">// add these files to the files &amp; images arrays</span>
+    <span class="na">newFiles</span><span class="p">:</span> <span class="p">[</span>
+      <span class="nx">fs</span><span class="p">.</span><span class="nx">createReadStream</span><span class="p">(</span><span class="s1">'/tmp/uploads/2018-appraisal-documents.pdf'</span><span class="p">),</span>
+    <span class="p">],</span>
+    <span class="na">newImages</span><span class="p">:</span> <span class="p">[</span>
+      <span class="nx">fs</span><span class="p">.</span><span class="nx">createReadStream</span><span class="p">(</span><span class="s1">'/tmp/uploads/super-duper-new-photo-1.jpg'</span><span class="p">),</span>
+      <span class="nx">fs</span><span class="p">.</span><span class="nx">createReadStream</span><span class="p">(</span><span class="s1">'/tmp/uploads/super-duper-new-photo-2.jpg'</span><span class="p">),</span>
+    <span class="p">],</span>
+
+    <span class="c1">// before adding new files &amp; images, replace the existing arrays with these</span>
+    <span class="c1">// see "Removing Files and Images" for details</span>
+    <span class="na">files</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span> <span class="na">id</span><span class="p">:</span> <span class="s1">'5bb640d492d258fdf2efa290'</span><span class="p">,</span> <span class="p">},</span>
+      <span class="p">{</span> <span class="na">id</span><span class="p">:</span> <span class="s1">'5bb640d492d258fdf2efa291'</span><span class="p">,</span> <span class="p">},</span>
+    <span class="p">],</span>
+    <span class="na">images</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span> <span class="na">id</span><span class="p">:</span> <span class="s1">'5bb640d492d258fdf2efa292'</span><span class="p">,</span> <span class="p">},</span>
+      <span class="p">{</span> <span class="na">id</span><span class="p">:</span> <span class="s1">'5bb640d492d258fdf2efa293'</span><span class="p">,</span> <span class="p">},</span>
+    <span class="p">],</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// a new Pending Update</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns a new <a href="#pending-update">Pending Update</a>.</p>
+</blockquote>
+<h3 id='http-request-5'>HTTP Request</h3>
+<p><code>PUT /v1/client/record/:tokenId/metadata</code></p>
+<h3 id='url-parameters-2'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tokenId</td>
+<td>Number</td>
+<td>The <code>tokenId</code> of the Codex Record for which to modify the metadata of.</td>
+</tr>
+</tbody></table>
+<h3 id='query-parameters-4'>Query Parameters</h3>
+<p>At least one of the following query parameters is required for this route:</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>The new name of this Codex Record.</td>
+</tr>
+<tr>
+<td>files</td>
+<td>Array[<a href="#file">File</a>]</td>
+<td>See <a href="#removing-files-and-images">Removing Files and Images</a> for details.</td>
+</tr>
+<tr>
+<td>images</td>
+<td>Array[<a href="#file">File</a>]</td>
+<td>See <a href="#removing-files-and-images">Removing Files and Images</a> for details.</td>
+</tr>
+<tr>
+<td>newFiles</td>
+<td>Array[File Data]</td>
+<td>An array of supplemental files to append to the existing <code>files</code> array for this Codex Record.</td>
+</tr>
+<tr>
+<td>newImages</td>
+<td>Array[File Data]</td>
+<td>An array of supplemental images to append to the existing <code>images</code> array for this Codex Record.</td>
+</tr>
+<tr>
+<td>description</td>
+<td>String</td>
+<td>The new description of this Codex Record. The field can be set to <code>null</code> to erase an existing description.</td>
+</tr>
+<tr>
+<td>newMainImage</td>
+<td>File Data</td>
+<td>The new main image of this Codex Record.</td>
+</tr>
+</tbody></table>
+
+<!--
+  the previous code example is hella long, and the spacing looks weird with the
+  upcoming code example right next to it, so this is kind of a hacky way to push
+  down this subheader so that it's code example isn't nestled up next to the
+  previous one
+  -->
+
+<p><br><br><br><br><br><br><br><br></p>
+<h3 id='removing-files-and-images'>Removing Files and Images</h3>
+<blockquote>
+<p>Removing the <a href="#file">File</a> with id <code>5bb640d492d258fdf2efa294</code> from a Codex
+Record&#39;s <code>images</code> array:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="c1">// first, get the existing images</span>
+<span class="kr">const</span> <span class="nx">getCodexRecordOptions</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/records/0/images'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">getCodexRecordOptions</span><span class="p">,</span> <span class="p">(</span><span class="nx">getCodexRecordError</span><span class="p">,</span> <span class="nx">getCodexRecordResponse</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+  <span class="kr">const</span> <span class="nx">codexRecordImages</span> <span class="o">=</span> <span class="nx">getCodexRecordResponse</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span>
+
+  <span class="c1">// the remove the image with id '5bb640d492d258fdf2efa294'</span>
+  <span class="kr">const</span> <span class="nx">newCodexRecordImages</span> <span class="o">=</span> <span class="nx">codexRecordImages</span>
+    <span class="p">.</span><span class="nx">filter</span><span class="p">((</span><span class="nx">image</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">image</span><span class="p">.</span><span class="nx">id</span> <span class="o">!==</span> <span class="s1">'5bb640d492d258fdf2efa294'</span>
+    <span class="p">})</span>
+
+    <span class="c1">// this map is optional since the the only field you're required to send in</span>
+    <span class="c1">//  is the File's id</span>
+    <span class="c1">//</span>
+    <span class="c1">// it's perfectly fine to send the entire File object, but it's a good idea</span>
+    <span class="c1">//  to reduce the amount of unnecessary data sent with requests</span>
+    <span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">image</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="p">{</span> <span class="na">id</span><span class="p">:</span> <span class="nx">image</span><span class="p">.</span><span class="nx">id</span> <span class="p">}</span>
+    <span class="p">})</span>
+
+  <span class="c1">// now send in the "new state" of the images array</span>
+  <span class="kr">const</span> <span class="nx">updateCodexRecordOptions</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/record/0/metadata'</span><span class="p">,</span>
+    <span class="na">method</span><span class="p">:</span> <span class="s1">'put'</span><span class="p">,</span>
+    <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+    <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
+    <span class="p">},</span>
+
+    <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">images</span><span class="p">:</span> <span class="nx">newCodexRecordImages</span><span class="p">,</span>
+    <span class="p">},</span>
+  <span class="p">}</span>
+
+  <span class="nx">request</span><span class="p">(</span><span class="nx">updateCodexRecordOptions</span><span class="p">,</span> <span class="p">(</span><span class="nx">updateCodexRecordError</span><span class="p">,</span> <span class="nx">updateCodexRecordResponse</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">updateCodexRecordResponse</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// a new Pending Update</span>
+  <span class="p">})</span>
+
+<span class="p">})</span>
+</code></pre>
+<p>The <code>files</code> and <code>images</code> parameters are each arrays of <a href="#file">File</a> objects
+(not to be confused with binary &quot;File Data&quot; in a <code>multipart/form-data</code> request...)
+These parameters provide the mechanism for removing files and/or images.</p>
+
+<p>To remove files and/or images from a Codex Record, follow these steps:</p>
+
+<ol>
+<li><p>If you do not already have the Codex Record, you will need to retrieve the
+existing files and/or images first. You can get this data by <a href="#get-a-codex-record">getting the
+whole Codex Record</a>, <a href="#get-a-codex-record-39-s-files-only">getting the Codex Record&#39;s
+files only</a>, and/or <a href="#get-a-codex-record-39-s-images-only">getting the
+Codex Record&#39;s images only</a>.</p></li>
+<li><p>Remove the images from the array(s).</p></li>
+<li><p>Send the &quot;new state&quot; of the array(s) with this request as <code>files</code> and/or
+<code>images</code>.</p></li>
+</ol>
+
+<aside class="success">
+  You're only <em>required</em> to send in the <code>id</code> of each
+  <a href="#files">File</a>, since that's the only piece of data necessary to
+  know which File to remove. However, it's perfectly fine to just send the
+  entire File object.
+</aside>
+<h1 id='general-concepts'>General Concepts</h1>
+<p>This section explains miscellaneous concepts referenced throughout this
+documentation.</p>
+<h2 id='api-requests'>API Requests</h2>
+<p><strong>@TODO:</strong> talk about the various ways you can make API calls</p>
+<h2 id='webhooks'>Webhooks</h2>
+<p><strong>@TODO:</strong> talk about asynchronous blockchain transactions, webhook request
+structure, and list all events</p>
+<h2 id='gas-allowance'>Gas Allowance</h2>
+<p><strong>@TODO:</strong> talk about gas allowances and when they reset, also list some gas metrics</p>
+<h2 id='zero-address'>Zero Address</h2>
+<p><strong>@TODO:</strong> talk about how the zero address will be used in provenance events</p>
+<h2 id='privacy'>Privacy</h2>
+<p><strong>@TODO:</strong> talk about how Codex Records are private by default, also about
+permissions / approved addresses / whitelisted addresses / etc</p>
+<h2 id='historical-provenance'>Historical Provenance</h2>
+<p><strong>@TODO:</strong> talk about the <code>files</code> array in a Codex Record&#39;s metadata</p>
+<h2 id='quot-off-chain-quot-vs-quot-on-chain-quot-data'>&quot;Off-Chain&quot; vs &quot;On-Chain&quot; Data</h2>
+<p><strong>@TODO:</strong> talk about a Codex Record vs it&#39;s metadata during creation &amp; modification</p>
+<h2 id='transferring-codex-records'>Transferring Codex Records</h2>
+<p><strong>@TODO:</strong> talk about the two-step transfer process</p>
 <h1 id='response-examples'>Response Examples</h1>
 <p><strong>@TODO:</strong> write about general response structure here</p>
 
@@ -790,7 +1395,7 @@ currently owns.</em></p>
 <tr>
 <td>name</td>
 <td>String</td>
-<td>The name of the application. This will be shown in the Codex Viewer as a registered application, taking the place of the Ethereum address in the Codex Record’s provenance section.</td>
+<td>The name of the application. This will be shown in the Codex Viewer as a registered application, taking the place of your application&#39;s Ethereum address in the Codex Record’s provenance.</td>
 </tr>
 <tr>
 <td>email</td>
@@ -805,7 +1410,7 @@ currently owns.</em></p>
 <tr>
 <td>gasAllowance</td>
 <td>String</td>
-<td>The amount of gas left that the application can spend until it resets. See the <a href="#gas-allowance">Gas Allowance</a> section for details.</td>
+<td>The amount of gas left that the application can spend until it resets. See <a href="#gas-allowance">Gas Allowance</a> for details.</td>
 </tr>
 </tbody></table>
 <h2 id='oauth2-access-token'>OAuth2 Access Token</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
@@ -823,7 +1428,7 @@ currently owns.</em></p>
 <tr>
 <td>accessTokenExpiresAt</td>
 <td>Date</td>
-<td>The date at which this access token will expire. See the <a href="#access-token-expiration">Access Token Expiration</a> section for details.</td>
+<td>The date at which this access token will expire. See <a href="#access-token-expiration">Access Token Expiration</a> for details.</td>
 </tr>
 <tr>
 <td>accessToken</td>
@@ -898,7 +1503,7 @@ currently owns.</em></p>
 <tr>
 <td>isPrivate</td>
 <td>Boolean</td>
-<td>This flag indicates that the metadata for this record is private and can only be retrieved by the owner, the <code>approvedAddress</code>, and the</td>
+<td>This flag indicates that the metadata for this record is private and can only be retrieved by the owner, the <code>approvedAddress</code>, and the addresses listed in <code>whitelistedAddresses</code>.</td>
 </tr>
 <tr>
 <td>provenance</td>
@@ -928,7 +1533,7 @@ currently owns.</em></p>
 <tr>
 <td>approvedAddress</td>
 <td>String</td>
-<td>The Ethereum address of the user currently approved to accept the transfer of this Codex Record. See <a href="#transferring-a-codex-record">Transferring a Codex Record</a> for details. Approved addresses are considered part of the <code>whitelistedAddresses</code> array.</td>
+<td>The Ethereum address of the user currently approved to accept the transfer of this Codex Record. See <a href="#transferring-codex-records">Transferring a Codex Record</a> for details. Approved addresses are considered part of the <code>whitelistedAddresses</code> array.</td>
 </tr>
 <tr>
 <td>providerMetadataId</td>
@@ -952,7 +1557,7 @@ currently owns.</em></p>
 </aside>
 <h2 id='metadata'>Metadata</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
   <span class="s2">"codexRecordTokenId"</span><span class="p">:</span> <span class="s2">"0"</span><span class="p">,</span>
-  <span class="s2">"hasPendingUpdates"</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="s2">"hasPendingUpdates"</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
   <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"5bae56f75d7971becf854a72"</span><span class="p">,</span>
   <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Really Cool Codex Record"</span><span class="p">,</span>
   <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"This is a really cool Codex Record!"</span><span class="p">,</span>
@@ -961,6 +1566,11 @@ currently owns.</em></p>
   <span class="s2">"descriptionHash"</span><span class="p">:</span> <span class="s2">"0xcb7ab38fbc9919a3b04eabc343d7e649335ad748213df20e65d1979d0d3aa800"</span><span class="p">,</span>
   <span class="s2">"fileHashes"</span><span class="p">:</span> <span class="p">[</span>
     <span class="s2">"0xb39e1bbc6d50670aafa88955217ddf1e9e1f635a2cfc8d5d806a730f014c7210"</span>
+  <span class="p">],</span>
+  <span class="s2">"pendingUpdates"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="c1">// see "Pending Update" below</span>
+    <span class="p">}</span>
   <span class="p">],</span>
   <span class="s2">"mainImage"</span><span class="p">:</span> <span class="p">{</span>
     <span class="c1">// see "File" below</span>
@@ -1027,6 +1637,11 @@ currently owns.</em></p>
 <td>The plain text description of the Codex Record. Will be <code>undefined</code> if <code>isPrivate</code> is <code>true</code> and you are not the owner or a whitelisted address.</td>
 </tr>
 <tr>
+<td>pendingUpdates</td>
+<td>Array[<a href="#pending-update">Pending Update</a>]</td>
+<td>An array of updates that are currently being processed for this metadata. See <a href="#pending-update">Pending Update</a> for details. Will be <code>undefined</code> if you are not the owner.</td>
+</tr>
+<tr>
 <td>creatorAddress</td>
 <td>String</td>
 <td>The Ethereum address of the client / user who created this metadata (not necessarily the current Codex Record owner!)</td>
@@ -1039,7 +1654,7 @@ currently owns.</em></p>
 <tr>
 <td>hasPendingUpdates</td>
 <td>Boolean</td>
-<td>This flag is true if there is currently a &quot;modify&quot; transaction processing on the blockchain (e.g. after you <a href="#modify-an-existing-record">modify an existing record</a>). This is useful for showing some sort of loading state on a Codex Record while modifications are pending.</td>
+<td>This flag is true if there is currently a &quot;modify&quot; transaction processing on the blockchain (e.g. after <a href="#modify-a-codex-record-39-s-metadata">modifying a Codex Record&#39;s metadata</a>). This is useful for showing some sort of loading state on a Codex Record while modifications are pending. See <a href="#pending-update">Pending Update</a> for details.</td>
 </tr>
 <tr>
 <td>codexRecordTokenId</td>
@@ -1047,6 +1662,93 @@ currently owns.</em></p>
 <td>The <code>tokenId</code> of the Codex Record this metadata belongs to.</td>
 </tr>
 </tbody></table>
+<h2 id='pending-update'>Pending Update</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"5bb661ab92d258fdf2efa29b"</span><span class="p">,</span>
+  <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Super Duper New Title"</span><span class="p">,</span>
+  <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"This will replace the current description!"</span><span class="p">,</span>
+  <span class="s2">"nameHash"</span><span class="p">:</span> <span class="s2">"0x444df25b54a53b842bb2af218e79e8cd2f1efca5c8f7a439451686fb3b825636"</span><span class="p">,</span>
+  <span class="s2">"descriptionHash"</span><span class="p">:</span> <span class="s2">"0xcb7ab38fbc9919a3b04eabc343d7e649335ad748213df20e65d1979d0d3aa800"</span><span class="p">,</span>
+  <span class="s2">"fileHashes"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">"0xd7bbfd8fd047f48c6724adb0633059f00f55339ed2fc96a529ef606d6ec76593"</span>
+  <span class="p">],</span>
+  <span class="s2">"mainImage"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="c1">// see "File" below</span>
+  <span class="p">},</span>
+  <span class="s2">"files"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="c1">// see "File" below</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="s2">"images"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="c1">// see "File" below</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+<span class="p">}</span>
+</code></pre>
+<p>Typically generated after <a href="#modify-a-codex-record-39-s-metadata">modifying a Codex Record&#39;s metadata</a>,
+a Pending Update represents the new state metadata should have after a &quot;modify&quot;
+transaction has been mined on the blockchain. This process is necessary due to
+the asynchronous nature of blockchain transactions.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>String</td>
+<td>The unique ID of the pending update.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>The new plain text name.</td>
+</tr>
+<tr>
+<td>files</td>
+<td>Array[<a href="#file">File</a>]</td>
+<td>The new array of supplemental files.</td>
+</tr>
+<tr>
+<td>images</td>
+<td>Array[<a href="#file">File</a>]</td>
+<td>The new array of supplemental images.</td>
+</tr>
+<tr>
+<td>nameHash</td>
+<td>String</td>
+<td>The hash of the new plain text name.</td>
+</tr>
+<tr>
+<td>mainImage</td>
+<td><a href="#file">File</a></td>
+<td>The new main image.</td>
+</tr>
+<tr>
+<td>fileHashes</td>
+<td>Array[String]</td>
+<td>An array of file hashes representing all the new files &amp; images.</td>
+</tr>
+<tr>
+<td>description</td>
+<td>String</td>
+<td>The new plain text description.</td>
+</tr>
+<tr>
+<td>descriptionHash</td>
+<td>String</td>
+<td>The hash of the new plain text description.</td>
+</tr>
+</tbody></table>
+
+<aside class="success">
+  Since a Pending Update is essentially a "placeholder" for a Codex Record's
+  metadata, the structure is essentially the same.
+</aside>
 <h2 id='provenance-event'>Provenance Event</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
   <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"transferred"</span><span class="p">,</span>
   <span class="s2">"oldOwnerAddress"</span><span class="p">:</span> <span class="s2">"0x627306090abab3a6e1400e9345bc60c78a8bef57"</span><span class="p">,</span>
@@ -1244,18 +1946,8 @@ currently owns.</em></p>
 like historical provenance, gas allowance, the zero address, the two-step
 transfer process, whitelisted addresses, ERC-721 etc</li>
 </ul></li>
-<li>theme the stylesheets to be more codex-y? (see <code>source/stylesheets/_overrides.scss</code>)</li>
-<li>write these sections and ensure all placeholder links have anchors
-
-<ul>
-<li>zero-address</li>
-<li>gas-allowance</li>
-<li>modify-an-existing-record</li>
-<li>create-a-codex-record</li>
-<li>historical-provenance</li>
-<li>transferring-a-codex-record</li>
-<li>webhooks</li>
-</ul></li>
+<li>ensure all links have anchors</li>
+<li>document ProvenanceEvent.codexRecordModifiedEvent?</li>
 </ul>
 
       </div>
