@@ -34,8 +34,7 @@ request(options, (error, response) => {
 })
 ```
 
-> The above API call returns a single <a href="#client">Client</a>.
-
+> The above API call returns a single [Client](#client).
 
 ### HTTP Request
 
@@ -47,6 +46,11 @@ request(options, (error, response) => {
 This endpoint can be used to retrieve all Codex Records _that your application
 currently owns._
 
+<aside class="notice">
+  There is no public route to list all Codex Records; you may only list Codex
+  Records that your application currently owns.
+</aside>
+
 ```javascript
 import request from 'request'
 
@@ -55,15 +59,15 @@ const options = {
   method: 'get',
   json: true,
 
+  headers: {
+    Authorization: 'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e',
+  },
+
   // sort by date created in reverse and get 5 records, skipping the first ten
   body: {
     limit: 5,
     offset: 10,
     order: '-createdAt',
-  }
-
-  headers: {
-    Authorization: 'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e',
   },
 }
 
@@ -72,7 +76,7 @@ request(options, (error, response) => {
 })
 ```
 
-> The above API call returns an array of <a href="#codex-record">Codex Records</a>.
+> The above API call returns an array of [Codex Records](#codex-record).
 
 ### HTTP Request
 
@@ -82,8 +86,8 @@ request(options, (error, response) => {
 
 Parameter    | Type   | Default   | Description
 ------------ | ------ | --------- | --------------------------------------------
-limit        | Number | 100       | How many records to retrieve; use with `offset` to paginate through Codex Records.
-offset       | Number | 0         | How many records to skip before applying the `limit`; use with limit to paginate through Codex Records.
+limit        | Number | 100       | How many records to retrieve. Use with `offset` to paginate through Codex Records.
+offset       | Number | 0         | How many records to skip before applying the `limit`. Use with limit to paginate through Codex Records.
 order        | String | createdAt | To sort in reverse order, specify this value as `-createdAt`.
 
 <aside class="notice">

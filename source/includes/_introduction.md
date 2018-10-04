@@ -5,7 +5,7 @@ to create Codex Records on the Ethereum Blockchain without the need for any
 direct blockchain interaction.
 
 To use The Codex API, you will need to register an OAuth2 application with us.
-Please see the [Authentication](#authentication) section for more information.
+See [Authentication](#authentication) for more information.
 
 If you have any questions or suggestions for edits to this documentation, please
 visit the [GitHub](https://github.com/codex-protocol/site.dev-codexprotocol-com)

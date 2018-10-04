@@ -17,10 +17,10 @@
 
 Property                      | Type   | Description
 ----------------------------- | ------ | ---------------------------------------
-name                          | String | The name of the application. This will be shown in the Codex Viewer as a registered application, taking the place of the Ethereum address in the Codex Record’s provenance section.
+name                          | String | The name of the application. This will be shown in the Codex Viewer as a registered application, taking the place of your application's Ethereum address in the Codex Record’s provenance.
 email                         | String | The application developer’s email address. This will be used to communicate any breaking API changes or development updates.
 address                       | String | The Ethereum address that identifies the application, provisioned and managed by Codex behalf of the application developer.
-gasAllowance                  | String | The amount of gas left that the application can spend until it resets. See the [Gas Allowance](#gas-allowance) section for details.
+gasAllowance                  | String | The amount of gas left that the application can spend until it resets. See [Gas Allowance](#gas-allowance) for details.
 
 
 ## OAuth2 Access Token
@@ -34,7 +34,7 @@ gasAllowance                  | String | The amount of gas left that the applica
 
 Property             | Type   | Description
 -------------------- | ------ | ------------------------------------------------
-accessTokenExpiresAt | Date   | The date at which this access token will expire. See the [Access Token Expiration](#access-token-expiration) section for details.
+accessTokenExpiresAt | Date   | The date at which this access token will expire. See [Access Token Expiration](#access-token-expiration) for details.
 accessToken          | String | The access token itself. This should be [added to the Authorization header](#making-authenticated-requests) of all requests made to The Codex API.
 
 
@@ -82,13 +82,13 @@ metadata                      | [Metadata](#metadata)                        | W
 provider                      | [Metadata Provider](#metadata-provider)      | See [Metadata Provider](#metadata-provider) for details.
 nameHash                      | String                                       | The hash of the metadata's plain text name.
 isIgnored                     | Boolean                                      | This flag indicates that a user has chosen to "ignore" an incoming Codex Record transfer. This is useful to hide incoming transfers in a User Interface since there's no blockchain mechanism to explicitly reject a transfer.
-isPrivate                     | Boolean                                      | This flag indicates that the metadata for this record is private and can only be retrieved by the owner, the `approvedAddress`, and the
+isPrivate                     | Boolean                                      | This flag indicates that the metadata for this record is private and can only be retrieved by the owner, the `approvedAddress`, and the addresses listed in `whitelistedAddresses`.
 provenance                    | Array[[Provenance Event](#provenance-event)] | An array of [Provenance Events](#provenance-event).
 fileHashes                    | Array[String]                                | An array of file hashes that belong to this Codex Record's metadata.
 providerId                    | String                                       | See unique id of the [Metadata Provider](#metadata-provider).
 ownerAddress                  | String                                       | The Ethereum address of the client / user that currently owns this Codex Record.
 descriptionHash               | String                                       | The hash of the metadata's plain text description.
-approvedAddress               | String                                       | The Ethereum address of the user currently approved to accept the transfer of this Codex Record. See [Transferring a Codex Record](#transferring-a-codex-record) for details. Approved addresses are considered part of the `whitelistedAddresses` array.
+approvedAddress               | String                                       | The Ethereum address of the user currently approved to accept the transfer of this Codex Record. See [Transferring a Codex Record](#transferring-codex-records) for details. Approved addresses are considered part of the `whitelistedAddresses` array.
 providerMetadataId            | String                                       | The unique ID of the metadata that belongs to this Codex Record.
 whitelistedAddresses          | Array[String]                                | An array of Ethereum addresses allowed to view all private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records. Will be `undefined` if you are not the owner.
 isHistoricalProvenancePrivate | Boolean                                      | This flag indicates whether or not [historical provenance](#historical-provenance) (i.e. `metadata.files`) should be hidden, regardless of the value of `isPrivate`.
@@ -103,7 +103,7 @@ isHistoricalProvenancePrivate | Boolean                                      | T
 ```javascript
 {
   "codexRecordTokenId": "0",
-  "hasPendingUpdates": false,
+  "hasPendingUpdates": true,
   "id": "5bae56f75d7971becf854a72",
   "name": "Really Cool Codex Record",
   "description": "This is a really cool Codex Record!",
