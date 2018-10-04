@@ -113,6 +113,11 @@ isHistoricalProvenancePrivate | Boolean                                      | T
   "fileHashes": [
     "0xb39e1bbc6d50670aafa88955217ddf1e9e1f635a2cfc8d5d806a730f014c7210"
   ],
+  "pendingUpdates": [
+    {
+      // see "Pending Update" below
+    }
+  ],
   "mainImage": {
     // see "File" below
   },
@@ -131,20 +136,72 @@ isHistoricalProvenancePrivate | Boolean                                      | T
 
 **@TODO:** Explain metadata here
 
-Property           | Type                 | Description
------------------- | -------------------- | ------------------------------------
-id                 | String               | The unique ID of the metadata.
-name               | String               | The plain text name of the Codex Record. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
-files              | Array[[File](#file)] | An array of supplemental files that belong to this metadata. This is considered the "[historical provenance](#historical-provenance)". Can `undefined` if `isHistoricalProvenancePrivate` is `true` on the Codex Record. See [File](#file) for details.
-images             | Array[[File](#file)] | An array of supplemental images that belong to this metadata. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address. See [File](#file) for details.
-nameHash           | String               | The hash of the plain text name.
-mainImage          | [File](#file)        | The main image of this Codex Record. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
-fileHashes         | Array[String]        | An array of file hashes that belong to this metadata.
-description        | String               | The plain text description of the Codex Record. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
-creatorAddress     | String               | The Ethereum address of the client / user who created this metadata (not necessarily the current Codex Record owner!)
-descriptionHash    | String               | The hash of the plain text description.
-hasPendingUpdates  | Boolean              | This flag is true if there is currently a "modify" transaction processing on the blockchain (e.g. after you [modify an existing record](#modify-an-existing-record)). This is useful for showing some sort of loading state on a Codex Record while modifications are pending.
-codexRecordTokenId | String               | The `tokenId` of the Codex Record this metadata belongs to.
+Property           | Type                                     | Description
+------------------ | ---------------------------------------- | ----------------
+id                 | String                                   | The unique ID of the metadata.
+name               | String                                   | The plain text name of the Codex Record. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
+files              | Array[[File](#file)]                     | An array of supplemental files that belong to this metadata. This is considered the "[historical provenance](#historical-provenance)". Can `undefined` if `isHistoricalProvenancePrivate` is `true` on the Codex Record. See [File](#file) for details.
+images             | Array[[File](#file)]                     | An array of supplemental images that belong to this metadata. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address. See [File](#file) for details.
+nameHash           | String                                   | The hash of the plain text name.
+mainImage          | [File](#file)                            | The main image of this Codex Record. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
+fileHashes         | Array[String]                            | An array of file hashes that belong to this metadata.
+description        | String                                   | The plain text description of the Codex Record. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
+pendingUpdates     | Array[[Pending Update](#pending-update)] | An array of updates that are currently being processed for this metadata. See [Pending Update](#pending-update) for details. Will be `undefined` if you are not the owner.
+creatorAddress     | String                                   | The Ethereum address of the client / user who created this metadata (not necessarily the current Codex Record owner!)
+descriptionHash    | String                                   | The hash of the plain text description.
+hasPendingUpdates  | Boolean                                  | This flag is true if there is currently a "modify" transaction processing on the blockchain (e.g. after [modifying a Codex Record's metadata](#modify-a-codex-record-39-s-metadata)). This is useful for showing some sort of loading state on a Codex Record while modifications are pending. See [Pending Update](#pending-update) for details.
+codexRecordTokenId | String                                   | The `tokenId` of the Codex Record this metadata belongs to.
+
+
+## Pending Update
+
+```javascript
+{
+  "id": "5bb661ab92d258fdf2efa29b",
+  "name": "Super Duper New Title",
+  "description": "This will replace the current description!",
+  "nameHash": "0x444df25b54a53b842bb2af218e79e8cd2f1efca5c8f7a439451686fb3b825636",
+  "descriptionHash": "0xcb7ab38fbc9919a3b04eabc343d7e649335ad748213df20e65d1979d0d3aa800",
+  "fileHashes": [
+    "0xd7bbfd8fd047f48c6724adb0633059f00f55339ed2fc96a529ef606d6ec76593"
+  ],
+  "mainImage": {
+    // see "File" below
+  },
+  "files": [
+    {
+      // see "File" below
+    }
+  ],
+  "images": [
+    {
+      // see "File" below
+    }
+  ],
+}
+```
+
+Typically generated after [modifying a Codex Record's metadata](#modify-a-codex-record-39-s-metadata),
+a Pending Update represents the new state metadata should have after a "modify"
+transaction has been mined on the blockchain. This process is necessary due to
+the asynchronous nature of blockchain transactions.
+
+Property        | Type                 | Description
+--------------- | -------------------- | ---------------------------------------
+id              | String               | The unique ID of the pending update.
+name            | String               | The new plain text name.
+files           | Array[[File](#file)] | The new array of supplemental files.
+images          | Array[[File](#file)] | The new array of supplemental images.
+nameHash        | String               | The hash of the new plain text name.
+mainImage       | [File](#file)        | The new main image.
+fileHashes      | Array[String]        | An array of file hashes representing all the new files & images.
+description     | String               | The new plain text description.
+descriptionHash | String               | The hash of the new plain text description.
+
+<aside class="success">
+  Since a Pending Update is essentially a "placeholder" for a Codex Record's
+  metadata, the structure is essentially the same.
+</aside>
 
 
 ## Provenance Event
