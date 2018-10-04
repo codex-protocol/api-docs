@@ -209,11 +209,134 @@ Parameter    | Type   | Default   | Description
 ------------ | ------ | --------- | --------------------------------------------------------
 order        | String | createdAt | To sort in reverse order, specify this value as `-createdAt`.
 
+
+## Get a Codex Record's Main Image Only
+
+This endpoint can be used to retrieve _only_ the main image for a specific Codex
+Record. This is useful if you do not need the entire Codex Record document.
+
 <aside class="warning">
-  This route will return <code>null</code> if the Codex Record is private.
+  This route will return <code>null</code> if the Codex Record is private,
+  unless you are the owner or a whitelisted address. See
+  <a href="#privacy">Privacy</a> for details.
 </aside>
 
-<aside class="notice">
-  This route always returns an array, because "provenance" is really a list of
-  events.
+
+```javascript
+import request from 'request'
+
+const options = {
+  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/records/0/main-image',
+  method: 'get',
+  json: true,
+
+  // sort by date created in reverse
+  body: {
+    order: '-createdAt',
+  },
+}
+
+request(options, (error, response) => {
+  console.log(response.body.result) // the mainImage of Codex Record with tokenId 0
+})
+```
+
+> The above API call returns a single [File](#file).
+
+### HTTP Request
+
+`GET /v1/records/:tokenId/main-image`
+
+### URL Parameters
+
+Parameter    | Type   | Description
+------------ | ------ | --------------------------------------------------------
+tokenId      | Number | The `tokenId` of the Codex Record for which to retrieve the main image of.
+
+
+## Get a Codex Record's Images Only
+
+This endpoint can be used to retrieve _only_ the `images` array for a specific
+Codex Record. This is useful if you do not need the entire Codex Record document.
+
+<aside class="warning">
+  This route will return <code>null</code> if the Codex Record is private,
+  unless you are the owner or a whitelisted address. See
+  <a href="#privacy">Privacy</a> for details.
 </aside>
+
+
+```javascript
+import request from 'request'
+
+const options = {
+  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/records/0/images',
+  method: 'get',
+  json: true,
+
+  // sort by date created in reverse
+  body: {
+    order: '-createdAt',
+  },
+}
+
+request(options, (error, response) => {
+  console.log(response.body.result) // the images array of Codex Record with tokenId 0
+})
+```
+
+> The above API call returns an array of [Files](#file).
+
+### HTTP Request
+
+`GET /v1/records/:tokenId/images`
+
+### URL Parameters
+
+Parameter    | Type   | Description
+------------ | ------ | --------------------------------------------------------
+tokenId      | Number | The `tokenId` of the Codex Record for which to retrieve the images array of.
+
+
+## Get a Codex Record's Files Only
+
+This endpoint can be used to retrieve _only_ the `files` array for a specific
+Codex Record. This is useful if you do not need the entire Codex Record document.
+
+<aside class="warning">
+  This route will return <code>null</code> if the Codex Record is private,
+  unless you are the owner or a whitelisted address. See
+  <a href="#privacy">Privacy</a> for details.
+</aside>
+
+
+```javascript
+import request from 'request'
+
+const options = {
+  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/records/0/files',
+  method: 'get',
+  json: true,
+
+  // sort by date created in reverse
+  body: {
+    order: '-createdAt',
+  },
+}
+
+request(options, (error, response) => {
+  console.log(response.body.result) // the files array of Codex Record with tokenId 0
+})
+```
+
+> The above API call returns an array of [Files](#file).
+
+### HTTP Request
+
+`GET /v1/records/:tokenId/files`
+
+### URL Parameters
+
+Parameter    | Type   | Description
+------------ | ------ | --------------------------------------------------------
+tokenId      | Number | The `tokenId` of the Codex Record for which to retrieve the files array of.
