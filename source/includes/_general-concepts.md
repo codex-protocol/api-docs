@@ -46,6 +46,11 @@ codex-coin:registry-contract-approved  | Number                        |
 **@TODO:** talk about how the zero address will be used in provenance events
 
 
+## ERC-721 Tokens
+
+**@TODO:** talk about how ERC-721 tokens, or is this unnecessary?
+
+
 ## Privacy
 
 **@TODO:** talk about how Codex Records are private by default
