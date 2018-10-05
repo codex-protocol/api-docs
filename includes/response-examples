@@ -167,7 +167,7 @@
 <tr>
 <td>whitelistedAddresses</td>
 <td>Array[String]</td>
-<td>An array of Ethereum addresses allowed to view all private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records. Will be <code>undefined</code> if you are not the owner.</td>
+<td>An array of Ethereum addresses allowed to view private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records. Will be <code>undefined</code> if you are not the owner.</td>
 </tr>
 <tr>
 <td>isHistoricalProvenancePrivate</td>

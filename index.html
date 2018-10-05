@@ -281,19 +281,52 @@
                   <li>
                     <a href="#modify-a-codex-record-39-s-metadata" class="toc-h2 toc-link" data-title="Modify a Codex Record's Metadata">Modify a Codex Record's Metadata</a>
                   </li>
+                  <li>
+                    <a href="#start-a-transfer" class="toc-h2 toc-link" data-title="Start a Transfer">Start a Transfer</a>
+                  </li>
+                  <li>
+                    <a href="#cancel-a-transfer" class="toc-h2 toc-link" data-title="Cancel a Transfer">Cancel a Transfer</a>
+                  </li>
+                  <li>
+                    <a href="#accept-a-transfer" class="toc-h2 toc-link" data-title="Accept a Transfer">Accept a Transfer</a>
+                  </li>
+                  <li>
+                    <a href="#ignore-a-transfer" class="toc-h2 toc-link" data-title="Ignore a Transfer">Ignore a Transfer</a>
+                  </li>
+                  <li>
+                    <a href="#get-outgoing-transfers" class="toc-h2 toc-link" data-title="Get Outgoing Transfers">Get Outgoing Transfers</a>
+                  </li>
+                  <li>
+                    <a href="#get-incoming-transfers" class="toc-h2 toc-link" data-title="Get Incoming Transfers">Get Incoming Transfers</a>
+                  </li>
+                  <li>
+                    <a href="#get-a-codex-record-39-s-whitelisted-addresses" class="toc-h2 toc-link" data-title="Get a Codex Record's Whitelisted Addresses">Get a Codex Record's Whitelisted Addresses</a>
+                  </li>
+                  <li>
+                    <a href="#add-an-address-to-a-codex-record-39-s-whitelisted-addresses" class="toc-h2 toc-link" data-title="Add an Address to a Codex Record's Whitelisted Addresses">Add an Address to a Codex Record's Whitelisted Addresses</a>
+                  </li>
+                  <li>
+                    <a href="#remove-an-address-from-a-codex-record-39-s-whitelisted-addresses" class="toc-h2 toc-link" data-title="Remove an Address from a Codex Record's Whitelisted Addresses">Remove an Address from a Codex Record's Whitelisted Addresses</a>
+                  </li>
+                  <li>
+                    <a href="#entirely-replace-a-codex-record-39-s-whitelisted-addresses" class="toc-h2 toc-link" data-title="Entirely Replace a Codex Record's Whitelisted Addresses">Entirely Replace a Codex Record's Whitelisted Addresses</a>
+                  </li>
               </ul>
           </li>
           <li>
             <a href="#general-concepts" class="toc-h1 toc-link" data-title="General Concepts">General Concepts</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#api-requests" class="toc-h2 toc-link" data-title="API Requests">API Requests</a>
+                    <a href="#api-requests-amp-responses" class="toc-h2 toc-link" data-title="API Requests &amp; Responses">API Requests &amp; Responses</a>
                   </li>
                   <li>
                     <a href="#webhooks" class="toc-h2 toc-link" data-title="Webhooks">Webhooks</a>
                   </li>
                   <li>
                     <a href="#gas-allowance" class="toc-h2 toc-link" data-title="Gas Allowance">Gas Allowance</a>
+                  </li>
+                  <li>
+                    <a href="#codx-tokens-amp-fees" class="toc-h2 toc-link" data-title="CODX Tokens &amp; Fees">CODX Tokens &amp; Fees</a>
                   </li>
                   <li>
                     <a href="#zero-address" class="toc-h2 toc-link" data-title="Zero Address">Zero Address</a>
@@ -506,11 +539,6 @@ your <code>accessToken</code> but you are not the owner.)</p>
 <h2 id='get-an-access-token'>Get an Access Token</h2>
 <p>This endpoint can be used to generate an access token, which is required for
 <a href="#making-authenticated-requests">making authenticated requests</a>.</p>
-
-<!--
-  @TODO: is this "warning" class too much? maybe it should just be a "notice",
-  but it feels important to call this out
--->
 
 <aside class="warning">
   When requesting access tokens, you <em>must</em> send the request as
@@ -943,7 +971,7 @@ currently owns.</em></p>
 <td>offset</td>
 <td>Number</td>
 <td>0</td>
-<td>How many records to skip before applying the <code>limit</code>. Use with limit to paginate through Codex Records.</td>
+<td>How many records to skip before applying the <code>limit</code>. Use with <code>limit</code> to paginate through Codex Records.</td>
 </tr>
 <tr>
 <td>order</td>
@@ -1111,7 +1139,7 @@ request, the response will be the immediately-updated Codex Record.</p>
 <tr>
 <td>whitelistedAddresses</td>
 <td>Array[String]</td>
-<td>An array of Ethereum addresses allowed to view all private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records.</td>
+<td>An array of Ethereum addresses allowed to view private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records.</td>
 </tr>
 <tr>
 <td>isHistoricalProvenancePrivate</td>
@@ -1353,27 +1381,684 @@ Codex Record&#39;s images only</a>.</p></li>
   know which File to remove. However, it's perfectly fine to just send the
   entire File object.
 </aside>
+<h2 id='start-a-transfer'>Start a Transfer</h2>
+<p>This endpoint can be used to start the process of transferring a Codex Record to
+another person. Transferring is a two step process, see
+<a href="#transferring-codex-records">Transferring Codex Records</a> for details.</p>
+
+<aside class="success">
+  This is an asynchronous action. When the Codex Record's <code>approvedAddress</code>
+  has been updated on the blockchain and is ready to be
+  <a href="#accept-a-transfer">accepted</a> by the recipient, your application's
+  webhook will be called with the updated Codex Record in the request body. See
+  <a href="#webhooks">webhooks</a> for details.
+</aside>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/transfer/approve'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'put'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
+  <span class="p">},</span>
+
+  <span class="c1">// address and email are mutually exclusive, choose one or the other but not both</span>
+  <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
+    <span class="c1">// email: 'email@example.com',</span>
+    <span class="na">address</span><span class="p">:</span> <span class="s1">'0xf17f52151ebef6c7334fad080c5704d77216b732'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns the <a href="#codex-record">Codex Record</a> being
+transferred, although no data will have changed at this point.</p>
+</blockquote>
+<h3 id='http-request-6'>HTTP Request</h3>
+<p><code>PUT /v1/client/records/:tokenId/transfer/approve</code></p>
+<h3 id='url-parameters-3'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tokenId</td>
+<td>Number</td>
+<td>The <code>tokenId</code> of the Codex Record to transfer.</td>
+</tr>
+</tbody></table>
+<h3 id='query-parameters-5'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>email</td>
+<td>String</td>
+<td><em>(Required if <code>address</code> is not specified)</em> The email address of the person to transfer this record to.</td>
+</tr>
+<tr>
+<td>address</td>
+<td>String</td>
+<td><em>(Required if <code>email</code> is not specified)</em> The Ethereum address of the person to transfer this record to.</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+  The two parameters accepted by this route are mutually exclusive, i.e. if you
+  specify <code>email</code>, then <code>address</code> must not also be
+  specified and vice versa. This restriction is necessary because
+  <code>email</code> and <code>address</code> may identify two different people.
+</aside>
+
+<aside class="warning">
+  Currently this route will throw an error if <code>email</code> does not belong
+  to a registered user (i.e someone who as already logged into the Codex Viewer
+  with that email address.) However, passing a valid Ethereum address will
+  always succeed.
+
+  <br><br>
+
+  We plan to extend API functionality to eventually support transferring to
+  non-registered email address.
+</aside>
+<h2 id='cancel-a-transfer'>Cancel a Transfer</h2>
+<p>This endpoint can be used to stop the process of transferring a Codex Record to
+another person. This essentially removes the currently set <code>approvedAddress</code>,
+preventing that address from accepting the transfer (and removing it from their
+<a href="get-incoming-transfers">incoming transfers</a> list.) See
+<a href="#transferring-codex-records">Transferring Codex Records</a> for details.</p>
+
+<aside class="success">
+  This is an asynchronous action. When the Codex Record's <code>approvedAddress</code>
+  has been updated and logged on the blockchain, your application's webhook will
+  be called with the updated Codex Record in the request body. See
+  <a href="#webhooks">webhooks</a> for details.
+</aside>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/transfer/cancel'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'put'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns the <a href="#codex-record">Codex Record</a> for which the
+transfer is being cancelled, although no data will have changed at this point.</p>
+</blockquote>
+<h3 id='http-request-7'>HTTP Request</h3>
+<p><code>PUT /v1/client/records/:tokenId/transfer/cancel</code></p>
+<h3 id='url-parameters-4'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tokenId</td>
+<td>Number</td>
+<td>The <code>tokenId</code> of the Codex Record for which to cancel the transfer of.</td>
+</tr>
+</tbody></table>
+<h2 id='accept-a-transfer'>Accept a Transfer</h2>
+<p>This endpoint can be used to accept an incoming transfer of a Codex Record. See
+<a href="#transferring-codex-records">Transferring Codex Records</a> for details.</p>
+
+<aside class="success">
+  This is an asynchronous action. When the Codex Record has been successfully
+  transferred to your address and logged on the blockchain, your application's
+  webhook will be called with the updated Codex Record in the request body. See
+  <a href="#webhooks">webhooks</a> for details.
+</aside>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/transfer/accept'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'put'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns the <a href="#codex-record">Codex Record</a> for which the
+transfer is being accepted, although no data will have changed at this point.</p>
+</blockquote>
+<h3 id='http-request-8'>HTTP Request</h3>
+<p><code>PUT /v1/client/records/:tokenId/transfer/accept</code></p>
+<h3 id='url-parameters-5'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tokenId</td>
+<td>Number</td>
+<td>The <code>tokenId</code> of the Codex Record for which to accept the transfer of.</td>
+</tr>
+</tbody></table>
+<h2 id='ignore-a-transfer'>Ignore a Transfer</h2>
+<p>This endpoint can be used to mark an incoming transfer as &quot;ignored&quot;. This is
+useful to (visually) remove a transfer from your <a href="get-incoming-transfers">incoming transfers</a>
+list without accepting it, because there&#39;s no blockchain mechanism to explicitly
+reject a transfer. See <a href="#transferring-codex-records">Transferring Codex Records</a>
+for details.</p>
+
+<p>This route sets the Codex Record&#39;s <code>isIgnored</code> property to <code>true</code>. See <a href="#codex-record">Codex
+Record</a> for details.</p>
+
+<aside class="success">
+  This route does not modify any "<a href="#quot-off-chain-quot-vs-quot-on-chain-quot-data">on-chain</a>"
+  data, so the response will be the immediately-updated Codex Record.
+</aside>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/transfer/ignore'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'put'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// the immediately-updated Codex Record</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns the immediately-updated <a href="#codex-record">Codex Record</a>,
+with <code>isIgnored</code> set to <code>true</code>.</p>
+</blockquote>
+<h3 id='http-request-9'>HTTP Request</h3>
+<p><code>PUT /v1/client/records/:tokenId/transfer/ignore</code></p>
+<h3 id='url-parameters-6'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tokenId</td>
+<td>Number</td>
+<td>The <code>tokenId</code> of the Codex Record for which to ignore the transfer of.</td>
+</tr>
+</tbody></table>
+<h2 id='get-outgoing-transfers'>Get Outgoing Transfers</h2>
+<p>This endpoint can be used to retrieve a list of your application&#39;s outgoing
+transfers. Outgoing transfers are Codex Records that your application is owner
+of, which also have an <code>approvedAddress</code> set. See <a href="#transferring-codex-records">Transferring Codex Records</a>
+for details.</p>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/transfers/outgoing'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
+  <span class="p">},</span>
+
+  <span class="c1">// sort by date created in reverse and get 5 records, skipping the first ten</span>
+  <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">limit</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="na">offset</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="na">order</span><span class="p">:</span> <span class="s1">'-createdAt'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// your application's outgoing transfers</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns an array of <a href="#codex-record">Codex Records</a>.</p>
+</blockquote>
+<h3 id='http-request-10'>HTTP Request</h3>
+<p><code>GET /v1/client/transfers/outgoing</code></p>
+<h3 id='query-parameters-6'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>limit</td>
+<td>Number</td>
+<td>100</td>
+<td>How many records to retrieve. Use with <code>offset</code> to paginate through outgoing transfers.</td>
+</tr>
+<tr>
+<td>offset</td>
+<td>Number</td>
+<td>0</td>
+<td>How many records to skip before applying the <code>limit</code>. Use with <code>limit</code> to paginate through outgoing transfers.</td>
+</tr>
+<tr>
+<td>order</td>
+<td>String</td>
+<td>createdAt</td>
+<td>To sort in reverse order, specify this value as <code>-createdAt</code>.</td>
+</tr>
+</tbody></table>
+<h2 id='get-incoming-transfers'>Get Incoming Transfers</h2>
+<p>This endpoint can be used to retrieve a list of your application&#39;s incoming
+transfers. Incoming transfers are Codex Records that your application does not
+own, which also have their <code>approvedAddress</code> property set to your application&#39;s
+Ethereum address. See <a href="#transferring-codex-records">Transferring Codex Records</a>
+for details.</p>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/transfers/incoming'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
+  <span class="p">},</span>
+
+  <span class="c1">// sort by date created in reverse and get 5 records, skipping the first ten</span>
+  <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">limit</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="na">offset</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="na">order</span><span class="p">:</span> <span class="s1">'-createdAt'</span><span class="p">,</span>
+
+    <span class="c1">// don't return ignored transfers</span>
+    <span class="na">filters</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">isIgnored</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="p">},</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// your application's incoming transfers</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns an array of <a href="#codex-record">Codex Records</a>.</p>
+</blockquote>
+<h3 id='http-request-11'>HTTP Request</h3>
+<p><code>GET /v1/client/transfers/incoming</code></p>
+<h3 id='query-parameters-7'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>limit</td>
+<td>Number</td>
+<td>100</td>
+<td>How many records to retrieve. Use with <code>offset</code> to paginate through incoming transfers.</td>
+</tr>
+<tr>
+<td>offset</td>
+<td>Number</td>
+<td>0</td>
+<td>How many records to skip before applying the <code>limit</code>. Use with <code>limit</code> to paginate through incoming transfers.</td>
+</tr>
+<tr>
+<td>order</td>
+<td>String</td>
+<td>createdAt</td>
+<td>To sort in reverse order, specify this value as <code>-createdAt</code>.</td>
+</tr>
+<tr>
+<td>filters[isIgnored]</td>
+<td>Boolean</td>
+<td></td>
+<td>This can be used to return only ignored transfers (when <code>true</code>), or only non-ignored transfers (when <code>false</code>).</td>
+</tr>
+</tbody></table>
+<h2 id='get-a-codex-record-39-s-whitelisted-addresses'>Get a Codex Record&#39;s Whitelisted Addresses</h2>
+<p>This endpoint can be used to retrieve a Codex Record&#39;s <code>whitelistedAddresses</code>
+property, an array of Ethereum addresses allowed to view private metadata for
+this Codex Record. See <a href="#whitelisted-addresses">Whitelisted Addresses</a> for
+details.</p>
+
+<aside class="notice">
+  The <code>whitelistedAddresses</code> array allows users to give people
+  read-only access to their Codex Records. This property is only visible to the
+  owner of a Codex Record, and is reset to an empty array when transferred.
+</aside>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/whitelisted-addresses'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// the whitelistedAddresses array for this Codex Record</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns an array of Ethereum addresses (strings).</p>
+</blockquote>
+<h3 id='http-request-12'>HTTP Request</h3>
+<p><code>GET /v1/client/records/:tokenId/whitelisted-addresses</code></p>
+<h3 id='url-parameters-7'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tokenId</td>
+<td>Number</td>
+<td>The <code>tokenId</code> of the Codex Record for which to the whitelisted addresses of.</td>
+</tr>
+</tbody></table>
+<h2 id='add-an-address-to-a-codex-record-39-s-whitelisted-addresses'>Add an Address to a Codex Record&#39;s Whitelisted Addresses</h2>
+<p>This endpoint can be used to add a single Ethereum address to a Codex Record&#39;s
+<code>whitelistedAddresses</code> array. The address is then allowed to view private
+metadata for this Codex Record, effectively giving them read-only access. See
+<a href="#whitelisted-addresses">Whitelisted Addresses</a> for details.</p>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/whitelisted-addresses'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
+  <span class="p">},</span>
+
+  <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">address</span><span class="p">:</span> <span class="s1">'0xf17f52151ebef6c7334fad080c5704d77216b732'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// the updated whitelistedAddresses array for this Codex Record</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns the updated <code>whitelistedAddresses</code> array.</p>
+</blockquote>
+<h3 id='http-request-13'>HTTP Request</h3>
+<p><code>POST /v1/client/records/:tokenId/whitelisted-addresses</code></p>
+<h3 id='url-parameters-8'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tokenId</td>
+<td>Number</td>
+<td>The <code>tokenId</code> of the Codex Record for which to the whitelisted addresses of.</td>
+</tr>
+</tbody></table>
+<h3 id='query-parameters-8'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>The Ethereum address to add to the list of whitelisted addresses.</td>
+</tr>
+</tbody></table>
+<h2 id='remove-an-address-from-a-codex-record-39-s-whitelisted-addresses'>Remove an Address from a Codex Record&#39;s Whitelisted Addresses</h2>
+<p>This endpoint can be used to remove a single Ethereum address from a Codex
+Record&#39;s <code>whitelistedAddresses</code> array, revoking their ability to view the
+private metadata. See <a href="#whitelisted-addresses">Whitelisted Addresses</a> for
+details.</p>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/whitelisted-addresses'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'delete'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
+  <span class="p">},</span>
+
+  <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">address</span><span class="p">:</span> <span class="s1">'0xf17f52151ebef6c7334fad080c5704d77216b732'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// the updated whitelistedAddresses array for this Codex Record</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns the updated <code>whitelistedAddresses</code> array.</p>
+</blockquote>
+<h3 id='http-request-14'>HTTP Request</h3>
+<p><code>DELETE /v1/client/records/:tokenId/whitelisted-addresses</code></p>
+<h3 id='url-parameters-9'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tokenId</td>
+<td>Number</td>
+<td>The <code>tokenId</code> of the Codex Record for which to the whitelisted addresses of.</td>
+</tr>
+</tbody></table>
+<h3 id='query-parameters-9'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>address</td>
+<td>String</td>
+<td>The Ethereum address to remove from the list of whitelisted addresses.</td>
+</tr>
+</tbody></table>
+<h2 id='entirely-replace-a-codex-record-39-s-whitelisted-addresses'>Entirely Replace a Codex Record&#39;s Whitelisted Addresses</h2>
+<p>This endpoint can be used to entirely replace a Codex Record&#39;s
+<code>whitelistedAddresses</code> array, instead of <a href="#add-an-address-to-a-codex-record-39-s-whitelisted-addresses">adding</a> and <a href="#remove-an-address-from-a-codex-record-39-s-whitelisted-addresses">removing</a> one-by-one.
+See <a href="#whitelisted-addresses">Whitelisted Addresses</a> for details.</p>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/whitelisted-addresses'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'put'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
+  <span class="p">},</span>
+
+  <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">addresses</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s1">'0x821aea9a577a9b44299b9c15c88cf3087f3b5544'</span><span class="p">,</span>
+      <span class="s1">'0x0d1d4e623d10f9fba5db95830f7d3839406c6af2'</span><span class="p">,</span>
+      <span class="s1">'0x2932b7a2355d6fecc4b5c0b6bd44cc31df247a2e'</span><span class="p">,</span>
+      <span class="s1">'0x2191ef87e392377ec08e7c08eb105ef5448eced5'</span><span class="p">,</span>
+      <span class="s1">'0x0f4f2ac550a1b4e2280d04c21cea7ebd822934b5'</span><span class="p">,</span>
+    <span class="p">],</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// the updated whitelistedAddresses array for this Codex Record</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns an array of Ethereum addresses (strings).</p>
+</blockquote>
+<h3 id='http-request-15'>HTTP Request</h3>
+<p><code>PUT /v1/client/records/:tokenId/whitelisted-addresses</code></p>
+<h3 id='url-parameters-10'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tokenId</td>
+<td>Number</td>
+<td>The <code>tokenId</code> of the Codex Record for which to the whitelisted addresses of.</td>
+</tr>
+</tbody></table>
+<h3 id='query-parameters-10'>Query Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>addresses</td>
+<td>Array[String]</td>
+<td>An array of Ethereum addresses to replace the current whitelisted addresses with.</td>
+</tr>
+</tbody></table>
 <h1 id='general-concepts'>General Concepts</h1>
 <p>This section explains miscellaneous concepts referenced throughout this
 documentation.</p>
-<h2 id='api-requests'>API Requests</h2>
-<p><strong>@TODO:</strong> talk about the various ways you can make API calls</p>
+<h2 id='api-requests-amp-responses'>API Requests &amp; Responses</h2>
+<p><strong>@TODO:</strong> talk about the various ways you can make API calls, also response
+structure</p>
 <h2 id='webhooks'>Webhooks</h2>
 <p><strong>@TODO:</strong> talk about asynchronous blockchain transactions, webhook request
-structure, and list all events</p>
+structure, and describe all events</p>
+<h3 id='webhook-events'>Webhook Events</h3>
+<table><thead>
+<tr>
+<th>Event Name</th>
+<th>Payload</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>codex-record:minted</td>
+<td><a href="#codex-record">Codex Record</a></td>
+<td></td>
+</tr>
+<tr>
+<td>codex-record:modified</td>
+<td><a href="#codex-record">Codex Record</a></td>
+<td></td>
+</tr>
+<tr>
+<td>codex-record:address-whitelisted</td>
+<td><a href="#codex-record">Codex Record</a></td>
+<td></td>
+</tr>
+<tr>
+<td>codex-record:transferred:new-owner</td>
+<td><a href="#codex-record">Codex Record</a></td>
+<td></td>
+</tr>
+<tr>
+<td>codex-record:transferred:old-owner</td>
+<td><a href="#codex-record">Codex Record</a></td>
+<td></td>
+</tr>
+<tr>
+<td>codex-record:address-approved:owner</td>
+<td><a href="#codex-record">Codex Record</a></td>
+<td></td>
+</tr>
+<tr>
+<td>codex-record:address-approved:cancel</td>
+<td><a href="#codex-record">Codex Record</a></td>
+<td></td>
+</tr>
+<tr>
+<td>codex-record:address-approved:approved</td>
+<td><a href="#codex-record">Codex Record</a></td>
+<td></td>
+</tr>
+<tr>
+<td>codex-coin:transferred</td>
+<td>Number</td>
+<td></td>
+</tr>
+<tr>
+<td>codex-coin:registry-contract-approved</td>
+<td>Number</td>
+<td></td>
+</tr>
+</tbody></table>
 <h2 id='gas-allowance'>Gas Allowance</h2>
 <p><strong>@TODO:</strong> talk about gas allowances and when they reset, also list some gas metrics</p>
+<h2 id='codx-tokens-amp-fees'>CODX Tokens &amp; Fees</h2>
+<p><strong>@TODO:</strong> talk about CODX and fees</p>
 <h2 id='zero-address'>Zero Address</h2>
 <p><strong>@TODO:</strong> talk about how the zero address will be used in provenance events</p>
 <h2 id='privacy'>Privacy</h2>
-<p><strong>@TODO:</strong> talk about how Codex Records are private by default, also about
-permissions / approved addresses / whitelisted addresses / etc</p>
-<h2 id='historical-provenance'>Historical Provenance</h2>
+<p><strong>@TODO:</strong> talk about how Codex Records are private by default</p>
+<h3 id='permissions'>Permissions</h3><h3 id='approved-addresses'>Approved Addresses</h3><h3 id='whitelisted-addresses'>Whitelisted Addresses</h3><h2 id='historical-provenance'>Historical Provenance</h2>
 <p><strong>@TODO:</strong> talk about the <code>files</code> array in a Codex Record&#39;s metadata</p>
 <h2 id='quot-off-chain-quot-vs-quot-on-chain-quot-data'>&quot;Off-Chain&quot; vs &quot;On-Chain&quot; Data</h2>
 <p><strong>@TODO:</strong> talk about a Codex Record vs it&#39;s metadata during creation &amp; modification</p>
 <h2 id='transferring-codex-records'>Transferring Codex Records</h2>
-<p><strong>@TODO:</strong> talk about the two-step transfer process</p>
+<p><strong>@TODO:</strong> talk about the two-step transfer process, what gets reset on transfer</p>
 <h1 id='response-examples'>Response Examples</h1>
 <p><strong>@TODO:</strong> write about general response structure here</p>
 
@@ -1543,7 +2228,7 @@ permissions / approved addresses / whitelisted addresses / etc</p>
 <tr>
 <td>whitelistedAddresses</td>
 <td>Array[String]</td>
-<td>An array of Ethereum addresses allowed to view all private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records. Will be <code>undefined</code> if you are not the owner.</td>
+<td>An array of Ethereum addresses allowed to view private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records. Will be <code>undefined</code> if you are not the owner.</td>
 </tr>
 <tr>
 <td>isHistoricalProvenancePrivate</td>
@@ -1948,6 +2633,8 @@ transfer process, whitelisted addresses, ERC-721 etc</li>
 </ul></li>
 <li>ensure all links have anchors</li>
 <li>document ProvenanceEvent.codexRecordModifiedEvent?</li>
+<li>add the names of webhook events in their route descriptions</li>
+<li>list errors per-route?</li>
 </ul>
 
       </div>
