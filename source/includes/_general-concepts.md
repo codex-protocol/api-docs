@@ -13,7 +13,22 @@ structure
 ## Webhooks
 
 **@TODO:** talk about asynchronous blockchain transactions, webhook request
-structure, and list all events
+structure, and describe all events
+
+### Webhook Events
+
+Event Name                             | Payload                       | Description
+-------------------------------------- | ----------------------------- | -----------
+codex-record:minted                    | [Codex Record](#codex-record) |
+codex-record:modified                  | [Codex Record](#codex-record) |
+codex-record:address-whitelisted       | [Codex Record](#codex-record) |
+codex-record:transferred:new-owner     | [Codex Record](#codex-record) |
+codex-record:transferred:old-owner     | [Codex Record](#codex-record) |
+codex-record:address-approved:owner    | [Codex Record](#codex-record) |
+codex-record:address-approved:cancel   | [Codex Record](#codex-record) |
+codex-record:address-approved:approved | [Codex Record](#codex-record) |
+codex-coin:transferred                 | Number                        |
+codex-coin:registry-contract-approved  | Number                        |
 
 
 ## Gas Allowance
