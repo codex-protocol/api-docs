@@ -422,3 +422,513 @@ To remove files and/or images from a Codex Record, follow these steps:
   know which File to remove. However, it's perfectly fine to just send the
   entire File object.
 </aside>
+
+
+## Start a Transfer
+
+This endpoint can be used to start the process of transferring a Codex Record to
+another person. Transferring is a two step process, see
+[Transferring Codex Records](#transferring-codex-records) for details.
+
+<aside class="success">
+  This is an asynchronous action. When the Codex Record's <code>approvedAddress</code>
+  has been updated on the blockchain and is ready to be
+  <a href="#accept-a-transfer">accepted</a> by the recipient, your application's
+  webhook will be called with the updated Codex Record in the request body. See
+  <a href="#webhooks">webhooks</a> for details.
+</aside>
+
+```javascript
+import request from 'request'
+
+const options = {
+  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/transfer/approve',
+  method: 'put',
+  json: true,
+
+  headers: {
+    Authorization: 'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e',
+  },
+
+  // address and email are mutually exclusive, choose one or the other but not both
+  body: {
+    // email: 'email@example.com',
+    address: '0xf17f52151ebef6c7334fad080c5704d77216b732',
+  },
+}
+
+request(options, (error, response) => {
+  console.log(response.body.result)
+})
+```
+
+> The above API call returns the [Codex Record](#codex-record) being
+transferred, although no data will have changed at this point.
+
+### HTTP Request
+
+`PUT /v1/client/records/:tokenId/transfer/approve`
+
+### URL Parameters
+
+Parameter    | Type   | Description
+------------ | ------ | --------------------------------------------------------
+tokenId      | Number | The `tokenId` of the Codex Record to transfer.
+
+### Query Parameters
+
+Parameter    | Type   | Description
+------------ | ------ | --------------------------------------------------------
+email        | String | _(Required if `address` is not specified)_ The email address of the person to transfer this record to.
+address      | String | _(Required if `email` is not specified)_ The Ethereum address of the person to transfer this record to.
+
+<aside class="notice">
+  The two parameters accepted by this route are mutually exclusive, i.e. if you
+  specify <code>email</code>, then <code>address</code> must not also be
+  specified and vice versa. This restriction is necessary because
+  <code>email</code> and <code>address</code> may identify two different people.
+</aside>
+
+<aside class="warning">
+  Currently this route will throw an error if <code>email</code> does not belong
+  to a registered user (i.e someone who as already logged into the Codex Viewer
+  with that email address.) However, passing a valid Ethereum address will
+  always succeed.
+
+  <br><br>
+
+  We plan to extend API functionality to eventually support transferring to
+  non-registered email address.
+</aside>
+
+## Cancel a Transfer
+
+This endpoint can be used to stop the process of transferring a Codex Record to
+another person. This essentially removes the currently set `approvedAddress`,
+preventing that address from accepting the transfer (and removing it from their
+[incoming transfers](get-incoming-transfers) list.) See
+[Transferring Codex Records](#transferring-codex-records) for details.
+
+<aside class="success">
+  This is an asynchronous action. When the Codex Record's <code>approvedAddress</code>
+  has been updated and logged on the blockchain, your application's webhook will
+  be called with the updated Codex Record in the request body. See
+  <a href="#webhooks">webhooks</a> for details.
+</aside>
+
+```javascript
+import request from 'request'
+
+const options = {
+  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/transfer/cancel',
+  method: 'put',
+  json: true,
+
+  headers: {
+    Authorization: 'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e',
+  },
+}
+
+request(options, (error, response) => {
+  console.log(response.body.result)
+})
+```
+
+> The above API call returns the [Codex Record](#codex-record) for which the
+transfer is being cancelled, although no data will have changed at this point.
+
+### HTTP Request
+
+`PUT /v1/client/records/:tokenId/transfer/cancel`
+
+### URL Parameters
+
+Parameter    | Type   | Description
+------------ | ------ | --------------------------------------------------------
+tokenId      | Number | The `tokenId` of the Codex Record for which to cancel the transfer of.
+
+
+## Accept a Transfer
+
+This endpoint can be used to accept an incoming transfer of a Codex Record. See
+[Transferring Codex Records](#transferring-codex-records) for details.
+
+<aside class="success">
+  This is an asynchronous action. When the Codex Record has been successfully
+  transferred to your address and logged on the blockchain, your application's
+  webhook will be called with the updated Codex Record in the request body. See
+  <a href="#webhooks">webhooks</a> for details.
+</aside>
+
+```javascript
+import request from 'request'
+
+const options = {
+  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/transfer/accept',
+  method: 'put',
+  json: true,
+
+  headers: {
+    Authorization: 'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e',
+  },
+}
+
+request(options, (error, response) => {
+  console.log(response.body.result)
+})
+```
+
+> The above API call returns the [Codex Record](#codex-record) for which the
+transfer is being accepted, although no data will have changed at this point.
+
+### HTTP Request
+
+`PUT /v1/client/records/:tokenId/transfer/accept`
+
+### URL Parameters
+
+Parameter    | Type   | Description
+------------ | ------ | --------------------------------------------------------
+tokenId      | Number | The `tokenId` of the Codex Record for which to accept the transfer of.
+
+
+## Ignore a Transfer
+
+This endpoint can be used to mark an incoming transfer as "ignored". This is
+useful to (visually) remove a transfer from your [incoming transfers](get-incoming-transfers)
+list without accepting it, because there's no blockchain mechanism to explicitly
+reject a transfer. See [Transferring Codex Records](#transferring-codex-records)
+for details.
+
+This route sets the Codex Record's `isIgnored` property to `true`. See [Codex
+Record](#codex-record) for details.
+
+<aside class="success">
+  This route does not modify any "<a href="#quot-off-chain-quot-vs-quot-on-chain-quot-data">on-chain</a>"
+  data, so the response will be the immediately-updated Codex Record.
+</aside>
+
+```javascript
+import request from 'request'
+
+const options = {
+  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/transfer/ignore',
+  method: 'put',
+  json: true,
+
+  headers: {
+    Authorization: 'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e',
+  },
+}
+
+request(options, (error, response) => {
+  console.log(response.body.result) // the immediately-updated Codex Record
+})
+```
+
+> The above API call returns the immediately-updated [Codex Record](#codex-record),
+with `isIgnored` set to `true`.
+
+### HTTP Request
+
+`PUT /v1/client/records/:tokenId/transfer/ignore`
+
+### URL Parameters
+
+Parameter    | Type   | Description
+------------ | ------ | --------------------------------------------------------
+tokenId      | Number | The `tokenId` of the Codex Record for which to ignore the transfer of.
+
+
+## Get Outgoing Transfers
+
+This endpoint can be used to retrieve a list of your application's outgoing
+transfers. Outgoing transfers are Codex Records that your application is owner
+of, which also have an `approvedAddress` set. See [Transferring Codex Records](#transferring-codex-records)
+for details.
+
+```javascript
+import request from 'request'
+
+const options = {
+  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/transfers/outgoing',
+  method: 'get',
+  json: true,
+
+  headers: {
+    Authorization: 'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e',
+  },
+
+  // sort by date created in reverse and get 5 records, skipping the first ten
+  body: {
+    limit: 5,
+    offset: 10,
+    order: '-createdAt',
+  },
+}
+
+request(options, (error, response) => {
+  console.log(response.body.result) // your application's outgoing transfers
+})
+```
+
+> The above API call returns an array of [Codex Records](#codex-record).
+
+### HTTP Request
+
+`GET /v1/client/transfers/outgoing`
+
+### Query Parameters
+
+Parameter    | Type   | Default   | Description
+------------ | ------ | --------- | --------------------------------------------
+limit        | Number | 100       | How many records to retrieve. Use with `offset` to paginate through outgoing transfers.
+offset       | Number | 0         | How many records to skip before applying the `limit`. Use with `limit` to paginate through outgoing transfers.
+order        | String | createdAt | To sort in reverse order, specify this value as `-createdAt`.
+
+
+## Get Incoming Transfers
+
+This endpoint can be used to retrieve a list of your application's incoming
+transfers. Incoming transfers are Codex Records that your application does not
+own, which also have their `approvedAddress` property set to your application's
+Ethereum address. See [Transferring Codex Records](#transferring-codex-records)
+for details.
+
+```javascript
+import request from 'request'
+
+const options = {
+  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/transfers/incoming',
+  method: 'get',
+  json: true,
+
+  headers: {
+    Authorization: 'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e',
+  },
+
+  // sort by date created in reverse and get 5 records, skipping the first ten
+  body: {
+    limit: 5,
+    offset: 10,
+    order: '-createdAt',
+
+    // don't return ignored transfers
+    filters: {
+      isIgnored: false,
+    },
+  },
+}
+
+request(options, (error, response) => {
+  console.log(response.body.result) // your application's incoming transfers
+})
+```
+
+> The above API call returns an array of [Codex Records](#codex-record).
+
+### HTTP Request
+
+`GET /v1/client/transfers/incoming`
+
+### Query Parameters
+
+Parameter          | Type    | Default   | Description
+------------------ | ------- | --------- | -------------------------------------
+limit              | Number  | 100       | How many records to retrieve. Use with `offset` to paginate through incoming transfers.
+offset             | Number  | 0         | How many records to skip before applying the `limit`. Use with `limit` to paginate through incoming transfers.
+order              | String  | createdAt | To sort in reverse order, specify this value as `-createdAt`.
+filters[isIgnored] | Boolean |           | This can be used to return only ignored transfers (when `true`), or only non-ignored transfers (when `false`).
+
+
+## Get a Codex Record's Whitelisted Addresses
+
+This endpoint can be used to retrieve a Codex Record's `whitelistedAddresses`
+property, an array of Ethereum addresses allowed to view private metadata for
+this Codex Record. See [Whitelisted Addresses](#whitelisted-addresses) for
+details.
+
+<aside class="notice">
+  The <code>whitelistedAddresses</code> array allows users to give people
+  read-only access to their Codex Records. This property is only visible to the
+  owner of a Codex Record, and is reset to an empty array when transferred.
+</aside>
+
+```javascript
+import request from 'request'
+
+const options = {
+  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/whitelisted-addresses',
+  method: 'get',
+  json: true,
+
+  headers: {
+    Authorization: 'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e',
+  },
+}
+
+request(options, (error, response) => {
+  console.log(response.body.result) // the whitelistedAddresses array for this Codex Record
+})
+```
+
+> The above API call returns an array of Ethereum addresses (strings).
+
+### HTTP Request
+
+`GET /v1/client/records/:tokenId/whitelisted-addresses`
+
+### URL Parameters
+
+Parameter    | Type   | Description
+------------ | ------ | --------------------------------------------------------
+tokenId      | Number | The `tokenId` of the Codex Record for which to the whitelisted addresses of.
+
+
+## Add an Address to a Codex Record's Whitelisted Addresses
+
+This endpoint can be used to add a single Ethereum address to a Codex Record's
+`whitelistedAddresses` array. The address is then allowed to view private
+metadata for this Codex Record, effectively giving them read-only access. See
+[Whitelisted Addresses](#whitelisted-addresses) for details.
+
+```javascript
+import request from 'request'
+
+const options = {
+  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/whitelisted-addresses',
+  method: 'get',
+  json: true,
+
+  headers: {
+    Authorization: 'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e',
+  },
+
+  body: {
+    address: '0xf17f52151ebef6c7334fad080c5704d77216b732',
+  },
+}
+
+request(options, (error, response) => {
+  console.log(response.body.result) // the updated whitelistedAddresses array for this Codex Record
+})
+```
+
+> The above API call returns the updated `whitelistedAddresses` array.
+
+### HTTP Request
+
+`POST /v1/client/records/:tokenId/whitelisted-addresses`
+
+### URL Parameters
+
+Parameter    | Type   | Description
+------------ | ------ | --------------------------------------------------------
+tokenId      | Number | The `tokenId` of the Codex Record for which to the whitelisted addresses of.
+
+### Query Parameters
+
+Parameter    | Type   | Description
+------------ | ------ | --------------------------------------------------------
+address      | String | The Ethereum address to add to the list of whitelisted addresses.
+
+
+## Remove an Address from a Codex Record's Whitelisted Addresses
+
+This endpoint can be used to remove a single Ethereum address from a Codex
+Record's `whitelistedAddresses` array, revoking their ability to view the
+private metadata. See [Whitelisted Addresses](#whitelisted-addresses) for
+details.
+
+```javascript
+import request from 'request'
+
+const options = {
+  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/whitelisted-addresses',
+  method: 'delete',
+  json: true,
+
+  headers: {
+    Authorization: 'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e',
+  },
+
+  body: {
+    address: '0xf17f52151ebef6c7334fad080c5704d77216b732',
+  },
+}
+
+request(options, (error, response) => {
+  console.log(response.body.result) // the updated whitelistedAddresses array for this Codex Record
+})
+```
+
+> The above API call returns the updated `whitelistedAddresses` array.
+
+### HTTP Request
+
+`DELETE /v1/client/records/:tokenId/whitelisted-addresses`
+
+### URL Parameters
+
+Parameter    | Type   | Description
+------------ | ------ | --------------------------------------------------------
+tokenId      | Number | The `tokenId` of the Codex Record for which to the whitelisted addresses of.
+
+### Query Parameters
+
+Parameter    | Type   | Description
+------------ | ------ | --------------------------------------------------------
+address      | String | The Ethereum address to remove from the list of whitelisted addresses.
+
+
+## Entirely Replace a Codex Record's Whitelisted Addresses
+
+This endpoint can be used to entirely replace a Codex Record's
+`whitelistedAddresses` array, instead of [adding](#add-an-address-to-a-codex-record-39-s-whitelisted-addresses) and [removing](#remove-an-address-from-a-codex-record-39-s-whitelisted-addresses) one-by-one.
+See [Whitelisted Addresses](#whitelisted-addresses) for details.
+
+```javascript
+import request from 'request'
+
+const options = {
+  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/whitelisted-addresses',
+  method: 'put',
+  json: true,
+
+  headers: {
+    Authorization: 'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e',
+  },
+
+  body: {
+    addresses: [
+      '0x821aea9a577a9b44299b9c15c88cf3087f3b5544',
+      '0x0d1d4e623d10f9fba5db95830f7d3839406c6af2',
+      '0x2932b7a2355d6fecc4b5c0b6bd44cc31df247a2e',
+      '0x2191ef87e392377ec08e7c08eb105ef5448eced5',
+      '0x0f4f2ac550a1b4e2280d04c21cea7ebd822934b5',
+    ],
+  }
+}
+
+request(options, (error, response) => {
+  console.log(response.body.result) // the updated whitelistedAddresses array for this Codex Record
+})
+```
+
+> The above API call returns an array of Ethereum addresses (strings).
+
+### HTTP Request
+
+`PUT /v1/client/records/:tokenId/whitelisted-addresses`
+
+### URL Parameters
+
+Parameter    | Type   | Description
+------------ | ------ | --------------------------------------------------------
+tokenId      | Number | The `tokenId` of the Codex Record for which to the whitelisted addresses of.
+
+### Query Parameters
+
+Parameter    | Type          | Description
+------------ | ------------- | -------------------------------------------------
+addresses    | Array[String] | An array of Ethereum addresses to replace the current whitelisted addresses with.
