@@ -87,7 +87,7 @@ request(options, (error, response) => {
 Parameter    | Type   | Default   | Description
 ------------ | ------ | --------- | --------------------------------------------
 limit        | Number | 100       | How many records to retrieve. Use with `offset` to paginate through Codex Records.
-offset       | Number | 0         | How many records to skip before applying the `limit`. Use with limit to paginate through Codex Records.
+offset       | Number | 0         | How many records to skip before applying the `limit`. Use with `limit` to paginate through Codex Records.
 order        | String | createdAt | To sort in reverse order, specify this value as `-createdAt`.
 
 
@@ -218,7 +218,7 @@ At least one of the following query parameters is required for this route:
 Parameter                     | Type          | Description
 ----------------------------- | ------------- | --------------------------------
 isPrivate                     | Boolean       | This flag indicates that the metadata for the Codex Record is private and can only be retrieved by the owner, the `approvedAddress`, and the addresses listed in `whitelistedAddresses`.
-whitelistedAddresses          | Array[String] | An array of Ethereum addresses allowed to view all private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records.
+whitelistedAddresses          | Array[String] | An array of Ethereum addresses allowed to view private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records.
 isHistoricalProvenancePrivate | Boolean       | This flag indicates whether or not [historical provenance](#historical-provenance) (i.e. `metadata.files`) should be hidden, regardless of the value of `isPrivate`.
 
 <aside class="warning">

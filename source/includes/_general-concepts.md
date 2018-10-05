@@ -4,9 +4,10 @@ This section explains miscellaneous concepts referenced throughout this
 documentation.
 
 
-## API Requests
+## API Requests & Responses
 
-**@TODO:** talk about the various ways you can make API calls
+**@TODO:** talk about the various ways you can make API calls, also response
+structure
 
 
 ## Webhooks
@@ -20,6 +21,11 @@ structure, and list all events
 **@TODO:** talk about gas allowances and when they reset, also list some gas metrics
 
 
+## CODX Tokens & Fees
+
+**@TODO:** talk about CODX and fees
+
+
 ## Zero Address
 
 **@TODO:** talk about how the zero address will be used in provenance events
@@ -27,8 +33,13 @@ structure, and list all events
 
 ## Privacy
 
-**@TODO:** talk about how Codex Records are private by default, also about
-permissions / approved addresses / whitelisted addresses / etc
+**@TODO:** talk about how Codex Records are private by default
+
+### Permissions
+
+### Approved Addresses
+
+### Whitelisted Addresses
 
 
 ## Historical Provenance
@@ -43,4 +54,4 @@ permissions / approved addresses / whitelisted addresses / etc
 
 ## Transferring Codex Records
 
-**@TODO:** talk about the two-step transfer process
+**@TODO:** talk about the two-step transfer process, what gets reset on transfer

@@ -25,10 +25,6 @@ your `accessToken` but you are not the owner.)
 This endpoint can be used to generate an access token, which is required for
 [making authenticated requests](#making-authenticated-requests).
 
-<!--
-  @TODO: is this "warning" class too much? maybe it should just be a "notice",
-  but it feels important to call this out
--->
 <aside class="warning">
   When requesting access tokens, you <em>must</em> send the request as
   <code>Content-Type: application/x-www-form-urlencoded</code>. This is required

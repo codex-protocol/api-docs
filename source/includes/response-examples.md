@@ -90,7 +90,7 @@ ownerAddress                  | String                                       | T
 descriptionHash               | String                                       | The hash of the metadata's plain text description.
 approvedAddress               | String                                       | The Ethereum address of the user currently approved to accept the transfer of this Codex Record. See [Transferring a Codex Record](#transferring-codex-records) for details. Approved addresses are considered part of the `whitelistedAddresses` array.
 providerMetadataId            | String                                       | The unique ID of the metadata that belongs to this Codex Record.
-whitelistedAddresses          | Array[String]                                | An array of Ethereum addresses allowed to view all private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records. Will be `undefined` if you are not the owner.
+whitelistedAddresses          | Array[String]                                | An array of Ethereum addresses allowed to view private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records. Will be `undefined` if you are not the owner.
 isHistoricalProvenancePrivate | Boolean                                      | This flag indicates whether or not [historical provenance](#historical-provenance) (i.e. `metadata.files`) should be hidden, regardless of the value of `isPrivate`.
 
 <aside class="notice">
