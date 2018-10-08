@@ -68,7 +68,7 @@ request(options, (error, response) => {
 
 `GET /v1/oauth2/token`
 
-### Query Parameters
+### Request Parameters
 
 Parameter     | Type   | Description
 ------------- | ------ | -------------------------------------------------------
@@ -199,7 +199,7 @@ Parameter    | Type   | Description
 ------------ | ------ | --------------------------------------------------------
 tokenId      | Number | The `tokenId` of the Codex Record for which to retrieve the provenance of.
 
-### Query Parameters
+### Request Parameters
 
 Parameter    | Type   | Default   | Description
 ------------ | ------ | --------- | --------------------------------------------------------

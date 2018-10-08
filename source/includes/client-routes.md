@@ -82,7 +82,7 @@ request(options, (error, response) => {
 
 `GET /v1/client/records`
 
-### Query Parameters
+### Request Parameters
 
 Parameter    | Type   | Default   | Description
 ------------ | ------ | --------- | --------------------------------------------
@@ -147,7 +147,7 @@ Codex Record itself can't be created until the transaction has been mined.
 
 `POST /v1/client/record`
 
-### Query Parameters
+### Request Parameters
 
 Parameter    | Type             | Description
 ------------ | ---------------- | ----------------------------------------------
@@ -211,9 +211,9 @@ Parameter    | Type   | Description
 ------------ | ------ | --------------------------------------------------------
 tokenId      | Number | The `tokenId` of the Codex Record to update.
 
-### Query Parameters
+### Request Parameters
 
-At least one of the following query parameters is required for this route:
+At least one of the following parameters is required for this route:
 
 Parameter                     | Type          | Description
 ----------------------------- | ------------- | --------------------------------
@@ -317,9 +317,9 @@ Parameter    | Type   | Description
 ------------ | ------ | --------------------------------------------------------
 tokenId      | Number | The `tokenId` of the Codex Record for which to modify the metadata of.
 
-### Query Parameters
+### Request Parameters
 
-At least one of the following query parameters is required for this route:
+At least one of the following parameters is required for this route:
 
 Parameter    | Type                 | Description
 ------------ | -------------------- | ------------------------------------------
@@ -475,7 +475,7 @@ Parameter    | Type   | Description
 ------------ | ------ | --------------------------------------------------------
 tokenId      | Number | The `tokenId` of the Codex Record to transfer.
 
-### Query Parameters
+### Request Parameters
 
 Parameter    | Type   | Description
 ------------ | ------ | --------------------------------------------------------
@@ -555,9 +555,9 @@ This endpoint can be used to accept an incoming transfer of a Codex Record. See
 
 <aside class="success">
   This is an asynchronous action. When the Codex Record has been successfully
-  transferred to your address and logged on the blockchain, your application's
-  webhook will be called with the updated Codex Record in the request body. See
-  <a href="#webhooks">webhooks</a> for details.
+  transferred to your application's address and logged on the blockchain, your
+  application's webhook will be called with the updated Codex Record in the
+  request body. See <a href="#webhooks">webhooks</a> for details.
 </aside>
 
 ```javascript
@@ -678,7 +678,7 @@ request(options, (error, response) => {
 
 `GET /v1/client/transfers/outgoing`
 
-### Query Parameters
+### Request Parameters
 
 Parameter    | Type   | Default   | Description
 ------------ | ------ | --------- | --------------------------------------------
@@ -731,7 +731,7 @@ request(options, (error, response) => {
 
 `GET /v1/client/transfers/incoming`
 
-### Query Parameters
+### Request Parameters
 
 Parameter          | Type    | Default   | Description
 ------------------ | ------- | --------- | -------------------------------------
@@ -826,7 +826,7 @@ Parameter    | Type   | Description
 ------------ | ------ | --------------------------------------------------------
 tokenId      | Number | The `tokenId` of the Codex Record for which to the whitelisted addresses of.
 
-### Query Parameters
+### Request Parameters
 
 Parameter    | Type   | Description
 ------------ | ------ | --------------------------------------------------------
@@ -874,7 +874,7 @@ Parameter    | Type   | Description
 ------------ | ------ | --------------------------------------------------------
 tokenId      | Number | The `tokenId` of the Codex Record for which to the whitelisted addresses of.
 
-### Query Parameters
+### Request Parameters
 
 Parameter    | Type   | Description
 ------------ | ------ | --------------------------------------------------------
@@ -927,7 +927,7 @@ Parameter    | Type   | Description
 ------------ | ------ | --------------------------------------------------------
 tokenId      | Number | The `tokenId` of the Codex Record for which to the whitelisted addresses of.
 
-### Query Parameters
+### Request Parameters
 
 Parameter    | Type          | Description
 ------------ | ------------- | -------------------------------------------------
