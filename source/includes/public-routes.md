@@ -31,13 +31,6 @@ This endpoint can be used to generate an access token, which is required for
   by the <a href="https://tools.ietf.org/html/rfc6749?#section-4.1.3" rel="noopener noreferrer">OAuth2 Specification</a>.
 </aside>
 
-<aside class="notice">
-  This route has <code>snake_case</code> parameters. This is required by the
-  <a href="https://tools.ietf.org/html/rfc6749?#section-4.1.3" rel="noopener noreferrer">OAuth2 Specification</a>.
-  This is the only route with <code>snake_case</code> parameters, all other
-  routes have <code>camelCase</code> parameters.
-</aside>
-
 ```javascript
 import request from 'request'
 
@@ -62,7 +55,7 @@ request(options, (error, response) => {
 
 > The above API call returns an [OAuth2 Access Token](#oauth2-access-token).
 
-> Remember to replace the example `client_id` and `client_secret` with your applications `client_id` and `client_secret`.
+> Remember to replace the example `client_id` and `client_secret` with your application's `client_id` and `client_secret`.
 
 ### HTTP Request
 
@@ -75,6 +68,13 @@ Parameter     | Type   | Description
 client_id     | String | The unique identifier for your application, provided by Codex.
 grant_type    | String | Must be `client_credentials`.
 client_secret | String | Your application's secret, provided by Codex.
+
+<aside class="notice">
+  This route has <code>snake_case</code> parameters, as required by the
+  <a href="https://tools.ietf.org/html/rfc6749?#section-4.1.3" rel="noopener noreferrer">OAuth2 Specification</a>.
+  This is the only route with <code>snake_case</code> parameters, all other
+  routes have <code>camelCase</code> parameters.
+</aside>
 
 
 ## Get a Codex Record
