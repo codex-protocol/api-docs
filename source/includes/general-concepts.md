@@ -234,19 +234,9 @@ as the `key`. Then compare the result with the `hash` specified in the request.
 **@TODO:** talk about gas allowances and when they reset, also list some gas metrics
 
 
-## CODX Tokens & Fees
-
-**@TODO:** talk about CODX and fees
-
-
 ## Zero Address
 
 **@TODO:** talk about how the zero address will be used in provenance events
-
-
-## ERC-721 Tokens
-
-**@TODO:** talk about how ERC-721 tokens, or is this unnecessary?
 
 
 ## Privacy
@@ -273,3 +263,10 @@ as the `key`. Then compare the result with the `hash` specified in the request.
 ## Transferring Codex Records
 
 **@TODO:** talk about the two-step transfer process, what gets reset on transfer
+
+
+<!--
+@TODO: add these sections when CODX / fees are documented
+## CODX Tokens & Fees
+## ERC-721 Tokens
+-->
