@@ -1,8 +1,52 @@
 # Response Examples
 
-**@TODO:** write about general response structure here
+> An example success response (from a [Get Client](#get-client) request):
 
-**@TODO:** note that createdAt & updatedAt are omitted
+```javascript
+{
+  "error": null,
+  "result": {
+    "gasAllowance": "40500000",
+    "email": "email@example.com",
+    "name": "My Codex Application",
+    "address": "0x627306090abab3a6e1400e9345bc60c78a8bef57"
+  }
+}
+```
+
+All responses from The Codex API will have the same structure, regardless
+of whether or not the request was successful. The Codex API will _always_
+return `Content-Type: application/json; charset=utf-8` response bodies with an
+object containing the keys `error` and `result`, one of which will always be
+`null`. Always returning a JSON body ensures you can always reliably parse
+responses from The Codex API as JSON, even if there's an error.
+
+If there was error, `result` will be `null` and the error details can be found
+in the `error` object. The `error` object has two keys, `code` and `message`.
+`error.code` will be the same as the HTTP status header on the response, and
+`error.message` will provide an explanation of what went wrong.
+
+Similarly, if the request was successful, `error` will be `null` and the
+requested data can be found in the `response` object.
+
+<aside class="notice">
+  Just about every object in response data will have <code>createdAt</code> and
+  <code>updatedAt</code> <a href="https://en.wikipedia.org/wiki/ISO_8601" rel="noopener noreferrer">ISO 8601</a>
+  timestamps. However, all examples in this section have had these values
+  omitted for the sake of brevity.
+</aside>
+
+> An example error response (expired access token):
+
+```javascript
+{
+  "error": {
+    "code": 401,
+    "message": "Invalid token: access token has expired"
+  },
+  "result": null
+}
+```
 
 ## Client
 
@@ -11,6 +55,7 @@
   "gasAllowance": "40500000",
   "email": "email@example.com",
   "name": "My Codex Application",
+  "gasAllowanceRemaining": "28160450",
   "address": "0x627306090abab3a6e1400e9345bc60c78a8bef57"
 }
 ```
@@ -20,7 +65,8 @@ Property                      | Type   | Description
 name                          | String | The name of the application. This will be shown in the Codex Viewer as a registered application, taking the place of your application's Ethereum address in the Codex Record’s provenance.
 email                         | String | The application developer’s email address. This will be used to communicate any breaking API changes or development updates.
 address                       | String | The Ethereum address that identifies the application, provisioned and managed by Codex behalf of the application developer.
-gasAllowance                  | String | The amount of gas left that the application can spend until it resets. See [Gas Allowance](#gas-allowance) for details.
+gasAllowance                  | String | The total amount of gas the application can spend until the gas allowance is reset (this is what `gasAllowanceRemaining` is reset to every period.) See [Gas Allowance](#gas-allowance) for details.
+gasAllowanceRemaining         | String | The amount of gas left that the application can spend until it resets. See [Gas Allowance](#gas-allowance) for details.
 
 
 ## OAuth2 Access Token
@@ -134,7 +180,11 @@ isHistoricalProvenancePrivate | Boolean                                      | T
 }
 ```
 
-**@TODO:** Explain metadata here
+Metadata makes up all of the "[off-chain](#quot-off-chain-quot-vs-quot-on-chain-quot-data)"
+data associated with a Codex Record, e.g. the "plain text" values for the
+corresponding hashes stored on the blockchain. Storing this (potentially)
+sensitive data off-chain is necessary for privacy controls, since the nature of
+blockchain transactions are public.
 
 Property           | Type                                     | Description
 ------------------ | ---------------------------------------- | ----------------
@@ -186,6 +236,11 @@ a Pending Update represents the new state metadata should have after a "modify"
 transaction has been mined on the blockchain. This process is necessary due to
 the asynchronous nature of blockchain transactions.
 
+<aside class="success">
+  Since a Pending Update is essentially a "placeholder" for a Codex Record's
+  metadata, the structure is essentially the same.
+</aside>
+
 Property        | Type                 | Description
 --------------- | -------------------- | ---------------------------------------
 id              | String               | The unique ID of the pending update.
@@ -197,11 +252,6 @@ mainImage       | [File](#file)        | The new main image.
 fileHashes      | Array[String]        | An array of file hashes representing all the new files & images.
 description     | String               | The new plain text description.
 descriptionHash | String               | The hash of the new plain text description.
-
-<aside class="success">
-  Since a Pending Update is essentially a "placeholder" for a Codex Record's
-  metadata, the structure is essentially the same.
-</aside>
 
 
 ## Provenance Event
@@ -215,7 +265,10 @@ descriptionHash | String               | The hash of the new plain text descript
 }
 ```
 
-**@TODO:** Explain provenance events here
+A Provenance Event is a record of a blockchain transaction related to a specific
+Codex Record. A Codex Record's `provenance` array is essentially a transaction
+ledger, detailing when it was created, who it was transferred to, and who
+modified what data.
 
 Property        | Type   | Description
 --------------- | ------ | -----------------------------------------------------
@@ -235,7 +288,16 @@ transactionHash | String | The Ethereum transaction hash of the transaction that
 }
 ```
 
-**@TODO:** Explain what a metadata provider is here
+A Metadata Provider is known source of Codex Record metadata. Since metadata
+_must_ be stored "[off-chain](#quot-off-chain-quot-vs-quot-on-chain-quot-data)",
+Metadata Providers are essentially databases / API endpoints which can be used
+to retrieve Codex Record metadata.
+
+<aside class="success">
+  Currently Codex Protocol is the only metadata provider, but this functionality
+  has been implemented to support the possibility of having third-party metadata
+  hosts in the future.
+</aside>
 
 Property    | Type   | Description
 ----------- | ------ | ---------------------------------------------------------
@@ -261,7 +323,10 @@ metadataUrl | String | The URL to request Codex Record Metadata from. The Codex 
 }
 ```
 
-**@TODO:** Explain files here
+When files are uploaded to The Codex API, they are processed to determine
+useful bits of information such as width, height, and size (in bytes). The are
+then uploaded to [S3](https://aws.amazon.com/s3/), and the resulting information
+is stored in the The Codex API database.
 
 Property       | Type   | Description
 -------------- | ------ | ------------------------------------------------------
@@ -275,3 +340,8 @@ height         | String | The height (in pixels) of the file, if it is an image.
 fileType       | String | One of `['file', 'video', or 'document']`. Useful when displaying this file on a web page.
 mimeType       | String | The [MIME type](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) of the file.
 creatorAddress | String | The Ethereum address of the client / user created this file (not necessarily the current Codex Record owner!)
+
+<aside class="notice">
+  Your application will likely only ever use the <code>fileType</code> and
+  <code>uri</code> fields.
+</aside>
