@@ -1,0 +1,107 @@
+<h1 id='authentication'>Authentication</h1><h2 id='registering-an-application'>Registering an Application</h2>
+<p>Currently there is no admin interface built out for application developers, so
+the process for registering an application requires a manual steps from both
+Codex and the application developer. Additionally, we only support the
+<code>client_credentials</code> grant, which means that calls to The Codex API
+<strong>must</strong> be confidential client. A confidential client is an
+application that can protect secrets from public users (i.e. calls to The Codex
+API should be happening on a server application and not from within the browser.)</p>
+
+<p>To register an application, <a href="mailto:help@codexprotocol.com?subject=Codex%20API%20Application%20Request&amp;body=Please%20provide%20a%20brief%20description%20of%20your%20application.">send us an email</a> with the following information:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>The name of the application. This will be shown in the Codex Viewer as a registered application, taking the place of your application&#39;s Ethereum address in the Codex Record’s provenance.</td>
+</tr>
+<tr>
+<td>email</td>
+<td>The application developer’s email address. This will be used to communicate any breaking API changes or development updates.</td>
+</tr>
+<tr>
+<td>webhookUrl</td>
+<td>For example, <code>https://your-api.example.com/codex-webhook</code>. Since blockchain transactions are asynchronous, this <code>webhookUrl</code> will be used to inform your application that an event has occurred, for example when your Codex Records have been created. See <a href="#webhooks">webhooks</a> for details.</td>
+</tr>
+</tbody></table>
+<h2 id='access-tokens'>Access Tokens</h2><h3 id='obtaining-an-access-token'>Obtaining an Access Token</h3>
+<p>Before you can make API calls, you&#39;ll need an access token. See
+<a href="#get-an-access-token">Get an Access Token</a> for more details.</p>
+<h3 id='access-token-expiration'>Access Token Expiration</h3>
+<blockquote>
+<p>Example response when an expired access token is provided:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"error"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"code"</span><span class="p">:</span> <span class="mi">401</span><span class="p">,</span>
+    <span class="s2">"message"</span><span class="p">:</span> <span class="s2">"Invalid token: access token is invalid"</span>
+  <span class="p">},</span>
+  <span class="s2">"result"</span><span class="p">:</span> <span class="kc">null</span>
+<span class="p">}</span>
+</code></pre>
+<p>For security purposes, access tokens will expire after a certain period of time.
+If you send a request and and receive a <a href="#errors">401 Unauthorized</a> error,
+you&#39;ll need to <a href="#get-an-access-token">generate another access token</a> and send
+the request again.</p>
+
+<p>The following table shows the access token expiries for each environment:</p>
+
+<table><thead>
+<tr>
+<th>Network</th>
+<th>Expiry</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Ropsten</td>
+<td>30 days after creation</td>
+</tr>
+<tr>
+<td>Rinkeby</td>
+<td>90 days after creation</td>
+</tr>
+<tr>
+<td>Mainnet</td>
+<td>90 days after creation</td>
+</tr>
+</tbody></table>
+
+<aside class="success">
+  It's a good idea to simply request a new access token periodically, before
+  your current access token is set to expire. Be sure to destroy your existing
+  access token after requesting a new one to minimize the potential for
+  malicious use.
+</aside>
+<h2 id='making-authenticated-requests'>Making Authenticated Requests</h2>
+<blockquote>
+<p>Making an authenticated API call:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="c1">// retrieve a list of your application's Codex Records</span>
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// an array of Codex Records</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>Remember to replace the example <code>accessToken</code> with your personal <code>accessToken</code>.</p>
+</blockquote>
+
+<p>The Codex API expects an OAuth2 access token to be included with all requests
+made to the server in the Authorization header as follows:</p>
+
+<p><code>Authorization: Bearer d49694e5a3459759cc7ac1741de246e184e51d6e</code></p>

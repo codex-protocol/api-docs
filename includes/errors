@@ -1,0 +1,46 @@
+<h1 id='errors'>Errors</h1>
+<p>The Codex API can return the following error codes:</p>
+
+<table><thead>
+<tr>
+<th>Error Code</th>
+<th>Error Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>401</td>
+<td>Unauthorized Error - Your access token is invalid (e.g. it has expired and you need to request a new one.)</td>
+</tr>
+<tr>
+<td>402</td>
+<td>Payment Required Error - You do not have enough <a href="#gas-allowance">gas allowance</a> to perform the requested action. Wait for your allowance to reset, or purchase more allowance.</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden Error - Your access token is valid, but you do not have permission to perform the request action (e.g. &quot;admin only&quot; actions.)</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found Error - The requested resource (or route) does not exist.</td>
+</tr>
+<tr>
+<td>409</td>
+<td>Missing Parameter Error - A required parameter was not specified in the request data. See error message for details.</td>
+</tr>
+<tr>
+<td>409</td>
+<td>Invalid Argument Error - An invalid parameter was specified in the request data (e.g. an invalid email address), or the requested action can not be performed (e.g. cancelling a transfer that hasn&#39;t been initiated yet.) See error message for details.</td>
+</tr>
+<tr>
+<td>409</td>
+<td>Conflict Error - The requested resource could not be created because a record with a matching unique identifier already exists. See error message for details.</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error - There was an unknown problem processing the request. Please try again later.</td>
+</tr>
+<tr>
+<td>503</td>
+<td>Service Unavailable - We&#39;re temporarily offline for maintenance. Please try again later.</td>
+</tr>
+</tbody></table>

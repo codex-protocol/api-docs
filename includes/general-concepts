@@ -1,0 +1,482 @@
+<h1 id='general-concepts'>General Concepts</h1>
+<p>This section explains miscellaneous concepts referenced throughout this
+documentation.</p>
+<h2 id='api-requests'>API Requests</h2>
+<blockquote>
+<p>This HTTP request:</p>
+</blockquote>
+<pre class="highlight http tab-http"><code><span class="nf">PUT</span> <span class="nn">/v1/client/record/100/metadata?name=Really%20Cool%20Codex%20Record</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/x-www-form-urlencoded</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">https://rinkeby-codex-registry-api.codexprotocol.com</span>
+<span class="na">Authorization</span><span class="p">:</span> <span class="s">Bearer d49694e5a3459759cc7ac1741de246e184e51d6e</span>
+
+description=This+is+a+really+cool+Codex+Record!
+</code></pre>
+<blockquote>
+<p>is handled identically to this one:</p>
+</blockquote>
+<pre class="highlight http tab-http"><code><span class="nf">PUT</span> <span class="nn">/v1/client/record/0/metadata</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">https://rinkeby-codex-registry-api.codexprotocol.com</span>
+<span class="na">Authorization</span><span class="p">:</span> <span class="s">Bearer e933e3e02e4f16d552e469367b25293d75c3d3c2</span>
+
+<span class="p">{</span><span class="w">
+  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Really Cool Codex Record"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This is a really cool Codex Record!"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>and this one:</p>
+</blockquote>
+<pre class="highlight http tab-http"><code><span class="nf">PUT</span> <span class="nn">/v1/client/record/0/metadata?description=This%20is%20a%20really%20cool%20Codex%20Record!</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">https://rinkeby-codex-registry-api.codexprotocol.com</span>
+<span class="na">Authorization</span><span class="p">:</span> <span class="s">Bearer e933e3e02e4f16d552e469367b25293d75c3d3c2</span>
+<span class="na">Content-Type</span><span class="p">:</span> <span class="s">multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW</span>
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="name"
+
+Really Cool Codex Record
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+</code></pre>
+<p>The Codex API is very flexible with how it handles incoming requests. For most
+routes, the API will accept a request with a <code>Content-Type</code> of
+<code>multipart/form-data</code>, <code>application/x-www-form-urlencoded</code>, or
+<code>application/json</code>. Additionally, you may specify request parameters as either
+query parameters or body parameters (with the exception of file data, of course).</p>
+
+<p>The exceptions are:</p>
+
+<ol>
+<li><p>Anytime you send file data with the request, you must send the request as
+<code>Content-Type: multipart/form-data</code>.</p></li>
+<li><p>When requesting access tokens, you must send the request as
+<code>Content-Type: application/x-www-form-urlencoded</code>. This is required by the
+<a href="https://tools.ietf.org/html/rfc6749?#section-4.1.3">OAuth2 Specification</a>.</p></li>
+</ol>
+
+<p>For details on what to expect from The Codex API in response, see <a href="#response-examples">Response Examples</a>.</p>
+<h2 id='webhooks'>Webhooks</h2>
+<p>Calling certain routes may cause asynchronous transactions to be submitted to
+the blockchain. Specifically, any action that modifies &quot;<a href="#quot-off-chain-quot-vs-quot-on-chain-quot-data">on-chain</a>&quot;
+data is asynchronous and has an associated webhook event.</p>
+
+<p>Your application should not assume the result of calling an asynchronous route
+will be performed immediately. Instead, your application should have an endpoint
+that can be called by The Codex API when the asynchronous action is complete and
+the blockchain state has been updated.</p>
+
+<p>For example, when updating <a href="#modify-a-codex-record-39-s-metadata">modifying a Codex Record&#39;s Metadata</a>,
+your application should wait until it&#39;s webhook is called with the
+<code>codex-record:modified</code> event. At this point your application can react to the
+updated data in any way necessary.</p>
+<h3 id='asynchronous-actions'>Asynchronous Actions</h3>
+<p>The following actions should be considered asynchronous, and your application
+should wait for their associated webhook events before considering requests sent
+to them as successful.</p>
+
+<aside class="success">
+  Any action that modifies "<a href="#quot-off-chain-quot-vs-quot-on-chain-quot-data">on-chain</a>"
+  data is an asynchronous action.
+</aside>
+
+<table><thead>
+<tr>
+<th>Action</th>
+<th>Event(s)</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><a href="#create-a-codex-record">Creating a Codex Record</a></td>
+<td><code>codex-record:created</code></td>
+</tr>
+<tr>
+<td><a href="#modify-a-codex-record-39-s-metadata">Modifying a Codex Record&#39;s Metadata</a></td>
+<td><code>codex-record:modified</code></td>
+</tr>
+<tr>
+<td><a href="#start-a-transfer">Starting a Transfer</a></td>
+<td><code>codex-record:address-approved:owner</code> and <code>codex-record:address-approved:approved</code></td>
+</tr>
+<tr>
+<td><a href="#cancel-a-transfer">Canceling a Transfer</a></td>
+<td>Unfortunately none, due to technical complications</td>
+</tr>
+<tr>
+<td><a href="#accept-a-transfer">Accepting a Transfer</a></td>
+<td><code>codex-record:transferred:old-owner</code> and <code>codex-record:transferred:new-owner</code></td>
+</tr>
+</tbody></table>
+<h3 id='webhook-structure'>Webhook Structure</h3>
+<blockquote>
+<p>An example request body sent to your application&#39;s webhook:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"timestamp"</span><span class="p">:</span> <span class="mi">1539024178127</span><span class="p">,</span>
+  <span class="s2">"hash"</span><span class="p">:</span> <span class="s2">"5fed9779c702a873e8c68872eca959876d9d00a84a1cb5fb58ecd6c3e83f307b"</span><span class="p">,</span>
+  <span class="s2">"eventName"</span><span class="p">:</span> <span class="s2">"codex-record:created"</span><span class="p">,</span>
+  <span class="s2">"eventData"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="c1">// varies by event, usually a Codex Record</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<p>When blockchain events occur, your application&#39;s webhook will be sent a <code>POST</code>
+request with an <code>application/json</code> body containing the following data:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>hash</td>
+<td>String</td>
+<td>The <a href="https://nodejs.org/api/crypto.html#crypto_crypto_createhmac_algorithm_key_options">sha256</a> hash of the string <code>${timestamp}:${client_id}</code>, using your application&#39;s secret as the <code>key</code>. See <a href="#verifying-webhook-requests">Verifying Webhook Requests</a> for details.</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>Number</td>
+<td>Unix timestamp (in milliseconds) of when the request was sent. See <a href="#verifying-webhook-requests">Verifying Webhook Requests</a> for details.</td>
+</tr>
+<tr>
+<td>eventName</td>
+<td>String</td>
+<td>The name of the event. See <a href="#webhook-events">Webhook Events</a> for details.</td>
+</tr>
+<tr>
+<td>eventData</td>
+<td>Varies</td>
+<td>The relevant data for this event. Usually a <a href="#codex-record">Codex Record</a>, but varies by event. See <a href="#webhook-events">Webhook Events</a> for details.</td>
+</tr>
+</tbody></table>
+
+<aside class="warning">
+  Your webook endpoint <em>must</em> return a 2xx status code, or The Codex API will
+  continue to retry the request several times (with exponential backoff) before
+  giving up.
+</aside>
+<h3 id='webhook-events'>Webhook Events</h3>
+<p>The following table lists all webhook events.</p>
+
+<table><thead>
+<tr>
+<th>Event Name</th>
+<th>Event Data</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>codex-record:created</td>
+<td><a href="#codex-record">Codex Record</a></td>
+<td>Sent after <a href="#create-a-codex-record">creating a Codex Record</a>, when the Codex Record has been created and logged on the blockchain.</td>
+</tr>
+<tr>
+<td>codex-record:modified</td>
+<td><a href="#codex-record">Codex Record</a></td>
+<td>Sent after <a href="#modify-a-codex-record-39-s-metadata">modifying a Codex Record&#39;s metadata</a>, when the Codex Record has been updated and logged on the blockchain.</td>
+</tr>
+<tr>
+<td>codex-record:address-whitelisted</td>
+<td><a href="#codex-record">Codex Record</a></td>
+<td>Sent after someone <a href="#get-a-codex-record-39-s-whitelisted-addresses">adds your application to a Codex Record&#39;s whitelisted addresses</a>. This event is sent immediately as this is not an asynchronous action.</td>
+</tr>
+<tr>
+<td>codex-record:transferred:new-owner</td>
+<td><a href="#codex-record">Codex Record</a></td>
+<td>Sent after <a href="#accept-a-transfer">accepting an incoming transfer</a>, when the Codex Record has been successfully transferred to your address and logged on the blockchain.</td>
+</tr>
+<tr>
+<td>codex-record:transferred:old-owner</td>
+<td><a href="#codex-record">Codex Record</a></td>
+<td>Sent after someone <a href="#accept-a-transfer">accepts one of your application&#39;s outgoing transfers</a>, when the Codex Record has been successfully transferred to the recipient&#39;s address and logged on the blockchain.</td>
+</tr>
+<tr>
+<td>codex-record:address-approved:owner</td>
+<td><a href="#codex-record">Codex Record</a></td>
+<td>Sent after <a href="#start-a-transfer">starting a transfer</a>, when the Codex Record&#39;s <code>approvedAddress</code> has been updated on the blockchain and is ready to be <a href="#accept-a-transfer">accepted</a> by the recipient.</td>
+</tr>
+<tr>
+<td>codex-record:address-approved:approved</td>
+<td><a href="#codex-record">Codex Record</a></td>
+<td>Sent after someone <a href="#start-a-transfer">starts a transfer</a> to your application, when the Codex Record&#39;s <code>approvedAddress</code> has been updated on the blockchain and is ready to be <a href="#accept-a-transfer">accepted</a> by your application.</td>
+</tr>
+</tbody></table>
+
+<!--
+  @TODO: add these events to the table when CODX / fees are documented:
+
+  codex-coin:transferred
+  codex-coin:registry-contract-approved
+-->
+
+<aside class="notice">
+  Not all webhook events are the result of an asynchronous action (e.g.
+  <code>codex-record:address-whitelisted</code>), but all asynchronous actions
+  have an associated webhook event.
+</aside>
+<h3 id='verifying-webhook-requests'>Verifying Webhook Requests</h3>
+<blockquote>
+<p>A simple webhook implementation that verifies webhook requests from The Codex API.</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">crypto</span> <span class="nx">from</span> <span class="s1">'crypto'</span>
+<span class="kr">import</span> <span class="nx">express</span> <span class="nx">from</span> <span class="s1">'express'</span>
+<span class="kr">import</span> <span class="nx">bodyParser</span> <span class="nx">from</span> <span class="s1">'body-parser'</span>
+
+<span class="kr">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">express</span><span class="p">()</span>
+
+<span class="c1">// your webhook will always be passed an application/json request</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">bodyParser</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">'/codex-webhook'</span><span class="p">,</span> <span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+  <span class="kr">const</span> <span class="p">{</span> <span class="nx">hash</span><span class="p">,</span>  <span class="nx">timestamp</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">body</span>
+
+  <span class="c1">// if, for some reason, your application's webhook is called without these</span>
+  <span class="c1">//  parameters, the request most likely did not come from The Codex API and</span>
+  <span class="c1">//  should be immediately rejected</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">hash</span> <span class="o">||</span> <span class="o">!</span><span class="nx">timestamp</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">response</span><span class="p">.</span><span class="nx">sendStatus</span><span class="p">(</span><span class="mi">400</span><span class="p">)</span>
+    <span class="k">return</span>
+  <span class="p">}</span>
+
+  <span class="c1">// if the specified timestamp is in the future or is more than 5 minutes in</span>
+  <span class="c1">//  the past, consider this a fraudulent request</span>
+  <span class="c1">//</span>
+  <span class="c1">// your "timestamp validity" window can be whatever you deem appropriate, but</span>
+  <span class="c1">//  we recommend 5 minutes</span>
+  <span class="c1">//</span>
+  <span class="c1">// this is used to prevent the request from being "replayed" at a later date</span>
+  <span class="c1">//  (via a man-in-the-middle or similar attack)</span>
+  <span class="kr">const</span> <span class="nx">now</span> <span class="o">=</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="nx">timestamp</span> <span class="o">&gt;</span> <span class="nx">now</span> <span class="o">||</span> <span class="nx">now</span> <span class="o">-</span> <span class="nx">timestamp</span> <span class="o">&gt;</span> <span class="mi">300000</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">response</span><span class="p">.</span><span class="nx">sendStatus</span><span class="p">(</span><span class="mi">400</span><span class="p">)</span>
+    <span class="k">return</span>
+  <span class="p">}</span>
+
+  <span class="c1">// construct the "valid hash" and compare with the hash sent by The  Codex API</span>
+  <span class="kr">const</span> <span class="nx">validHash</span> <span class="o">=</span> <span class="nx">crypto</span>
+    <span class="p">.</span><span class="nx">createHmac</span><span class="p">(</span><span class="s1">'sha256'</span><span class="p">,</span> <span class="nx">client_secret</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="s2">`</span><span class="p">${</span><span class="nx">timestamp</span><span class="p">}</span><span class="s2">:</span><span class="p">${</span><span class="nx">client_id</span><span class="p">}</span><span class="s2">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">digest</span><span class="p">(</span><span class="s1">'hex'</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="p">(</span><span class="nx">hash</span> <span class="o">!==</span> <span class="nx">validHash</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">response</span><span class="p">.</span><span class="nx">sendStatus</span><span class="p">(</span><span class="mi">401</span><span class="p">)</span>
+    <span class="k">return</span>
+  <span class="p">}</span>
+
+  <span class="c1">// do whatever your application should do in response to this event here</span>
+
+  <span class="c1">// let The Codex API know this webhook call was successful</span>
+  <span class="nx">response</span><span class="p">.</span><span class="nx">sendStatus</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>Remember to replace <code>client_id</code> and <code>client_secret</code> with your application&#39;s <code>client_id</code> and <code>client_secret</code>.</p>
+</blockquote>
+
+<p>The <code>hash</code> and <code>timestamp</code> properties passed with every webhook request should
+be used to verify that the request was actually sent by The Codex API and hasn&#39;t
+been spoofed by an attacker. Your application should verify the hash for <em>all</em>
+webhook events.</p>
+
+<p>The verify the request, calculate the <a href="https://nodejs.org/api/crypto.html#crypto_crypto_createhmac_algorithm_key_options">sha256</a>
+hash of the string <code>${timestamp}:${client_id}</code> using your application&#39;s secret
+as the <code>key</code>. Then compare the result with the <code>hash</code> specified in the request.</p>
+<h2 id='gas-allowance'>Gas Allowance</h2>
+<p>Since each blockchain transaction The Codex API sends on behalf of your
+application cost small amounts of Ether (known as &quot;gas&quot;), we limit all
+applications to a certain amount of gas per period. This ensures The Codex API
+is not abused.</p>
+
+<p>At the start of each period, your gas allowance is reset. The following table
+shows the reset periods for each environment:</p>
+
+<table><thead>
+<tr>
+<th>Network</th>
+<th>Period</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Ropsten</td>
+<td>Every 24 hours</td>
+</tr>
+<tr>
+<td>Rinkeby</td>
+<td>Every 30 days</td>
+</tr>
+<tr>
+<td>Mainnet</td>
+<td>Every 30 days</td>
+</tr>
+</tbody></table>
+
+<aside class="success">
+  Currently, all applications receive <strong>40,500,000 gas</strong> per period.
+  That's enough to create and transfer about 100 records. If you believe your
+  application requires more gas per period, please
+  <a href="mailto:help@codexprotocol.com?subject=Gas%20Allowance%20Increase%20Request&body=Let%20us%20know%20why%20your%20application%20needs%20a%20higher%20Gas%20Allowance.">contact us</a> and we can work
+  something out.
+</aside>
+<h2 id='privacy'>Privacy</h2>
+<p>The public nature of blockchain presents some interesting challenges when
+dealing with information many people people wish to keep private. To take
+advantage of Ethereum&#39;s distributed, public ledger while still protecting
+our user&#39;s private data, Codex Protocol has taken a hybrid &quot;off-chain / on-chain&quot;
+approach to storing user data.</p>
+<h3 id='quot-off-chain-quot-vs-quot-on-chain-quot-data'>&quot;Off-Chain&quot; vs &quot;On-Chain&quot; Data</h3>
+<p>All <a href="#metadata">metadata</a> is stored &quot;off-chain&quot; (i.e. in a
+<a href="#metadata-provider">metadata provider</a>&#39;s database), but <em>hashes</em> of this data
+are stored on &quot;on-chain&quot; (i.e in a Codex Protocol smart contract.) These hashes
+can be used to verify the data stored in a metadata provider&#39;s database matches
+the information on the blockchain, and therefore has not been tampered with.</p>
+
+<p>Specifically, the only &quot;on-chain&quot; data are hashes of the Codex Record&#39;s name,
+description, and associated files. Sending a request that will modify &quot;on-chain&quot;
+data is considered an asynchronous action and will eventually result in your
+application receiving a webhook event. See <a href="#webhooks">webhooks</a> for details.</p>
+
+<p>Updates to any other &quot;off-chain&quot; property of the Codex Record (such as the
+<code>isPrivate</code> flag, or the <code>whitelistedAddresses</code> array), will be immediately
+applied and (usually) won&#39;t cause a webhook event to be sent.</p>
+
+<p>This &quot;off-chain / on-chain&quot; data separation is why there are two routes to
+modify a Codex Record. When you <a href="#modify-a-codex-record">Modify a Codex Record</a>,
+you&#39;re modifying it&#39;s &quot;off-chain&quot; data. When you
+<a href="#modify-a-codex-record-39-s-metadata">Modify a Codex Record&#39;s Metadata</a>, you&#39;re
+modifying it&#39;s &quot;on-chain&quot; data.</p>
+<h3 id='permissions'>Permissions</h3>
+<p>Some properties of a Codex Record and it&#39;s metadata are not returned in API
+responses (i.e. they will be <code>undefined</code>) if the Codex Record marked as private
+and the requesting user does not have the appropriate permissions.</p>
+
+<p>There are three levels of permissions for Codex Records:</p>
+
+<ol>
+<li><strong>Owner</strong> - full read &amp; write permissions, all data always returned</li>
+<li><strong>Whitelisted Addresses</strong> - read-only permissions, most data returned</li>
+<li><strong>Public Access / Non-Whitelisted Addresses</strong> - read-only permissions, only public information returned</li>
+</ol>
+
+<p>Additionally, there are two levels of privacy for a Codex Record:</p>
+
+<ol>
+<li><strong><code>isPrivate</code></strong> - indicates that the Codex Record&#39;s metadata is private and can only be retrieved by the owner or whitelisted addresses.</li>
+<li><strong><code>isHistoricalProvenancePrivate</code></strong> - indicates whether or not the Codex Record&#39;s <a href="#historical-provenance">historical provenance</a> should be hidden, regardless of the value of <code>isPrivate</code>.</li>
+</ol>
+
+<p>Individual permissions for each property of a Codex Record and it&#39;s metadata are
+listed in <a href="#response-examples">Response Examples</a>.</p>
+
+<aside class="success">
+  All Codex Records are fully private by default and must be explicitly
+  <a href="#modify-a-codex-record">marked as public</a> by the owner.
+</aside>
+<h3 id='whitelisted-addresses'>Whitelisted Addresses</h3>
+<p>Every Codex Record has an &quot;off-chain&quot; list of Ethereum addresses allowed to view
+it&#39;s private metadata. The <code>whitelistedAddresses</code> array allows users to provide
+read-only access for any address they wish. See <a href="#get-a-codex-record-39-s-whitelisted-addresses">Get a Codex Record&#39;s Whitelisted Addresses</a>
+(and subsequent sections) for details on how to retrieve and update this list.</p>
+
+<p>Even though private metadata is visible to whitelisted addresses, the
+<code>isHistoricalProvenancePrivate</code> flag can be used to hide the
+<a href="#historical-provenance">historical provenance</a> for a Codex Record. This way,
+the owner can keep some (presumably more confidential) files hidden while still
+providing <em>some</em> access to others.</p>
+<h3 id='approved-addresses'>Approved Addresses</h3>
+<p>A Codex Record can also have an <code>approvedAddress</code>, which is an Ethereum address
+that is allowed to transfer the Codex Record to itself. This is necessary for
+the two-step transfer process. See <a href="#transferring-codex-records">Transferring Codex Records</a>
+for details.</p>
+
+<aside class="success">
+  The <code>approvedAddress</code> is considered to be part of a Codex Record's
+  <a href="#whitelisted-addresses">whitelisted addresses</a>, so addresses
+  approved to transfer a Codex Record also have read-only permissions for
+  private metadata.
+</aside>
+<h2 id='historical-provenance'>Historical Provenance</h2>
+<p>In addition to an array of <code>images</code>, a Codex Record may also contain a special
+array (<code>files</code>) that we call the &quot;historical provenance&quot;. The intent is for
+<code>images</code> to contain pictures and/or videos of the item itself and for <code>files</code>
+to contain other, arbitrary files such as a PDF of physical appraisal documents
+or a scan of an original purchase receipt.</p>
+
+<p>Since files in historical provenance may be considered more &quot;confidential&quot;, a
+separate privacy control is available to keep these files hidden even when being
+viewed by someone with <a href="#permissions">permissions to see private metadata</a>. If a
+Codex Record&#39;s <code>isHistoricalProvenancePrivate</code> flag is <code>true</code>, the <code>files</code>
+array will always be visible <em>to the owner only.</em></p>
+<h2 id='transferring-codex-records'>Transferring Codex Records</h2>
+<p>Transferring a Codex Record is a two-step process:</p>
+
+<ol>
+<li><p>The owner <a href="#start-a-transfer">approves another user</a> to accept the transfer
+ of the Codex Record. This sets the Codex Record&#39;s <code>approvedAddress</code> to that
+ user&#39;s Ethereum address, and grants them read-only access to the private
+ metadata. At this point, the Codex Record is considered an
+ <a href="#get-outgoing-transfers">outgoing transfer</a> for the owner and an
+ <a href="#get-incoming-transfers">incoming transfer</a> for the approved user.</p></li>
+<li><p>The approved user must then explicitly <a href="#accept-a-transfer">accept the incoming transfer</a>.
+ The approved user may also choose to <a href="#ignore-a-transfer">ignore the transfer</a>,
+ in which case they remain the <code>approvedAddress</code> but the Codex Record can be
+ hidden from their list of incoming transfers.</p></li>
+</ol>
+
+<p>When the Codex Record is successfully transferred to the <code>approvedAddress</code> and
+logged on the blockchain, the approved user becomes the new owner of the record
+and a <a href="#provenance-event">Provenance Event</a> is logged.</p>
+
+<p>Additionally, a few &quot;<a href="#quot-off-chain-quot-vs-quot-on-chain-quot-data">off-chain</a>&quot;
+properties are reset to their default values:</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Reset To</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>isPrivate</td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td>isIgnored</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td>isInGallery</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td>approvedAddress</td>
+<td><code>null</code></td>
+</tr>
+<tr>
+<td>whitelistedAddresses</td>
+<td><code>[]</code></td>
+</tr>
+<tr>
+<td>isHistoricalProvenancePrivate</td>
+<td><code>true</code></td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+  If for some reason your application chooses to transfer a Codex Record to an
+  Ethereum smart contract, that contract <em>must</em> implement the
+  <code>ERC721TokenReceiver</code> interface as defined in the
+  <a href="https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md" rel="noopener noreferrer">specification</a>.
+  Otherwise, the transfer will fail because the contract cannot accept ERC-721
+  tokens.
+</aside>
+
+<!--
+@TODO: add these sections when CODX / fees are documented
+## CODX Tokens & Fees
+## ERC-721 Tokens
+-->

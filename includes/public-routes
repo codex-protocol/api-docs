@@ -1,0 +1,366 @@
+<h1 id='public-routes'>Public Routes</h1>
+<p>Unlike <a href="#client-routes">client routes</a>, public routes do not require an
+<code>accessToken</code> in the Authorization header. However, sometimes an <code>accessToken</code>
+is required to retrieve a full response.</p>
+
+<p>For example, to retrieve public information about a Codex Record, you could call
+<code>GET /v1/record/:tokenId</code> without an <code>accessToken</code>. If the Codex Record is
+public, then you will receive a full response. However, if the Codex Record is
+private, calling this route without an <code>accessToken</code> (or an <code>accessToken</code> that
+doesn&#39;t belong to the owner of the Codex Record) will return a response with all
+private information removed (i.e. no <code>metadata</code>).</p>
+
+<p>Similarly, you will not be able to call public routes such as <code>GET /v1/record/:tokenId/metadata</code>
+if the record is private and the <code>accessToken</code> is missing (or if you provide
+your <code>accessToken</code> but you are not the owner.)</p>
+
+<aside class="success">
+  It's generally a good idea to just <em>always</em> include an
+  <a href="#access-tokens">Access Token</a> with every API request.
+</aside>
+<h2 id='get-an-access-token'>Get an Access Token</h2>
+<p>This endpoint can be used to generate an access token, which is required for
+<a href="#making-authenticated-requests">making authenticated requests</a>.</p>
+
+<aside class="warning">
+  When requesting access tokens, you <em>must</em> send the request as
+  <code>Content-Type: application/x-www-form-urlencoded</code>. This is required
+  by the <a href="https://tools.ietf.org/html/rfc6749?#section-4.1.3" rel="noopener noreferrer">OAuth2 Specification</a>.
+</aside>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/oauth2/token'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'post'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="c1">// by using "form" here instead of "body", request will send this request as</span>
+  <span class="c1">//  application/x-www-form-urlencoded</span>
+  <span class="na">form</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">grant_type</span><span class="p">:</span> <span class="s1">'client_credentials'</span><span class="p">,</span>
+    <span class="na">client_id</span><span class="p">:</span> <span class="s1">'5bae56e05d7971becf854a70'</span><span class="p">,</span>
+    <span class="na">client_secret</span><span class="p">:</span> <span class="s1">'352db118-b76c-4c60-9ed8-aa13cb4621b8'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">.</span><span class="nx">accessToken</span><span class="p">)</span> <span class="c1">// also available is</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns an <a href="#oauth2-access-token">OAuth2 Access Token</a>.</p>
+
+<p>Remember to replace the example <code>client_id</code> and <code>client_secret</code> with your application&#39;s <code>client_id</code> and <code>client_secret</code>.</p>
+</blockquote>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code>GET /v1/oauth2/token</code></p>
+<h3 id='request-parameters'>Request Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>client_id</td>
+<td>String</td>
+<td>The unique identifier for your application, provided by Codex.</td>
+</tr>
+<tr>
+<td>grant_type</td>
+<td>String</td>
+<td>Must be <code>client_credentials</code>.</td>
+</tr>
+<tr>
+<td>client_secret</td>
+<td>String</td>
+<td>Your application&#39;s secret, provided by Codex.</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+  This route has <code>snake_case</code> parameters, as required by the
+  <a href="https://tools.ietf.org/html/rfc6749?#section-4.1.3" rel="noopener noreferrer">OAuth2 Specification</a>.
+  This is the only route with <code>snake_case</code> parameters, all other
+  routes have <code>camelCase</code> parameters.
+</aside>
+<h2 id='get-a-codex-record'>Get a Codex Record</h2>
+<p>This endpoint can be used to retrieve a specific Codex Record. This will return
+a full <a href="#codex-record">Codex Record</a> document, including it&#39;s
+<a href="#metadata">metadata</a> and <a href="#provenance-event">provenance</a>.</p>
+
+<aside class="warning">
+  If the Codex Record is private, certain fields (e.g. <code>metadata</code>)
+  will be <code>undefined</code>. Additionally, some fields may be
+  <code>undefined</code> if you are not the owner of the Codex Record. See the
+  <a href="#codex-record">Codex Record</a> description for details.
+</aside>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/records/0'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// Codex Record with tokenId 0</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns a single <a href="#codex-record">Codex Record</a>.</p>
+</blockquote>
+<h3 id='http-request-2'>HTTP Request</h3>
+<p><code>GET /v1/records/:tokenId</code></p>
+<h3 id='url-parameters'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tokenId</td>
+<td>Number</td>
+<td>The <code>tokenId</code> of the Codex Record to retrieve.</td>
+</tr>
+</tbody></table>
+<h2 id='get-a-codex-record-39-s-metadata-only'>Get a Codex Record&#39;s Metadata Only</h2>
+<p>This endpoint can be used to retrieve <em>only</em> the <a href="#metadata">metadata</a> of a
+specific Codex Record. This is useful if you do not need the entire Codex Record
+document.</p>
+
+<aside class="warning">
+  This route will return <code>null</code> if the Codex Record is private,
+  unless you are the owner or a whitelisted address. See
+  <a href="#privacy">Privacy</a> for details.
+</aside>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/records/0/metadata'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// the metadata of Codex Record with tokenId 0</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns a Codex Record&#39;s <a href="#metadata">metadata</a>.</p>
+</blockquote>
+<h3 id='http-request-3'>HTTP Request</h3>
+<p><code>GET /v1/records/:tokenId/metadata</code></p>
+<h3 id='url-parameters-2'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tokenId</td>
+<td>Number</td>
+<td>The <code>tokenId</code> of the Codex Record for which to retrieve the metadata of.</td>
+</tr>
+</tbody></table>
+<h2 id='get-a-codex-record-39-s-provenance-only'>Get a Codex Record&#39;s Provenance Only</h2>
+<p>This endpoint can be used to retrieve <em>only</em> the <a href="#provenance-event">provenance</a>
+of a specific Codex Record. This is useful if you do not need the entire Codex
+Record document.</p>
+
+<aside class="notice">
+  This route always returns an array, because "provenance" is really a list of
+  events.
+</aside>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/records/0/provenance'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="c1">// sort by date created in reverse</span>
+  <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">order</span><span class="p">:</span> <span class="s1">'-createdAt'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// the provenance of Codex Record with tokenId 0</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns a Codex Record&#39;s <a href="#provenance-event">provenance</a>.</p>
+</blockquote>
+<h3 id='http-request-4'>HTTP Request</h3>
+<p><code>GET /v1/records/:tokenId/provenance</code></p>
+<h3 id='url-parameters-3'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tokenId</td>
+<td>Number</td>
+<td>The <code>tokenId</code> of the Codex Record for which to retrieve the provenance of.</td>
+</tr>
+</tbody></table>
+<h3 id='request-parameters-2'>Request Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>order</td>
+<td>String</td>
+<td>createdAt</td>
+<td>To sort in reverse order, specify this value as <code>-createdAt</code>.</td>
+</tr>
+</tbody></table>
+<h2 id='get-a-codex-record-39-s-main-image-only'>Get a Codex Record&#39;s Main Image Only</h2>
+<p>This endpoint can be used to retrieve <em>only</em> the main image for a specific Codex
+Record. This is useful if you do not need the entire Codex Record document.</p>
+
+<aside class="warning">
+  This route will return <code>null</code> if the Codex Record is private,
+  unless you are the owner or a whitelisted address. See
+  <a href="#privacy">Privacy</a> for details.
+</aside>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/records/0/main-image'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="c1">// sort by date created in reverse</span>
+  <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">order</span><span class="p">:</span> <span class="s1">'-createdAt'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// the mainImage of Codex Record with tokenId 0</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns a single <a href="#file">File</a>.</p>
+</blockquote>
+<h3 id='http-request-5'>HTTP Request</h3>
+<p><code>GET /v1/records/:tokenId/main-image</code></p>
+<h3 id='url-parameters-4'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tokenId</td>
+<td>Number</td>
+<td>The <code>tokenId</code> of the Codex Record for which to retrieve the main image of.</td>
+</tr>
+</tbody></table>
+<h2 id='get-a-codex-record-39-s-images-only'>Get a Codex Record&#39;s Images Only</h2>
+<p>This endpoint can be used to retrieve <em>only</em> the <code>images</code> array for a specific
+Codex Record. This is useful if you do not need the entire Codex Record document.</p>
+
+<aside class="warning">
+  This route will return <code>null</code> if the Codex Record is private,
+  unless you are the owner or a whitelisted address. See
+  <a href="#privacy">Privacy</a> for details.
+</aside>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/records/0/images'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="c1">// sort by date created in reverse</span>
+  <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">order</span><span class="p">:</span> <span class="s1">'-createdAt'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// the images array of Codex Record with tokenId 0</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns an array of <a href="#file">Files</a>.</p>
+</blockquote>
+<h3 id='http-request-6'>HTTP Request</h3>
+<p><code>GET /v1/records/:tokenId/images</code></p>
+<h3 id='url-parameters-5'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tokenId</td>
+<td>Number</td>
+<td>The <code>tokenId</code> of the Codex Record for which to retrieve the images array of.</td>
+</tr>
+</tbody></table>
+<h2 id='get-a-codex-record-39-s-files-only'>Get a Codex Record&#39;s Files Only</h2>
+<p>This endpoint can be used to retrieve <em>only</em> the <code>files</code> array for a specific
+Codex Record. This is useful if you do not need the entire Codex Record document.</p>
+
+<aside class="warning">
+  This route will return <code>null</code> if the Codex Record is private,
+  unless you are the owner or a whitelisted address. See
+  <a href="#privacy">Privacy</a> for details.
+</aside>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/records/0/files'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="c1">// sort by date created in reverse</span>
+  <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">order</span><span class="p">:</span> <span class="s1">'-createdAt'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// the files array of Codex Record with tokenId 0</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns an array of <a href="#file">Files</a>.</p>
+</blockquote>
+<h3 id='http-request-7'>HTTP Request</h3>
+<p><code>GET /v1/records/:tokenId/files</code></p>
+<h3 id='url-parameters-6'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tokenId</td>
+<td>Number</td>
+<td>The <code>tokenId</code> of the Codex Record for which to retrieve the files array of.</td>
+</tr>
+</tbody></table>
