@@ -506,7 +506,7 @@ address      | String | _(Required if `email` is not specified)_ The Ethereum ad
 This endpoint can be used to stop the process of transferring a Codex Record to
 another person. This essentially removes the currently set `approvedAddress`,
 preventing that address from accepting the transfer (and removing it from their
-[incoming transfers](get-incoming-transfers) list.) See
+[incoming transfers](#get-incoming-transfers) list.) See
 [Transferring Codex Records](#transferring-codex-records) for details.
 
 <aside class="success">
@@ -595,7 +595,7 @@ tokenId      | Number | The `tokenId` of the Codex Record for which to accept th
 ## Ignore a Transfer
 
 This endpoint can be used to mark an incoming transfer as "ignored". This is
-useful to (visually) remove a transfer from your [incoming transfers](get-incoming-transfers)
+useful to (visually) remove a transfer from your [incoming transfers](#get-incoming-transfers)
 list without accepting it, because there's no blockchain mechanism to explicitly
 reject a transfer. See [Transferring Codex Records](#transferring-codex-records)
 for details.
