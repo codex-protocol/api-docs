@@ -95,7 +95,7 @@ Action                                                                      | Ev
 [Creating a Codex Record](#create-a-codex-record)                           | `codex-record:created`
 [Modifying a Codex Record's Metadata](#modify-a-codex-record-39-s-metadata) | `codex-record:modified`
 [Starting a Transfer](#start-a-transfer)                                    | `codex-record:address-approved:owner` and `codex-record:address-approved:approved`
-[Canceling a Transfer](#cancel-a-transfer)                                  | `codex-record:address-approved:cancel`
+[Canceling a Transfer](#cancel-a-transfer)                                  | Unfortunately none, due to technical complications
 [Accepting a Transfer](#accept-a-transfer)                                  | `codex-record:transferred:old-owner` and `codex-record:transferred:new-owner`
 
 ### Webhook Structure
@@ -141,7 +141,6 @@ codex-record:address-whitelisted       | [Codex Record](#codex-record) | Sent af
 codex-record:transferred:new-owner     | [Codex Record](#codex-record) | Sent after [accepting an incoming transfer](#accept-a-transfer), when the Codex Record has been successfully transferred to your address and logged on the blockchain.
 codex-record:transferred:old-owner     | [Codex Record](#codex-record) | Sent after someone [accepts one of your application's outgoing transfers](#accept-a-transfer), when the Codex Record has been successfully transferred to the recipient's address and logged on the blockchain.
 codex-record:address-approved:owner    | [Codex Record](#codex-record) | Sent after [starting a transfer](#start-a-transfer), when the Codex Record's `approvedAddress` has been updated on the blockchain and is ready to be [accepted](#accept-a-transfer) by the recipient.
-codex-record:address-approved:cancel   | [Codex Record](#codex-record) | Sent after [canceling a transfer](#cancel-a-transfer), the Codex Record's `approvedAddress` has been updated and logged on the blockchain.
 codex-record:address-approved:approved | [Codex Record](#codex-record) | Sent after someone [starts a transfer](#start-a-transfer) to your application, when the Codex Record's `approvedAddress` has been updated on the blockchain and is ready to be [accepted](#accept-a-transfer) by your application.
 
 <!--
