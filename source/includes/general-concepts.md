@@ -231,38 +231,168 @@ as the `key`. Then compare the result with the `hash` specified in the request.
 
 ## Gas Allowance
 
-**@TODO:** talk about gas allowances and when they reset, also list some gas metrics
+Since each blockchain transaction The Codex API sends on behalf of your
+application cost small amounts of Ether (known as "gas"), we limit all
+applications to a certain amount of gas per period. This ensures The Codex API
+is not abused.
 
+At the start of each period, your gas allowance is reset. The following table
+shows the reset periods for each environment:
 
-## Zero Address
+Network | Period
+------- | ----------------------------------------------------------------------
+Ropsten | Every 24 hours
+Rinkeby | Every 30 days
+Mainnet | Every 30 days
 
-**@TODO:** talk about how the zero address will be used in provenance events
+<aside class="success">
+  Currently, all applications receive <strong>40,500,000 gas</strong> per period.
+  That's enough to create and transfer about 100 records. If you believe your
+  application requires more gas per period, please
+  <a href="mailto:help@codexprotocol.com?subject=Gas%20Allowance%20Increase%20Request&body=Let%20us%20know%20why%20your%20application%20needs%20a%20higher%20Gas%20Allowance.">contact us</a> and we can work
+  something out.
+</aside>
 
 
 ## Privacy
 
-**@TODO:** talk about how Codex Records are private by default
+The public nature of blockchain presents some interesting challenges when
+dealing with information many people people wish to keep private. To take
+advantage of Ethereum's distributed, public ledger while still protecting
+our user's private data, Codex Protocol has taken a hybrid "off-chain / on-chain"
+approach to storing user data.
+
+### "Off-Chain" vs "On-Chain" Data
+
+All [metadata](#metadata) is stored "off-chain" (i.e. in a
+[metadata provider](#metadata-provider)'s database), but _hashes_ of this data
+are stored on "on-chain" (i.e in a Codex Protocol smart contract.) These hashes
+can be used to verify the data stored in a metadata provider's database matches
+the information on the blockchain, and therefore has not been tampered with.
+
+Specifically, the only "on-chain" data are hashes of the Codex Record's name,
+description, and associated files. Sending a request that will modify "on-chain"
+data is considered an asynchronous action and will eventually result in your
+application receiving a webhook event. See [webhooks](#webhooks) for details.
+
+Updates to any other "off-chain" property of the Codex Record (such as the
+`isPrivate` flag, or the `whitelistedAddresses` array), will be immediately
+applied and (usually) won't cause a webhook event to be sent.
+
+This "off-chain / on-chain" data separation is why there are two routes to
+modify a Codex Record. When you [Modify a Codex Record](#modify-a-codex-record),
+you're modifying it's "off-chain" data. When you
+[Modify a Codex Record's Metadata](#modify-a-codex-record-39-s-metadata), you're
+modifying it's "on-chain" data.
 
 ### Permissions
 
-### Approved Addresses
+Some properties of a Codex Record and it's metadata are not returned in API
+responses (i.e. they will be `undefined`) if the Codex Record marked as private
+and the requesting user does not have the appropriate permissions.
+
+There are three levels of permissions for Codex Records:
+
+  1. **Owner** - full read & write permissions, all data always returned
+  1. **Whitelisted Addresses** - read-only permissions, most data returned
+  1. **Public Access / Non-Whitelisted Addresses** - read-only permissions, only public information returned
+
+Additionally, there are two levels of privacy for a Codex Record:
+
+  1. **`isPrivate`** - indicates that the Codex Record's metadata is private and can only be retrieved by the owner or whitelisted addresses.
+  1. **`isHistoricalProvenancePrivate`** - indicates whether or not the Codex Record's [historical provenance](#historical-provenance) should be hidden, regardless of the value of `isPrivate`.
+
+Individual permissions for each property of a Codex Record and it's metadata are
+listed in [Response Examples](#response-examples).
+
+<aside class="success">
+  All Codex Records are fully private by default and must be explicitly
+  <a href="#modify-a-codex-record">marked as public</a> by the owner.
+</aside>
 
 ### Whitelisted Addresses
+
+Every Codex Record has an "off-chain" list of Ethereum addresses allowed to view
+it's private metadata. The `whitelistedAddresses` array allows users to provide
+read-only access for any address they wish. See [Get a Codex Record's Whitelisted Addresses](#get-a-codex-record-39-s-whitelisted-addresses)
+(and subsequent sections) for details on how to retrieve and update this list.
+
+Even though private metadata is visible to whitelisted addresses, the
+`isHistoricalProvenancePrivate` flag can be used to hide the
+[historical provenance](#historical-provenance) for a Codex Record. This way,
+the owner can keep some (presumably more confidential) files hidden while still
+providing _some_ access to others.
+
+### Approved Addresses
+
+A Codex Record can also have an `approvedAddress`, which is an Ethereum address
+that is allowed to transfer the Codex Record to itself. This is necessary for
+the two-step transfer process. See [Transferring Codex Records](#transferring-codex-records)
+for details.
+
+<aside class="success">
+  The <code>approvedAddress</code> is considered to be part of a Codex Record's
+  <a href="#whitelisted-addresses">whitelisted addresses</a>, so addresses
+  approved to transfer a Codex Record also have read-only permissions for
+  private metadata.
+</aside>
 
 
 ## Historical Provenance
 
-**@TODO:** talk about the `files` array in a Codex Record's metadata
+In addition to an array of `images`, a Codex Record may also contain a special
+array (`files`) that we call the "historical provenance". The intent is for
+`images` to contain pictures and/or videos of the item itself and for `files`
+to contain other, arbitrary files such as a PDF of physical appraisal documents
+or a scan of an original purchase receipt.
 
-
-## "Off-Chain" vs "On-Chain" Data
-
-**@TODO:** talk about a Codex Record vs it's metadata during creation & modification
+Since files in historical provenance may be considered more "confidential", a
+separate privacy control is available to keep these files hidden even when being
+viewed by someone with [permissions to see private metadata](#permissions). If a
+Codex Record's `isHistoricalProvenancePrivate` flag is `true`, the `files`
+array will always be visible _to the owner only._
 
 
 ## Transferring Codex Records
 
-**@TODO:** talk about the two-step transfer process, what gets reset on transfer
+Transferring a Codex Record is a two-step process:
+
+  1. The owner [approves another user](#start-a-transfer) to accept the transfer
+     of the Codex Record. This sets the Codex Record's `approvedAddress` to that
+     user's Ethereum address, and grants them read-only access to the private
+     metadata. At this point, the Codex Record is considered an
+     [outgoing transfer](#get-outgoing-transfers) for the owner and an
+     [incoming transfer](#get-incoming-transfers) for the approved user.
+
+  1. The approved user must then explicitly [accept the incoming transfer](#accept-a-transfer).
+     The approved user may also choose to [ignore the transfer](#ignore-a-transfer),
+     in which case they remain the `approvedAddress` but the Codex Record can be
+     hidden from their list of incoming transfers.
+
+When the Codex Record is successfully transferred to the `approvedAddress` and
+logged on the blockchain, the approved user becomes the new owner of the record
+and a [Provenance Event](#provenance-event) is logged.
+
+Additionally, a few "[off-chain](#quot-off-chain-quot-vs-quot-on-chain-quot-data)"
+properties are reset to their default values:
+
+Property                      | Reset To
+----------------------------- | ------------------------------------------------
+isPrivate                     | `true`
+isIgnored                     | `false`
+isInGallery                   | `false`
+approvedAddress               | `null`
+whitelistedAddresses          | `[]`
+isHistoricalProvenancePrivate | `true`
+
+<aside class="notice">
+  If for some reason your application chooses to transfer a Codex Record to an
+  Ethereum smart contract, that contract <em>must</em> implement the
+  <code>ERC721TokenReceiver</code> interface as defined in the
+  <a href="https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md" rel="noopener noreferrer">specification</a>.
+  Otherwise, the transfer will fail because the contract cannot accept ERC-721
+  tokens.
+</aside>
 
 
 <!--
