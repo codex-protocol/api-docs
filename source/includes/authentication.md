@@ -10,7 +10,7 @@ Codex and the application developer. Additionally, we only support the
 application that can protect secrets from public users (i.e. calls to The Codex
 API should be happening on a server application and not from within the browser.)
 
-To register an application, send us email with the following information:
+To register an application, [send us an email](mailto:help@codexprotocol.com?subject=Codex%20API%20Application%20Request&body=Please%20provide%20a%20brief%20description%20of%20your%20application.) with the following information:
 
 Property   | Description
 ---------- | -------------------------------------------------------------------
