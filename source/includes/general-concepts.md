@@ -92,7 +92,7 @@ to them as successful.
 
 Action                                                                      | Event(s)
 --------------------------------------------------------------------------- | --------
-[Creating a Codex Record](#create-a-codex-record)                           | `codex-record:minted`
+[Creating a Codex Record](#create-a-codex-record)                           | `codex-record:created`
 [Modifying a Codex Record's Metadata](#modify-a-codex-record-39-s-metadata) | `codex-record:modified`
 [Starting a Transfer](#start-a-transfer)                                    | `codex-record:address-approved:owner` and `codex-record:address-approved:approved`
 [Canceling a Transfer](#cancel-a-transfer)                                  | `codex-record:address-approved:cancel`
@@ -106,7 +106,7 @@ Action                                                                      | Ev
 {
   "timestamp": 1539024178127,
   "hash": "5fed9779c702a873e8c68872eca959876d9d00a84a1cb5fb58ecd6c3e83f307b",
-  "eventName": "codex-record:minted",
+  "eventName": "codex-record:created",
   "eventData": {
     // varies by event, usually a Codex Record
   }
@@ -135,7 +135,7 @@ The following table lists all webhook events.
 
 Event Name                             | Event Data                    | Description
 -------------------------------------- | ----------------------------- | -----------
-codex-record:minted                    | [Codex Record](#codex-record) | Sent after [creating a Codex Record](#create-a-codex-record), when the Codex Record has been created and logged on the blockchain.
+codex-record:created                   | [Codex Record](#codex-record) | Sent after [creating a Codex Record](#create-a-codex-record), when the Codex Record has been created and logged on the blockchain.
 codex-record:modified                  | [Codex Record](#codex-record) | Sent after [modifying a Codex Record's metadata](#modify-a-codex-record-39-s-metadata), when the Codex Record has been updated and logged on the blockchain.
 codex-record:address-whitelisted       | [Codex Record](#codex-record) | Sent after someone [adds your application to a Codex Record's whitelisted addresses](#get-a-codex-record-39-s-whitelisted-addresses). This event is sent immediately as this is not an asynchronous action.
 codex-record:transferred:new-owner     | [Codex Record](#codex-record) | Sent after [accepting an incoming transfer](#accept-a-transfer), when the Codex Record has been successfully transferred to your address and logged on the blockchain.
