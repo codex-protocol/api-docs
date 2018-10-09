@@ -147,6 +147,12 @@ Codex Record itself can't be created until the transaction has been mined.
 
 `POST /v1/client/record`
 
+### Webhook Event
+
+Event Name             | Recipient
+---------------------- | -------------------------------------------------------
+`codex-record:created` | Owner
+
 ### Request Parameters
 
 Parameter    | Type             | Description
@@ -204,6 +210,12 @@ request(options, (error, response) => {
 ### HTTP Request
 
 `PUT /v1/client/record/:tokenId`
+
+### Webhook Event
+
+Event Name                                                                  | Recipient
+--------------------------------------------------------------------------- | ---------
+`codex-record:address-whitelisted` (if `whitelistedAddresses` was replaced) | Each newly added whitelisted user
 
 ### URL Parameters
 
@@ -310,6 +322,12 @@ request(options, (error, response) => {
 ### HTTP Request
 
 `PUT /v1/client/record/:tokenId/metadata`
+
+### Webhook Event
+
+Event Name              | Recipient
+----------------------- | ------------------------------------------------------
+`codex-record:modified` | Owner
 
 ### URL Parameters
 
@@ -469,6 +487,13 @@ transferred, although no data will have changed at this point.
 
 `PUT /v1/client/records/:tokenId/transfer/approve`
 
+### Webhook Event
+
+Event Name                               | Recipient
+---------------------------------------- | -------------------------------------
+`codex-record:address-approved:owner`    | Owner
+`codex-record:address-approved:approved` | The newly approved user
+
 ### URL Parameters
 
 Parameter    | Type   | Description
@@ -584,6 +609,13 @@ transfer is being accepted, although no data will have changed at this point.
 ### HTTP Request
 
 `PUT /v1/client/records/:tokenId/transfer/accept`
+
+### Webhook Event
+
+Event Name                           | Recipient
+------------------------------------ | -----------------------------------------
+`codex-record:transferred:old-owner` | The old owner
+`codex-record:transferred:new-owner` | The new owner
 
 ### URL Parameters
 
@@ -820,6 +852,12 @@ request(options, (error, response) => {
 
 `POST /v1/client/records/:tokenId/whitelisted-addresses`
 
+### Webhook Event
+
+Event Name                         | Recipient
+---------------------------------- | -------------------------------------------
+`codex-record:address-whitelisted` | The newly whitelisted user
+
 ### URL Parameters
 
 Parameter    | Type   | Description
@@ -920,6 +958,12 @@ request(options, (error, response) => {
 ### HTTP Request
 
 `PUT /v1/client/records/:tokenId/whitelisted-addresses`
+
+### Webhook Event
+
+Event Name                         | Recipient
+---------------------------------- | -------------------------------------------
+`codex-record:address-whitelisted` | Each newly whitelisted user
 
 ### URL Parameters
 
