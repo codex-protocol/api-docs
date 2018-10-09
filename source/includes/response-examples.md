@@ -121,23 +121,23 @@ accessToken          | String | The access token itself. This should be [added t
 }
 ```
 
-Property                      | Type                                         | Description
------------------------------ | -------------------------------------------- | -----------
-tokenId                       | String                                       | The unique identifier of this Codex Record
-metadata                      | [Metadata](#metadata)                        | Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address. See [Metadata](#metadata) for details.
-provider                      | [Metadata Provider](#metadata-provider)      | See [Metadata Provider](#metadata-provider) for details.
-nameHash                      | String                                       | The hash of the metadata's plain text name.
-isIgnored                     | Boolean                                      | This flag indicates that a user has chosen to "ignore" an incoming Codex Record transfer. This is useful to hide incoming transfers in a User Interface since there's no blockchain mechanism to explicitly reject a transfer.
-isPrivate                     | Boolean                                      | This flag indicates that the metadata for this record is private and can only be retrieved by the owner, the `approvedAddress`, and the addresses listed in `whitelistedAddresses`.
-provenance                    | Array[[Provenance Event](#provenance-event)] | An array of [Provenance Events](#provenance-event).
-fileHashes                    | Array[String]                                | An array of file hashes that belong to this Codex Record's metadata.
-providerId                    | String                                       | See unique id of the [Metadata Provider](#metadata-provider).
-ownerAddress                  | String                                       | The Ethereum address of the client / user that currently owns this Codex Record.
-descriptionHash               | String                                       | The hash of the metadata's plain text description.
-approvedAddress               | String                                       | The Ethereum address of the user currently approved to accept the transfer of this Codex Record. See [Transferring a Codex Record](#transferring-codex-records) for details. Approved addresses are considered part of the `whitelistedAddresses` array.
-providerMetadataId            | String                                       | The unique ID of the metadata that belongs to this Codex Record.
-whitelistedAddresses          | Array[String]                                | An array of Ethereum addresses allowed to view private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records. Will be `undefined` if you are not the owner.
-isHistoricalProvenancePrivate | Boolean                                      | This flag indicates whether or not [historical provenance](#historical-provenance) (i.e. `metadata.files`) should be hidden, regardless of the value of `isPrivate`.
+Property                      | Type                                         | Permissions                                      | Description
+----------------------------- | -------------------------------------------- | ------------------------------------------------ | -----------
+tokenId                       | String                                       | Public                                           | The unique identifier of this Codex Record
+metadata                      | [Metadata](#metadata)                        | Whitelisted Addresses (if `isPrivate` is `true`) | Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address. See [Metadata](#metadata) for details.
+provider                      | [Metadata Provider](#metadata-provider)      | Public                                           | See [Metadata Provider](#metadata-provider) for details.
+nameHash                      | String                                       | Public                                           | The hash of the metadata's plain text name.
+isIgnored                     | Boolean                                      | Public                                           | This flag indicates that a user has chosen to "ignore" an incoming Codex Record transfer. This is useful to hide incoming transfers in a User Interface since there's no blockchain mechanism to explicitly reject a transfer.
+isPrivate                     | Boolean                                      | Public                                           | This flag indicates that the metadata for this record is private and can only be retrieved by the owner, the `approvedAddress`, and the addresses listed in `whitelistedAddresses`.
+provenance                    | Array[[Provenance Event](#provenance-event)] | Public                                           | An array of [Provenance Events](#provenance-event).
+fileHashes                    | Array[String]                                | Public                                           | An array of file hashes that belong to this Codex Record's metadata.
+providerId                    | String                                       | Public                                           | See unique id of the [Metadata Provider](#metadata-provider).
+ownerAddress                  | String                                       | Public                                           | The Ethereum address of the client / user that currently owns this Codex Record.
+descriptionHash               | String                                       | Public                                           | The hash of the metadata's plain text description.
+approvedAddress               | String                                       | Public                                           | The Ethereum address of the user currently approved to accept the transfer of this Codex Record. See [Transferring a Codex Record](#transferring-codex-records) for details. Approved addresses are considered part of the `whitelistedAddresses` array. See [Approved Addresses](#approved-addresses) for details.
+providerMetadataId            | String                                       | Public                                           | The unique ID of the metadata that belongs to this Codex Record.
+whitelistedAddresses          | Array[String]                                | Owner Only                                       | An array of Ethereum addresses allowed to view private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records. Will be `undefined` if you are not the owner. See [Whitelisted Addresses](#whitelisted-addresses) for details.
+isHistoricalProvenancePrivate | Boolean                                      | Public                                           | This flag indicates whether or not [historical provenance](#historical-provenance) (i.e. `metadata.files`) should be hidden, regardless of the value of `isPrivate`.
 
 <aside class="notice">
   <code>nameHash</code>, <code>descriptionHash</code>, and <code>fileHashes</code> can be used to verify the data sent from a metadata provider (e.g. The Codex API) matches the information on the blockchain, and therefore has not been tampered with.
@@ -186,21 +186,21 @@ corresponding hashes stored on the blockchain. Storing this (potentially)
 sensitive data off-chain is necessary for privacy controls, since the nature of
 blockchain transactions are public.
 
-Property           | Type                                     | Description
------------------- | ---------------------------------------- | ----------------
-id                 | String                                   | The unique ID of the metadata.
-name               | String                                   | The plain text name of the Codex Record. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
-files              | Array[[File](#file)]                     | An array of supplemental files that belong to this metadata. This is considered the "[historical provenance](#historical-provenance)". Can `undefined` if `isHistoricalProvenancePrivate` is `true` on the Codex Record. See [File](#file) for details.
-images             | Array[[File](#file)]                     | An array of supplemental images that belong to this metadata. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address. See [File](#file) for details.
-nameHash           | String                                   | The hash of the plain text name.
-mainImage          | [File](#file)                            | The main image of this Codex Record. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
-fileHashes         | Array[String]                            | An array of file hashes that belong to this metadata.
-description        | String                                   | The plain text description of the Codex Record. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
-pendingUpdates     | Array[[Pending Update](#pending-update)] | An array of updates that are currently being processed for this metadata. See [Pending Update](#pending-update) for details. Will be `undefined` if you are not the owner.
-creatorAddress     | String                                   | The Ethereum address of the client / user who created this metadata (not necessarily the current Codex Record owner!)
-descriptionHash    | String                                   | The hash of the plain text description.
-hasPendingUpdates  | Boolean                                  | This flag is true if there is currently a "modify" transaction processing on the blockchain (e.g. after [modifying a Codex Record's metadata](#modify-a-codex-record-39-s-metadata)). This is useful for showing some sort of loading state on a Codex Record while modifications are pending. See [Pending Update](#pending-update) for details.
-codexRecordTokenId | String                                   | The `tokenId` of the Codex Record this metadata belongs to.
+Property           | Type                                     | Permissions                                                                                  | Description
+------------------ | ---------------------------------------- | -------------------------------------------------------------------------------------------- | ----------------
+id                 | String                                   | Public                                                                                          | The unique ID of the metadata.
+name               | String                                   | Whitelisted Addresses (if `isPrivate` is `true`)                                                | The plain text name of the Codex Record. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
+files              | Array[[File](#file)]                     | Whitelisted Addresses (if `isPrivate` is `true` and `isHistoricalProvenancePrivate` is `false`) | An array of supplemental files that belong to this metadata. This is considered the "[historical provenance](#historical-provenance)". Can `undefined` if `isHistoricalProvenancePrivate` is `true` on the Codex Record. See [File](#file) for details.
+images             | Array[[File](#file)]                     | Whitelisted Addresses (if `isPrivate` is `true`)                                                | An array of supplemental images that belong to this metadata. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address. See [File](#file) for details.
+nameHash           | String                                   | Public                                                                                          | The hash of the plain text name.
+mainImage          | [File](#file)                            | Whitelisted Addresses (if `isPrivate` is `true`)                                                | The main image of this Codex Record. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
+fileHashes         | Array[String]                            | Public                                                                                          | An array of file hashes that belong to this metadata.
+description        | String                                   | Whitelisted Addresses (if `isPrivate` is `true`)                                                | The plain text description of the Codex Record. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
+pendingUpdates     | Array[[Pending Update](#pending-update)] | Owner Only                                                                                      | An array of updates that are currently being processed for this metadata. See [Pending Update](#pending-update) for details. Will be `undefined` if you are not the owner.
+creatorAddress     | String                                   | Public                                                                                          | The Ethereum address of the client / user who created this metadata (not necessarily the current Codex Record owner!)
+descriptionHash    | String                                   | Public                                                                                          | The hash of the plain text description.
+hasPendingUpdates  | Boolean                                  | Public                                                                                          | This flag is true if there is currently a "modify" transaction processing on the blockchain (e.g. after [modifying a Codex Record's metadata](#modify-a-codex-record-39-s-metadata)). This is useful for showing some sort of loading state on a Codex Record while modifications are pending. See [Pending Update](#pending-update) for details.
+codexRecordTokenId | String                                   | Public                                                                                          | The `tokenId` of the Codex Record this metadata belongs to.
 
 
 ## Pending Update
