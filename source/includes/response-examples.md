@@ -273,7 +273,7 @@ modified what data.
 Property        | Type   | Description
 --------------- | ------ | -----------------------------------------------------
 type            | String | One of `['created', 'modified', 'transferred']`.
-oldOwnerAddress | String | The Ethereum address of the owner before this transaction occurred. For `created` events, this will be the [zero address](#zero-address). For `modified` events, this will be the same as `newOwnerAddress`.
+oldOwnerAddress | String | The Ethereum address of the owner before this transaction occurred. For `created` events, this will be the "zero address" (a special address that nobody can own, used as a "null value" for address-type variables.) For `modified` events, this will be the same as `newOwnerAddress`.
 newOwnerAddress | String | The Ethereum address of the after before this transaction occurred. For `modified` events, this will be the same as `oldOwnerAddress`.
 transactionHash | String | The Ethereum transaction hash of the transaction that emitted this event.
 
