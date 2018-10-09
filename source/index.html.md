@@ -12,10 +12,9 @@ includes:
   - authentication
   - public-routes
   - client-routes
-  - general-concepts # @TODO: should this be moved above the routes?
+  - general-concepts
   - response-examples
   - errors
-  - todo
 
 search: true
 ---
