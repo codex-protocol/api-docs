@@ -498,7 +498,7 @@ modified what data.</p>
 <h2 id='metadata-provider'>Metadata Provider</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
   <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"codex"</span><span class="p">,</span>
   <span class="s2">"description"</span><span class="p">:</span> <span class="s2">"The Codex API"</span><span class="p">,</span>
-  <span class="s2">"metadataUrl"</span><span class="p">:</span> <span class="s2">"https://rinkeby-codex-registry-api.codexprotocol.com/v1/records/"</span>
+  <span class="s2">"metadataUrl"</span><span class="p">:</span> <span class="s2">"https://rinkeby-api.codexprotocol.com/v1/records/"</span>
 <span class="p">}</span>
 </code></pre>
 <p>A Metadata Provider is known source of Codex Record metadata. Since metadata

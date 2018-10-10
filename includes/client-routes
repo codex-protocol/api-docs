@@ -14,7 +14,7 @@ a request that would consume gas.</p>
 <pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
 
 <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client'</span><span class="p">,</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
   <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
 
@@ -43,7 +43,7 @@ currently owns.</em></p>
 <pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
 
 <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client/records'</span><span class="p">,</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
   <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
 
@@ -112,7 +112,7 @@ the blockchain.</p>
 <span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
 
 <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/record'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client/record'</span><span class="p">,</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'post'</span><span class="p">,</span>
   <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
 
@@ -206,7 +206,7 @@ request, the response will be the immediately-updated Codex Record.</p>
 <pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
 
 <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/record/0'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client/record/0'</span><span class="p">,</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'put'</span><span class="p">,</span>
   <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
 
@@ -323,7 +323,7 @@ until the transaction has been mined on the blockchain.</p>
 <span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
 
 <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/record/0/metadata'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client/record/0/metadata'</span><span class="p">,</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'put'</span><span class="p">,</span>
   <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
 
@@ -461,7 +461,7 @@ Record&#39;s <code>images</code> array:</p>
 
 <span class="c1">// first, get the existing images</span>
 <span class="kr">const</span> <span class="nx">getCodexRecordOptions</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/records/0/images'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/records/0/images'</span><span class="p">,</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
   <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
 
@@ -491,7 +491,7 @@ Record&#39;s <code>images</code> array:</p>
 
   <span class="c1">// now send in the "new state" of the images array</span>
   <span class="kr">const</span> <span class="nx">updateCodexRecordOptions</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/record/0/metadata'</span><span class="p">,</span>
+    <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client/record/0/metadata'</span><span class="p">,</span>
     <span class="na">method</span><span class="p">:</span> <span class="s1">'put'</span><span class="p">,</span>
     <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
 
@@ -548,7 +548,7 @@ another person. Transferring is a two step process, see
 <pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
 
 <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/transfer/approve'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client/records/0/transfer/approve'</span><span class="p">,</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'put'</span><span class="p">,</span>
   <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
 
@@ -657,7 +657,7 @@ preventing that address from accepting the transfer (and removing it from their
 <pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
 
 <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/transfer/cancel'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client/records/0/transfer/cancel'</span><span class="p">,</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'put'</span><span class="p">,</span>
   <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
 
@@ -703,7 +703,7 @@ transfer is being cancelled, although no data will have changed at this point.</
 <pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
 
 <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/transfer/accept'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client/records/0/transfer/accept'</span><span class="p">,</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'put'</span><span class="p">,</span>
   <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
 
@@ -769,7 +769,7 @@ Record</a> for details.</p>
 <pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
 
 <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/transfer/ignore'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client/records/0/transfer/ignore'</span><span class="p">,</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'put'</span><span class="p">,</span>
   <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
 
@@ -810,7 +810,7 @@ for details.</p>
 <pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
 
 <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/transfers/outgoing'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client/transfers/outgoing'</span><span class="p">,</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
   <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
 
@@ -872,7 +872,7 @@ for details.</p>
 <pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
 
 <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/transfers/incoming'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client/transfers/incoming'</span><span class="p">,</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
   <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
 
@@ -950,7 +950,7 @@ details.</p>
 <pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
 
 <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/whitelisted-addresses'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client/records/0/whitelisted-addresses'</span><span class="p">,</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
   <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
 
@@ -990,7 +990,7 @@ metadata for this Codex Record, effectively giving them read-only access. See
 <pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
 
 <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/whitelisted-addresses'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client/records/0/whitelisted-addresses'</span><span class="p">,</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
   <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
 
@@ -1060,7 +1060,7 @@ details.</p>
 <pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
 
 <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/whitelisted-addresses'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client/records/0/whitelisted-addresses'</span><span class="p">,</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'delete'</span><span class="p">,</span>
   <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
 
@@ -1117,7 +1117,7 @@ See <a href="#whitelisted-addresses">Whitelisted Addresses</a> for details.</p>
 <pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
 
 <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/whitelisted-addresses'</span><span class="p">,</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client/records/0/whitelisted-addresses'</span><span class="p">,</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'put'</span><span class="p">,</span>
   <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
 

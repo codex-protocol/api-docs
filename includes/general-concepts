@@ -7,7 +7,7 @@ documentation.</p>
 </blockquote>
 <pre class="highlight http tab-http"><code><span class="nf">PUT</span> <span class="nn">/v1/client/record/100/metadata?name=Really%20Cool%20Codex%20Record</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/x-www-form-urlencoded</span>
-<span class="na">Host</span><span class="p">:</span> <span class="s">https://rinkeby-codex-registry-api.codexprotocol.com</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">https://rinkeby-api.codexprotocol.com</span>
 <span class="na">Authorization</span><span class="p">:</span> <span class="s">Bearer d49694e5a3459759cc7ac1741de246e184e51d6e</span>
 
 description=This+is+a+really+cool+Codex+Record!
@@ -17,7 +17,7 @@ description=This+is+a+really+cool+Codex+Record!
 </blockquote>
 <pre class="highlight http tab-http"><code><span class="nf">PUT</span> <span class="nn">/v1/client/record/0/metadata</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Content-Type</span><span class="p">:</span> <span class="s">application/json</span>
-<span class="na">Host</span><span class="p">:</span> <span class="s">https://rinkeby-codex-registry-api.codexprotocol.com</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">https://rinkeby-api.codexprotocol.com</span>
 <span class="na">Authorization</span><span class="p">:</span> <span class="s">Bearer e933e3e02e4f16d552e469367b25293d75c3d3c2</span>
 
 <span class="p">{</span><span class="w">
@@ -29,7 +29,7 @@ description=This+is+a+really+cool+Codex+Record!
 <p>and this one:</p>
 </blockquote>
 <pre class="highlight http tab-http"><code><span class="nf">PUT</span> <span class="nn">/v1/client/record/0/metadata?description=This%20is%20a%20really%20cool%20Codex%20Record!</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
-<span class="na">Host</span><span class="p">:</span> <span class="s">https://rinkeby-codex-registry-api.codexprotocol.com</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">https://rinkeby-api.codexprotocol.com</span>
 <span class="na">Authorization</span><span class="p">:</span> <span class="s">Bearer e933e3e02e4f16d552e469367b25293d75c3d3c2</span>
 <span class="na">Content-Type</span><span class="p">:</span> <span class="s">multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW</span>
 
