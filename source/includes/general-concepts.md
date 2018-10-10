@@ -248,7 +248,7 @@ Mainnet | Every 30 days
   Currently, all applications receive <strong>40,500,000 gas</strong> per period.
   That's enough to create and transfer about 100 records. If you believe your
   application requires more gas per period, please
-  <a href="mailto:help@codexprotocol.com?subject=Gas%20Allowance%20Increase%20Request&body=Let%20us%20know%20why%20your%20application%20needs%20a%20higher%20Gas%20Allowance.">contact us</a> and we can work
+  <a href="mailto:developers@codexprotocol.com?subject=Gas%20Allowance%20Increase%20Request&body=Let%20us%20know%20why%20your%20application%20needs%20a%20higher%20Gas%20Allowance.">contact us</a> and we can work
   something out.
 </aside>
 
