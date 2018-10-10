@@ -95,7 +95,7 @@ Action                                                                      | Ev
 [Creating a Codex Record](#create-a-codex-record)                           | `codex-record:created`
 [Modifying a Codex Record's Metadata](#modify-a-codex-record-39-s-metadata) | `codex-record:modified`
 [Starting a Transfer](#start-a-transfer)                                    | `codex-record:address-approved:owner` and `codex-record:address-approved:approved`
-[Canceling a Transfer](#cancel-a-transfer)                                  | Unfortunately none, due to technical complications
+[Canceling a Transfer](#cancel-a-transfer)                                  | N/A
 [Accepting a Transfer](#accept-a-transfer)                                  | `codex-record:transferred:old-owner` and `codex-record:transferred:new-owner`
 
 ### Webhook Structure

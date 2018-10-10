@@ -3,10 +3,10 @@
 ## Registering an Application
 
 Currently there is no admin interface built out for application developers, so
-the process for registering an application requires a manual steps from both
+the process for registering an application requires manual steps from both
 Codex and the application developer. Additionally, we only support the
 `client_credentials` grant, which means that calls to The Codex API
-<strong>must</strong> be confidential client. A confidential client is an
+<strong>must</strong> be from a confidential client. A confidential client is an
 application that can protect secrets from public users (i.e. calls to The Codex
 API should be happening on a server application and not from within the browser.)
 
