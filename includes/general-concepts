@@ -100,7 +100,7 @@ to them as successful.</p>
 </tr>
 <tr>
 <td><a href="#cancel-a-transfer">Canceling a Transfer</a></td>
-<td>Unfortunately none, due to technical complications</td>
+<td>N/A</td>
 </tr>
 <tr>
 <td><a href="#accept-a-transfer">Accepting a Transfer</a></td>
@@ -319,7 +319,7 @@ shows the reset periods for each environment:</p>
   Currently, all applications receive <strong>40,500,000 gas</strong> per period.
   That's enough to create and transfer about 100 records. If you believe your
   application requires more gas per period, please
-  <a href="mailto:help@codexprotocol.com?subject=Gas%20Allowance%20Increase%20Request&body=Let%20us%20know%20why%20your%20application%20needs%20a%20higher%20Gas%20Allowance.">contact us</a> and we can work
+  <a href="mailto:developers@codexprotocol.com?subject=Gas%20Allowance%20Increase%20Request&body=Let%20us%20know%20why%20your%20application%20needs%20a%20higher%20Gas%20Allowance.">contact us</a> and we can work
   something out.
 </aside>
 <h2 id='privacy'>Privacy</h2>
