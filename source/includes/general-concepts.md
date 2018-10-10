@@ -11,7 +11,7 @@ documentation.
 ```http
 PUT /v1/client/record/100/metadata?name=Really%20Cool%20Codex%20Record HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
-Host: https://rinkeby-codex-registry-api.codexprotocol.com
+Host: https://rinkeby-api.codexprotocol.com
 Authorization: Bearer d49694e5a3459759cc7ac1741de246e184e51d6e
 
 description=This+is+a+really+cool+Codex+Record!
@@ -22,7 +22,7 @@ description=This+is+a+really+cool+Codex+Record!
 ```http
 PUT /v1/client/record/0/metadata HTTP/1.1
 Content-Type: application/json
-Host: https://rinkeby-codex-registry-api.codexprotocol.com
+Host: https://rinkeby-api.codexprotocol.com
 Authorization: Bearer e933e3e02e4f16d552e469367b25293d75c3d3c2
 
 {
@@ -35,7 +35,7 @@ Authorization: Bearer e933e3e02e4f16d552e469367b25293d75c3d3c2
 
 ```http
 PUT /v1/client/record/0/metadata?description=This%20is%20a%20really%20cool%20Codex%20Record! HTTP/1.1
-Host: https://rinkeby-codex-registry-api.codexprotocol.com
+Host: https://rinkeby-api.codexprotocol.com
 Authorization: Bearer e933e3e02e4f16d552e469367b25293d75c3d3c2
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 

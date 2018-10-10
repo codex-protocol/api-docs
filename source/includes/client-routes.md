@@ -20,7 +20,7 @@ a request that would consume gas.
 import request from 'request'
 
 const options = {
-  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client',
+  url: 'https://rinkeby-api.codexprotocol.com/v1/client',
   method: 'get',
   json: true,
 
@@ -55,7 +55,7 @@ currently owns._
 import request from 'request'
 
 const options = {
-  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records',
+  url: 'https://rinkeby-api.codexprotocol.com/v1/client/records',
   method: 'get',
   json: true,
 
@@ -110,7 +110,7 @@ import fs from 'fs'
 import request from 'request'
 
 const options = {
-  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/record',
+  url: 'https://rinkeby-api.codexprotocol.com/v1/client/record',
   method: 'post',
   json: true,
 
@@ -180,7 +180,7 @@ request, the response will be the immediately-updated Codex Record.
 import request from 'request'
 
 const options = {
-  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/record/0',
+  url: 'https://rinkeby-api.codexprotocol.com/v1/client/record/0',
   method: 'put',
   json: true,
 
@@ -273,7 +273,7 @@ import fs from 'fs'
 import request from 'request'
 
 const options = {
-  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/record/0/metadata',
+  url: 'https://rinkeby-api.codexprotocol.com/v1/client/record/0/metadata',
   method: 'put',
   json: true,
 
@@ -367,7 +367,7 @@ import request from 'request'
 
 // first, get the existing images
 const getCodexRecordOptions = {
-  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/records/0/images',
+  url: 'https://rinkeby-api.codexprotocol.com/v1/records/0/images',
   method: 'get',
   json: true,
 
@@ -397,7 +397,7 @@ request(getCodexRecordOptions, (getCodexRecordError, getCodexRecordResponse) => 
 
   // now send in the "new state" of the images array
   const updateCodexRecordOptions = {
-    url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/record/0/metadata',
+    url: 'https://rinkeby-api.codexprotocol.com/v1/client/record/0/metadata',
     method: 'put',
     json: true,
 
@@ -460,7 +460,7 @@ another person. Transferring is a two step process, see
 import request from 'request'
 
 const options = {
-  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/transfer/approve',
+  url: 'https://rinkeby-api.codexprotocol.com/v1/client/records/0/transfer/approve',
   method: 'put',
   json: true,
 
@@ -545,7 +545,7 @@ preventing that address from accepting the transfer (and removing it from their
 import request from 'request'
 
 const options = {
-  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/transfer/cancel',
+  url: 'https://rinkeby-api.codexprotocol.com/v1/client/records/0/transfer/cancel',
   method: 'put',
   json: true,
 
@@ -589,7 +589,7 @@ This endpoint can be used to accept an incoming transfer of a Codex Record. See
 import request from 'request'
 
 const options = {
-  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/transfer/accept',
+  url: 'https://rinkeby-api.codexprotocol.com/v1/client/records/0/transfer/accept',
   method: 'put',
   json: true,
 
@@ -644,7 +644,7 @@ Record](#codex-record) for details.
 import request from 'request'
 
 const options = {
-  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/transfer/ignore',
+  url: 'https://rinkeby-api.codexprotocol.com/v1/client/records/0/transfer/ignore',
   method: 'put',
   json: true,
 
@@ -683,7 +683,7 @@ for details.
 import request from 'request'
 
 const options = {
-  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/transfers/outgoing',
+  url: 'https://rinkeby-api.codexprotocol.com/v1/client/transfers/outgoing',
   method: 'get',
   json: true,
 
@@ -731,7 +731,7 @@ for details.
 import request from 'request'
 
 const options = {
-  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/transfers/incoming',
+  url: 'https://rinkeby-api.codexprotocol.com/v1/client/transfers/incoming',
   method: 'get',
   json: true,
 
@@ -790,7 +790,7 @@ details.
 import request from 'request'
 
 const options = {
-  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/whitelisted-addresses',
+  url: 'https://rinkeby-api.codexprotocol.com/v1/client/records/0/whitelisted-addresses',
   method: 'get',
   json: true,
 
@@ -828,7 +828,7 @@ metadata for this Codex Record, effectively giving them read-only access. See
 import request from 'request'
 
 const options = {
-  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/whitelisted-addresses',
+  url: 'https://rinkeby-api.codexprotocol.com/v1/client/records/0/whitelisted-addresses',
   method: 'get',
   json: true,
 
@@ -882,7 +882,7 @@ details.
 import request from 'request'
 
 const options = {
-  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/whitelisted-addresses',
+  url: 'https://rinkeby-api.codexprotocol.com/v1/client/records/0/whitelisted-addresses',
   method: 'delete',
   json: true,
 
@@ -929,7 +929,7 @@ See [Whitelisted Addresses](#whitelisted-addresses) for details.
 import request from 'request'
 
 const options = {
-  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records/0/whitelisted-addresses',
+  url: 'https://rinkeby-api.codexprotocol.com/v1/client/records/0/whitelisted-addresses',
   method: 'put',
   json: true,
 

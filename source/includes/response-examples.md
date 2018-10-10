@@ -284,7 +284,7 @@ transactionHash | String | The Ethereum transaction hash of the transaction that
 {
   "id": "codex",
   "description": "The Codex API",
-  "metadataUrl": "https://rinkeby-codex-registry-api.codexprotocol.com/v1/records/"
+  "metadataUrl": "https://rinkeby-api.codexprotocol.com/v1/records/"
 }
 ```
 

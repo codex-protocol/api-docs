@@ -35,7 +35,7 @@ This endpoint can be used to generate an access token, which is required for
 import request from 'request'
 
 const options = {
-  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/oauth2/token',
+  url: 'https://rinkeby-api.codexprotocol.com/v1/oauth2/token',
   method: 'post',
   json: true,
 
@@ -94,7 +94,7 @@ a full [Codex Record](#codex-record) document, including it's
 import request from 'request'
 
 const options = {
-  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/records/0',
+  url: 'https://rinkeby-api.codexprotocol.com/v1/records/0',
   method: 'get',
   json: true,
 }
@@ -133,7 +133,7 @@ document.
 import request from 'request'
 
 const options = {
-  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/records/0/metadata',
+  url: 'https://rinkeby-api.codexprotocol.com/v1/records/0/metadata',
   method: 'get',
   json: true,
 }
@@ -172,7 +172,7 @@ Record document.
 import request from 'request'
 
 const options = {
-  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/records/0/provenance',
+  url: 'https://rinkeby-api.codexprotocol.com/v1/records/0/provenance',
   method: 'get',
   json: true,
 
@@ -222,7 +222,7 @@ Record. This is useful if you do not need the entire Codex Record document.
 import request from 'request'
 
 const options = {
-  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/records/0/main-image',
+  url: 'https://rinkeby-api.codexprotocol.com/v1/records/0/main-image',
   method: 'get',
   json: true,
 
@@ -266,7 +266,7 @@ Codex Record. This is useful if you do not need the entire Codex Record document
 import request from 'request'
 
 const options = {
-  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/records/0/images',
+  url: 'https://rinkeby-api.codexprotocol.com/v1/records/0/images',
   method: 'get',
   json: true,
 
@@ -310,7 +310,7 @@ Codex Record. This is useful if you do not need the entire Codex Record document
 import request from 'request'
 
 const options = {
-  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/records/0/files',
+  url: 'https://rinkeby-api.codexprotocol.com/v1/records/0/files',
   method: 'get',
   json: true,
 

@@ -70,7 +70,7 @@ import request from 'request'
 
 // retrieve a list of your application's Codex Records
 const options = {
-  url: 'https://rinkeby-codex-registry-api.codexprotocol.com/v1/client/records',
+  url: 'https://rinkeby-api.codexprotocol.com/v1/client/records',
   method: 'get',
   json: true,
 
