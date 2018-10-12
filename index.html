@@ -222,6 +222,11 @@
       <ul id="toc" class="toc-list-h1">
           <li>
             <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#api-urls" class="toc-h2 toc-link" data-title="API URLs">API URLs</a>
+                  </li>
+              </ul>
           </li>
           <li>
             <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
@@ -368,6 +373,17 @@
           <li>
             <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
           </li>
+          <li>
+            <a href="#blockchain-details" class="toc-h1 toc-link" data-title="Blockchain Details">Blockchain Details</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#smart-contract-addresses" class="toc-h2 toc-link" data-title="Smart Contract Addresses">Smart Contract Addresses</a>
+                  </li>
+                  <li>
+                    <a href="#get-erc-721-token-metadata" class="toc-h2 toc-link" data-title="Get ERC-721 Token Metadata">Get ERC-721 Token Metadata</a>
+                  </li>
+              </ul>
+          </li>
       </ul>
         <ul class="toc-footer">
             <li><a href="https://www.codexprotocol.com">Codex Protocol</a></li>
@@ -396,6 +412,47 @@ and/or <a href="https://github.com/codex-protocol/site.dev-codexprotocol-com/pul
   <a href="https://www.npmjs.com/package/request" rel="noopener noreferrer">request</a>).
   Of course, you're free to make requests to The Codex API in any manner you see
   fit.
+</aside>
+<h2 id='api-urls'>API URLs</h2>
+<p>The Codex API is available in 3 environments that correspond to 3 different
+Ethereum networks, so the API URL will vary based on the environment you are
+developing against.</p>
+
+<table><thead>
+<tr>
+<th>Environment</th>
+<th>Network</th>
+<th>URL</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Development</td>
+<td>Ropsten</td>
+<td><a href="http://ropsten-api.codexprotocol.com">http://ropsten-api.codexprotocol.com</a></td>
+<td>We frequently deploy (possibly breaking) changes here. It is not recommended to develop your application against this network unless you are looking to test the latest changes to the Codex Protocol.</td>
+</tr>
+<tr>
+<td>Staging</td>
+<td>Rinkeby</td>
+<td><a href="https://rinkeby-api.codexprotocol.com">https://rinkeby-api.codexprotocol.com</a></td>
+<td>We only deploy stable builds here, prior to Mainnet. This is the recommended network to test your application before deploying to production.</td>
+</tr>
+<tr>
+<td>Production</td>
+<td>Mainnet</td>
+<td><a href="https://api.codexprotocol.com">https://api.codexprotocol.com</a></td>
+<td>Changes only get deployed here after being validated in our development and staging environments. All Codex Records created here are immutably recorded on the blockchain and cannot be destroyed. Integration into Mainnet should only be done after ensuring your application runs smoothly in the staging environment.</td>
+</tr>
+</tbody></table>
+
+<aside class="success">
+  All code examples in this documentation use the Rinkeby API URL, since that is
+  the recommended network to develop against.
+</aside>
+
+<aside class="warning">
+  Note the <code>http</code> instead of <code>https</code> for Ropsten.
 </aside>
 <h1 id='authentication'>Authentication</h1><h2 id='registering-an-application'>Registering an Application</h2>
 <p>Currently there is no admin interface built out for application developers, so
@@ -3203,6 +3260,116 @@ is stored in the The Codex API database.</p>
 <td>Service Unavailable - We&#39;re temporarily offline for maintenance. Please try again later.</td>
 </tr>
 </tbody></table>
+<h1 id='blockchain-details'>Blockchain Details</h1>
+<p>This section contains details about the blockchain specifics of Codex Protocol.
+It&#39;s geared towards developers who are building blockchain-based applications
+that interface directly with our smart contracts, or who are building NFT
+wallets and want to correctly display Codex Records.</p>
+<h2 id='smart-contract-addresses'>Smart Contract Addresses</h2>
+<p>The following table lists the contracts for each environment we deploy to. Click
+a link to check out that contract on Etherscan.</p>
+
+<table><thead>
+<tr>
+<th>Ropsten</th>
+<th>Rinkeby</th>
+<th>Mainnet</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><a href="https://ropsten.etherscan.io/token/0x2af5409438d2e6c241015f3130213f6a122b4064">CodexCoin</a></td>
+<td><a href="https://rinkeby.etherscan.io/address/0x6a8c5db1495ffc4ef183dfccfdc4de5164b4e95c">CodexCoin</a></td>
+<td><a href="https://etherscan.io/token/0xf226e38c3007b3d974fc79bcf5a77750035436ee">CodexCoin</a></td>
+</tr>
+<tr>
+<td><a href="https://ropsten.etherscan.io/address/0xd8d4c451472727309b123850cbe2f9852163e8a4">CodexRecord</a></td>
+<td><a href="https://rinkeby.etherscan.io/address/0xcd3dd2dabc7c658c1abcfe8e8a63574447985b5d">CodexRecord</a></td>
+<td><a href="https://etherscan.io/address/0x2c00a92a9c5c919a1a4b5a8ee6bc520f61dbe421">CodexRecord</a></td>
+</tr>
+<tr>
+<td><a href="https://ropsten.etherscan.io/address/0x714cd5d6425ef198768d504edf190b5aa5b44334">CodexRecordProxy</a></td>
+<td><a href="https://rinkeby.etherscan.io/address/0xa3fb132c4622db86bbf39cf5e6301d8a2a1145a8">CodexRecordProxy</a></td>
+<td><a href="https://etherscan.io/address/0x8853b05833029e3cf8d3cbb592f9784fa43d2a79">CodexRecordProxy</a></td>
+</tr>
+<tr>
+<td><a href="https://ropsten.etherscan.io/address/0x0bb7d24b10768431b5b7bda9afde822ca2ff3ad6">CodexStakeContract</a></td>
+<td><a href="https://rinkeby.etherscan.io/address/0x2bbcae1335a97e440c7d9f3f638db26abfad3207">CodexStakeContract</a></td>
+<td><a href="https://etherscan.io/address/0xdea454c9c4ad408f324cc0ea382b2b7aad99640c">CodexStakeContract</a></td>
+</tr>
+<tr>
+<td><a href="https://ropsten.etherscan.io/address/0xbb295f65335caef0cbe0e31a24466a01004a8067">IdentityPlatform</a></td>
+<td><a href="https://rinkeby.etherscan.io/address/0x7293bae565cb2d78eb8e0600e6da7397823edfdc">IdentityPlatform</a></td>
+<td>N/A</td>
+</tr>
+</tbody></table>
+
+<aside class="warning">
+  The Rinkeby &amp; Ropsten addresses are subject to change, but the Mainnet
+  addresses will never change.
+</aside>
+<h2 id='get-erc-721-token-metadata'>Get ERC-721 Token Metadata</h2>
+<blockquote>
+<p>Get a token&#39;s metadata for display in an Ethereum wallet with NFT support:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/token-metadata/0'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">)</span> <span class="c1">// ERC-721 Metadata JSON for Codex Record with tokenId 0</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns <a href="https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md">ERC-721 Metadata JSON</a>, e.g.</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Really Cool Codex Record"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This is a really cool Codex Record!"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://s3.amazonaws.com/codex.registry/files/1538152180696.c8a9ec69-0ed8-4516-a34c-e15ebbe4749c.jpg"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Our smart contract implements the optional ERC-721 metadata extension, which
+defines a unique tokenURI for each token in the registry. Since token metadata
+is dynamic, the tokenURIs point to an endpoint in our API instead of a static
+file on IPFS.</p>
+
+<aside class="warning">
+  This endpoint is specifically for developers building Ethereum wallets with
+  NFT support and <strong>should not be used by OAuth2 clients</strong>.
+</aside>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code>GET /token-metadata/:tokenId</code></p>
+<h3 id='url-parameters'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tokenId</td>
+<td>Number</td>
+<td>The <code>tokenId</code> of the Codex Record for which to retrieve the metadata of.</td>
+</tr>
+</tbody></table>
+
+<aside class="success">
+  This endpoint does not wrap the response in the normal
+  <code>{ error, response }</code> object, as described in
+  <a href="#response-examples">Response Examples</a>. Instead, this endpoint
+  returns <em>ERC-721 Metadata JSON</em> as described in the
+  <a href="https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md" rel="noopener noreferrer">ERC-721 specification</a>.
+</aside>
+
+<aside class="notice">
+  If the Codex Record is private, then generic placeholder information will be
+  returned instead of actual metadata.
+</aside>
 
       </div>
       <div class="dark-box">
