@@ -15,6 +15,7 @@ includes:
   - general-concepts
   - response-examples
   - errors
+  - blockchain-details
 
 search: true
 ---
