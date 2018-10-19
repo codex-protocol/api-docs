@@ -535,8 +535,10 @@ preventing that address from accepting the transfer (and removing it from their
 [Transferring Codex Records](#transferring-codex-records) for details.
 
 <aside class="success">
-  Although this is an asynchronous action, there is no associated webhook event.
-  See <a href="#webhooks">webhooks</a> for details.
+  This is an asynchronous action. When the Codex Record's <code>approvedAddress</code>
+  has been updated and logged on the blockchain, your application's webhook will
+  be called with the updated Codex Record in the request body. See
+  <a href="#webhooks">webhooks</a> for details.
 </aside>
 
 ```javascript
