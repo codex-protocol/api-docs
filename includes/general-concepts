@@ -100,7 +100,7 @@ to them as successful.</p>
 </tr>
 <tr>
 <td><a href="#cancel-a-transfer">Canceling a Transfer</a></td>
-<td>N/A</td>
+<td><code>codex-record:address-approved:cancel</code></td>
 </tr>
 <tr>
 <td><a href="#accept-a-transfer">Accepting a Transfer</a></td>
@@ -201,6 +201,11 @@ request with an <code>application/json</code> body containing the following data
 <td>codex-record:address-approved:approved</td>
 <td><a href="#codex-record">Codex Record</a></td>
 <td>Sent after someone <a href="#start-a-transfer">starts a transfer</a> to your application, when the Codex Record&#39;s <code>approvedAddress</code> has been updated on the blockchain and is ready to be <a href="#accept-a-transfer">accepted</a> by your application.</td>
+</tr>
+<tr>
+<td>codex-record:address-approved:cancel</td>
+<td><a href="#codex-record">Codex Record</a></td>
+<td>Sent after <a href="#start-a-transfer">cancelling a transfer</a>, when the Codex Record&#39;s <code>approvedAddress</code> has been cleared on the blockchain and can no longer be <a href="#accept-a-transfer">accepted</a> by the recipient.</td>
 </tr>
 </tbody></table>
 
