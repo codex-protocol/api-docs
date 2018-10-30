@@ -515,15 +515,14 @@ address      | String | _(Required if `email` is not specified)_ The Ethereum ad
 </aside>
 
 <aside class="warning">
-  Currently this route will throw an error if <code>email</code> does not belong
-  to a registered user (i.e someone who as already logged into the Codex Viewer
-  with that email address.) However, passing a valid Ethereum address will
-  always succeed.
+  If the specified email address does not belong to a registered user (i.e. the
+  email address has not yet been used to log in to the Codex Viewer), an email
+  will be sent to the specified address with a link to sign up and claim the
+  incoming transfer.
 
   <br><br>
 
-  We plan to extend API functionality to eventually support transferring to
-  non-registered email address.
+  However, passing a valid Ethereum address will always succeed.
 </aside>
 
 ## Cancel a Transfer
