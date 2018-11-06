@@ -191,6 +191,9 @@ const options = {
   body: {
     isPrivate: false,
     isHistoricalProvenancePrivate: false,
+    whitelistedEmails: [
+      'user@example.com',
+    ],
     whitelistedAddresses: [
       '0xf17f52151ebef6c7334fad080c5704d77216b732',
       '0xc5fdf4076b8f3a5357c5e395ab970b5b54098fef',
@@ -213,9 +216,9 @@ request(options, (error, response) => {
 
 ### Webhook Event
 
-Event Name                                                                  | Recipient
---------------------------------------------------------------------------- | ---------
-`codex-record:address-whitelisted` (if `whitelistedAddresses` was replaced) | Each newly added whitelisted user
+Event Name                                                                                             | Recipient
+------------------------------------------------------------------------------------------------------ | ---------
+`codex-record:address-whitelisted` (if `whitelistedAddresses` and/or `whitelistedEmails` was replaced) | Each newly added whitelisted user
 
 ### URL Parameters
 
@@ -229,7 +232,8 @@ At least one of the following parameters is required for this route:
 
 Parameter                     | Type          | Description
 ----------------------------- | ------------- | --------------------------------
-isPrivate                     | Boolean       | This flag indicates that the metadata for the Codex Record is private and can only be retrieved by the owner, the `approvedAddress`, and the addresses listed in `whitelistedAddresses`.
+isPrivate                     | Boolean       | This flag indicates that the metadata for the Codex Record is private and can only be retrieved by the owner, the `approvedAddress`, and the addresses listed in `whitelistedAddresses` / `whitelistedEmails`.
+whitelistedEmails             | Array[String] | An array of email addresses allowed to view private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records.
 whitelistedAddresses          | Array[String] | An array of Ethereum addresses allowed to view private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records.
 isHistoricalProvenancePrivate | Boolean       | This flag indicates whether or not [historical provenance](#historical-provenance) (i.e. `metadata.files`) should be hidden, regardless of the value of `isPrivate`.
 
@@ -245,6 +249,10 @@ isHistoricalProvenancePrivate | Boolean       | This flag indicates whether or n
   array, which are more suitable for adding and removing addresses one-by-one.
   See <a href="#get-a-codex-record-39-s-whitelisted-addresses">Get a Codex
   Record's Whitelisted Addresses</a> (and subsequent sections) for details.
+
+  <br><br>
+
+  The same concept applies to <code>whitelistedEmails</code>.
 </aside>
 
 
@@ -519,11 +527,8 @@ address      | String | _(Required if `email` is not specified)_ The Ethereum ad
   email address has not yet been used to log in to the Codex Viewer), an email
   will be sent to the specified address with a link to sign up and claim the
   incoming transfer.
-
-  <br><br>
-
-  However, passing a valid Ethereum address will always succeed.
 </aside>
+
 
 ## Cancel a Transfer
 
@@ -813,7 +818,7 @@ request(options, (error, response) => {
 
 Parameter    | Type   | Description
 ------------ | ------ | --------------------------------------------------------
-tokenId      | Number | The `tokenId` of the Codex Record for which to the whitelisted addresses of.
+tokenId      | Number | The `tokenId` of the Codex Record for which to retrieve the whitelisted addresses of.
 
 
 ## Add an Address to a Codex Record's Whitelisted Addresses
@@ -828,7 +833,7 @@ import request from 'request'
 
 const options = {
   url: 'https://rinkeby-api.codexprotocol.com/v1/client/records/0/whitelisted-addresses',
-  method: 'get',
+  method: 'post',
   json: true,
 
   headers: {
@@ -861,7 +866,7 @@ Event Name                         | Recipient
 
 Parameter    | Type   | Description
 ------------ | ------ | --------------------------------------------------------
-tokenId      | Number | The `tokenId` of the Codex Record for which to the whitelisted addresses of.
+tokenId      | Number | The `tokenId` of the Codex Record for which to retrieve the whitelisted addresses of.
 
 ### Request Parameters
 
@@ -895,11 +900,11 @@ const options = {
 }
 
 request(options, (error, response) => {
-  console.log(response.body.result) // the updated whitelistedAddresses array for this Codex Record
+  // no response bodies for DELETE requests
 })
 ```
 
-> The above API call returns the updated `whitelistedAddresses` array.
+> The above API call returns no response body, but a 204 status code will be returned to indicate a successful deletion.
 
 ### HTTP Request
 
@@ -909,7 +914,7 @@ request(options, (error, response) => {
 
 Parameter    | Type   | Description
 ------------ | ------ | --------------------------------------------------------
-tokenId      | Number | The `tokenId` of the Codex Record for which to the whitelisted addresses of.
+tokenId      | Number | The `tokenId` of the Codex Record for which to retrieve the whitelisted addresses of.
 
 ### Request Parameters
 
@@ -968,10 +973,222 @@ Event Name                         | Recipient
 
 Parameter    | Type   | Description
 ------------ | ------ | --------------------------------------------------------
-tokenId      | Number | The `tokenId` of the Codex Record for which to the whitelisted addresses of.
+tokenId      | Number | The `tokenId` of the Codex Record for which to retrieve the whitelisted addresses of.
 
 ### Request Parameters
 
 Parameter    | Type          | Description
 ------------ | ------------- | -------------------------------------------------
 addresses    | Array[String] | An array of Ethereum addresses to replace the current whitelisted addresses with.
+
+
+## Get a Codex Record's Whitelisted Emails
+
+This endpoint can be used to retrieve a Codex Record's `whitelistedEmails`
+property, an array of email addresses allowed to view private metadata for
+this Codex Record. See [Whitelisted Addresses](#whitelisted-addresses) for
+details.
+
+<aside class="notice">
+  The <code>whitelistedEmails</code> array allows users to give people
+  read-only access to their Codex Records. This property is only visible to the
+  owner of a Codex Record, and is reset to an empty array when transferred.
+</aside>
+
+```javascript
+import request from 'request'
+
+const options = {
+  url: 'https://rinkeby-api.codexprotocol.com/v1/client/records/0/whitelisted-emails',
+  method: 'get',
+  json: true,
+
+  headers: {
+    Authorization: 'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e',
+  },
+}
+
+request(options, (error, response) => {
+  console.log(response.body.result) // the whitelistedEmails array for this Codex Record
+})
+```
+
+> The above API call returns an array of email addresses (strings).
+
+### HTTP Request
+
+`GET /v1/client/records/:tokenId/whitelisted-emails`
+
+### URL Parameters
+
+Parameter    | Type   | Description
+------------ | ------ | --------------------------------------------------------
+tokenId      | Number | The `tokenId` of the Codex Record for which to retrieve the whitelisted emails of.
+
+
+## Add an Email to a Codex Record's Whitelisted Emails
+
+This endpoint can be used to add a single email address to a Codex Record's
+`whitelistedEmails` array. The address is then allowed to view private metadata
+for this Codex Record, effectively giving them read-only access. See
+[Whitelisted Addresses](#whitelisted-addresses) for details.
+
+```javascript
+import request from 'request'
+
+const options = {
+  url: 'https://rinkeby-api.codexprotocol.com/v1/client/records/0/whitelisted-emails',
+  method: 'post',
+  json: true,
+
+  headers: {
+    Authorization: 'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e',
+  },
+
+  body: {
+    email: '0xf17f52151ebef6c7334fad080c5704d77216b732',
+  },
+}
+
+request(options, (error, response) => {
+  console.log(response.body.result) // the updated whitelistedEmails array for this Codex Record
+})
+```
+
+> The above API call returns the updated `whitelistedEmails` array.
+
+### HTTP Request
+
+`POST /v1/client/records/:tokenId/whitelisted-emails`
+
+### Webhook Event
+
+Event Name                         | Recipient
+---------------------------------- | -------------------------------------------
+`codex-record:address-whitelisted` | The newly whitelisted user
+
+### URL Parameters
+
+Parameter    | Type   | Description
+------------ | ------ | --------------------------------------------------------
+tokenId      | Number | The `tokenId` of the Codex Record for which to retrieve the whitelisted emails of.
+
+### Request Parameters
+
+Parameter    | Type   | Description
+------------ | ------ | --------------------------------------------------------
+email        | String | The email address to add to the list of whitelisted emails.
+
+<aside class="warning">
+  If the specified email address does not belong to a registered user (i.e. the
+  email address has not yet been used to log in to the Codex Viewer), an email
+  will be sent to the specified address with a link to sign up and view the
+  record.
+</aside>
+
+
+## Remove an Email from a Codex Record's Whitelisted Emails
+
+This endpoint can be used to remove a single email address from a Codex
+Record's `whitelistedEmails` array, revoking their ability to view the
+private metadata. See [Whitelisted Addresses](#whitelisted-addresses) for
+details.
+
+```javascript
+import request from 'request'
+
+const options = {
+  url: 'https://rinkeby-api.codexprotocol.com/v1/client/records/0/whitelisted-emails',
+  method: 'delete',
+  json: true,
+
+  headers: {
+    Authorization: 'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e',
+  },
+
+  body: {
+    email: '0xf17f52151ebef6c7334fad080c5704d77216b732',
+  },
+}
+
+request(options, (error, response) => {
+  // no response bodies for DELETE requests
+})
+```
+
+> The above API call returns no response body, but a 204 status code will be returned to indicate a successful deletion.
+
+### HTTP Request
+
+`DELETE /v1/client/records/:tokenId/whitelisted-emails`
+
+### URL Parameters
+
+Parameter    | Type   | Description
+------------ | ------ | --------------------------------------------------------
+tokenId      | Number | The `tokenId` of the Codex Record for which to retrieve the whitelisted emails of.
+
+### Request Parameters
+
+Parameter    | Type   | Description
+------------ | ------ | --------------------------------------------------------
+email        | String | The email address to remove from the list of whitelisted emails.
+
+
+## Entirely Replace a Codex Record's Whitelisted Emails
+
+This endpoint can be used to entirely replace a Codex Record's
+`whitelistedEmails` array, instead of [adding](#add-an-email-to-a-codex-record-39-s-whitelisted-emails) and [removing](#remove-an-email-from-a-codex-record-39-s-whitelisted-emails) one-by-one.
+See [Whitelisted Addresses](#whitelisted-addresses) for details.
+
+```javascript
+import request from 'request'
+
+const options = {
+  url: 'https://rinkeby-api.codexprotocol.com/v1/client/records/0/whitelisted-emails',
+  method: 'put',
+  json: true,
+
+  headers: {
+    Authorization: 'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e',
+  },
+
+  body: {
+    addresses: [
+      '0x821aea9a577a9b44299b9c15c88cf3087f3b5544',
+      '0x0d1d4e623d10f9fba5db95830f7d3839406c6af2',
+      '0x2932b7a2355d6fecc4b5c0b6bd44cc31df247a2e',
+      '0x2191ef87e392377ec08e7c08eb105ef5448eced5',
+      '0x0f4f2ac550a1b4e2280d04c21cea7ebd822934b5',
+    ],
+  }
+}
+
+request(options, (error, response) => {
+  console.log(response.body.result) // the updated whitelistedEmails array for this Codex Record
+})
+```
+
+> The above API call returns an array of email addresses (strings).
+
+### HTTP Request
+
+`PUT /v1/client/records/:tokenId/whitelisted-emails`
+
+### Webhook Event
+
+Event Name                         | Recipient
+---------------------------------- | -------------------------------------------
+`codex-record:address-whitelisted` | Each newly whitelisted user
+
+### URL Parameters
+
+Parameter    | Type   | Description
+------------ | ------ | --------------------------------------------------------
+tokenId      | Number | The `tokenId` of the Codex Record for which to retrieve the whitelisted emails of.
+
+### Request Parameters
+
+Parameter    | Type          | Description
+------------ | ------------- | -------------------------------------------------
+addresses    | Array[String] | An array of email addresses to replace the current whitelisted emails with.

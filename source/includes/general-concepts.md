@@ -323,6 +323,13 @@ Even though private metadata is visible to whitelisted addresses, the
 the owner can keep some (presumably more confidential) files hidden while still
 providing _some_ access to others.
 
+<aside class="notice">
+  There is also a similar array for each Codex Record called
+  <code>whitelistedEmails</code>, which essentially provides the same
+  functionality as <code>whitelistedAddresses</code> but with email addresses.
+</aside>
+
+
 ### Approved Addresses
 
 A Codex Record can also have an `approvedAddress`, which is an Ethereum address
@@ -382,6 +389,7 @@ isPrivate                     | `true`
 isIgnored                     | `false`
 isInGallery                   | `false`
 approvedAddress               | `null`
+whitelistedEmails             | `[]`
 whitelistedAddresses          | `[]`
 isHistoricalProvenancePrivate | `true`
 

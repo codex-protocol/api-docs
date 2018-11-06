@@ -104,6 +104,9 @@ accessToken          | String | The access token itself. This should be [added t
     "0xf17f52151ebef6c7334fad080c5704d77216b732",
     "0xc5fdf4076b8f3a5357c5e395ab970b5b54098fef"
   ],
+  "whitelistedEmails": [
+    "user@example.com"
+  ],
   "fileHashes": [
     "0xb39e1bbc6d50670aafa88955217ddf1e9e1f635a2cfc8d5d806a730f014c7210"
   ],
@@ -128,7 +131,7 @@ metadata                      | [Metadata](#metadata)                        | W
 provider                      | [Metadata Provider](#metadata-provider)      | Public                                           | See [Metadata Provider](#metadata-provider) for details.
 nameHash                      | String                                       | Public                                           | The hash of the metadata's plain text name.
 isIgnored                     | Boolean                                      | Public                                           | This flag indicates that a user has chosen to "ignore" an incoming Codex Record transfer. This is useful to hide incoming transfers in a User Interface since there's no blockchain mechanism to explicitly reject a transfer.
-isPrivate                     | Boolean                                      | Public                                           | This flag indicates that the metadata for this record is private and can only be retrieved by the owner, the `approvedAddress`, and the addresses listed in `whitelistedAddresses`.
+isPrivate                     | Boolean                                      | Public                                           | This flag indicates that the metadata for this record is private and can only be retrieved by the owner, the `approvedAddress`, and the addresses listed in `whitelistedAddresses` / `whitelistedEmails`.
 provenance                    | Array[[Provenance Event](#provenance-event)] | Public                                           | An array of [Provenance Events](#provenance-event).
 fileHashes                    | Array[String]                                | Public                                           | An array of file hashes that belong to this Codex Record's metadata.
 providerId                    | String                                       | Public                                           | See unique id of the [Metadata Provider](#metadata-provider).
@@ -136,6 +139,7 @@ ownerAddress                  | String                                       | P
 descriptionHash               | String                                       | Public                                           | The hash of the metadata's plain text description.
 approvedAddress               | String                                       | Public                                           | The Ethereum address of the user currently approved to accept the transfer of this Codex Record. See [Transferring a Codex Record](#transferring-codex-records) for details. Approved addresses are considered part of the `whitelistedAddresses` array. See [Approved Addresses](#approved-addresses) for details.
 providerMetadataId            | String                                       | Public                                           | The unique ID of the metadata that belongs to this Codex Record.
+whitelistedEmails             | Array[String]                                | Owner Only                                       | An array of email addresses allowed to view private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records. Will be `undefined` if you are not the owner. See [Whitelisted Addresses](#whitelisted-addresses) for details.
 whitelistedAddresses          | Array[String]                                | Owner Only                                       | An array of Ethereum addresses allowed to view private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records. Will be `undefined` if you are not the owner. See [Whitelisted Addresses](#whitelisted-addresses) for details.
 isHistoricalProvenancePrivate | Boolean                                      | Public                                           | This flag indicates whether or not [historical provenance](#historical-provenance) (i.e. `metadata.files`) should be hidden, regardless of the value of `isPrivate`.
 
