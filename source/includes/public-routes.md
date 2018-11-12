@@ -202,7 +202,7 @@ tokenId      | Number | The `tokenId` of the Codex Record for which to retrieve 
 ### Request Parameters
 
 Parameter    | Type   | Default   | Description
------------- | ------ | --------- | --------------------------------------------------------
+------------ | ------ | --------- | --------------------------------------------
 order        | String | createdAt | To sort in reverse order, specify this value as `-createdAt`.
 
 
@@ -225,11 +225,6 @@ const options = {
   url: 'https://rinkeby-api.codexprotocol.com/v1/records/0/main-image',
   method: 'get',
   json: true,
-
-  // sort by date created in reverse
-  body: {
-    order: '-createdAt',
-  },
 }
 
 request(options, (error, response) => {
@@ -269,11 +264,6 @@ const options = {
   url: 'https://rinkeby-api.codexprotocol.com/v1/records/0/images',
   method: 'get',
   json: true,
-
-  // sort by date created in reverse
-  body: {
-    order: '-createdAt',
-  },
 }
 
 request(options, (error, response) => {
@@ -313,11 +303,6 @@ const options = {
   url: 'https://rinkeby-api.codexprotocol.com/v1/records/0/files',
   method: 'get',
   json: true,
-
-  // sort by date created in reverse
-  body: {
-    order: '-createdAt',
-  },
 }
 
 request(options, (error, response) => {
