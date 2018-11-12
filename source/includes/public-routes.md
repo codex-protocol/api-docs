@@ -90,6 +90,12 @@ a full [Codex Record](#codex-record) document, including it's
   <a href="#codex-record">Codex Record</a> description for details.
 </aside>
 
+<aside class="notice">
+  The default ordering for the <code>provenance</code> array is reverse
+  chronological order, since in most cases it makes sense to show a Codex
+  Record's provenance in reverse.
+</aside>
+
 ```javascript
 import request from 'request'
 
@@ -176,9 +182,9 @@ const options = {
   method: 'get',
   json: true,
 
-  // sort by date created in reverse
+  // sort by date created
   body: {
-    order: '-createdAt',
+    order: 'createdAt',
   },
 }
 
@@ -201,9 +207,14 @@ tokenId      | Number | The `tokenId` of the Codex Record for which to retrieve 
 
 ### Request Parameters
 
-Parameter    | Type   | Default   | Description
------------- | ------ | --------- | --------------------------------------------
-order        | String | createdAt | To sort in reverse order, specify this value as `-createdAt`.
+Parameter    | Type   | Default    | Description
+------------ | ------ | ---------- | -------------------------------------------
+order        | String | -createdAt | To sort in chronological order, specify this value as `createdAt`.
+
+<aside class="success">
+  In most cases, it makes sense to show a Codex Record's provenance in reverse
+  chronological order, so the default ordering is <code>-createdAt</code>.
+</aside>
 
 
 ## Get a Codex Record's Main Image Only
