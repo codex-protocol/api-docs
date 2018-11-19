@@ -106,6 +106,10 @@ Action                                                                      | Ev
 {
   "timestamp": 1539024178127,
   "hash": "5fed9779c702a873e8c68872eca959876d9d00a84a1cb5fb58ecd6c3e83f307b",
+  "network": {
+    "id": "4",
+    "name": "rinkeby"
+  },
   "eventName": "codex-record:created",
   "eventData": {
     // varies by event, usually a Codex Record
@@ -120,6 +124,7 @@ Property  | Type   | Description
 --------- | ------ | -----------------------
 hash      | String | The [sha256](https://nodejs.org/api/crypto.html#crypto_crypto_createhmac_algorithm_key_options) hash of the string `${timestamp}:${client_id}`, using your application's secret as the `key`. See [Verifying Webhook Requests](#verifying-webhook-requests) for details.
 timestamp | Number | Unix timestamp (in milliseconds) of when the request was sent. See [Verifying Webhook Requests](#verifying-webhook-requests) for details.
+network   | Object | The ID and name (both strings) of the Ethereum network the associated transaction was submitted to. This allow your application to use the same webhook endpoint for all environments.
 eventName | String | The name of the event. See [Webhook Events](#webhook-events) for details.
 eventData | Varies | The relevant data for this event. Usually a [Codex Record](#codex-record), but varies by event. See [Webhook Events](#webhook-events) for details.
 
