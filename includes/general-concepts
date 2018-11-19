@@ -114,6 +114,10 @@ to them as successful.</p>
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
   <span class="s2">"timestamp"</span><span class="p">:</span> <span class="mi">1539024178127</span><span class="p">,</span>
   <span class="s2">"hash"</span><span class="p">:</span> <span class="s2">"5fed9779c702a873e8c68872eca959876d9d00a84a1cb5fb58ecd6c3e83f307b"</span><span class="p">,</span>
+  <span class="s2">"network"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"4"</span><span class="p">,</span>
+    <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"rinkeby"</span>
+  <span class="p">},</span>
   <span class="s2">"eventName"</span><span class="p">:</span> <span class="s2">"codex-record:created"</span><span class="p">,</span>
   <span class="s2">"eventData"</span><span class="p">:</span> <span class="p">{</span>
     <span class="c1">// varies by event, usually a Codex Record</span>
@@ -139,6 +143,11 @@ request with an <code>application/json</code> body containing the following data
 <td>timestamp</td>
 <td>Number</td>
 <td>Unix timestamp (in milliseconds) of when the request was sent. See <a href="#verifying-webhook-requests">Verifying Webhook Requests</a> for details.</td>
+</tr>
+<tr>
+<td>network</td>
+<td>Object</td>
+<td>The ID and name (both strings) of the Ethereum network the associated transaction was submitted to. This allow your application to use the same webhook endpoint for all environments.</td>
 </tr>
 <tr>
 <td>eventName</td>
@@ -392,6 +401,12 @@ read-only access for any address they wish. See <a href="#get-a-codex-record-39-
 <a href="#historical-provenance">historical provenance</a> for a Codex Record. This way,
 the owner can keep some (presumably more confidential) files hidden while still
 providing <em>some</em> access to others.</p>
+
+<aside class="notice">
+  There is also a similar array for each Codex Record called
+  <code>whitelistedEmails</code>, which essentially provides the same
+  functionality as <code>whitelistedAddresses</code> but with email addresses.
+</aside>
 <h3 id='approved-addresses'>Approved Addresses</h3>
 <p>A Codex Record can also have an <code>approvedAddress</code>, which is an Ethereum address
 that is allowed to transfer the Codex Record to itself. This is necessary for
@@ -460,6 +475,10 @@ properties are reset to their default values:</p>
 <tr>
 <td>approvedAddress</td>
 <td><code>null</code></td>
+</tr>
+<tr>
+<td>whitelistedEmails</td>
+<td><code>[]</code></td>
 </tr>
 <tr>
 <td>whitelistedAddresses</td>

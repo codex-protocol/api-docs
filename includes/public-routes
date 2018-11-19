@@ -96,6 +96,12 @@ a full <a href="#codex-record">Codex Record</a> document, including it&#39;s
   <code>undefined</code> if you are not the owner of the Codex Record. See the
   <a href="#codex-record">Codex Record</a> description for details.
 </aside>
+
+<aside class="notice">
+  The default ordering for the <code>provenance</code> array is reverse
+  chronological order, since in most cases it makes sense to show a Codex
+  Record's provenance in reverse.
+</aside>
 <pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
 
 <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
@@ -184,9 +190,9 @@ Record document.</p>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
   <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
 
-  <span class="c1">// sort by date created in reverse</span>
+  <span class="c1">// sort by date created</span>
   <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
-    <span class="na">order</span><span class="p">:</span> <span class="s1">'-createdAt'</span><span class="p">,</span>
+    <span class="na">order</span><span class="p">:</span> <span class="s1">'createdAt'</span><span class="p">,</span>
   <span class="p">},</span>
 <span class="p">}</span>
 
@@ -225,10 +231,15 @@ Record document.</p>
 <tr>
 <td>order</td>
 <td>String</td>
-<td>createdAt</td>
-<td>To sort in reverse order, specify this value as <code>-createdAt</code>.</td>
+<td>-createdAt</td>
+<td>To sort in chronological order, specify this value as <code>createdAt</code>.</td>
 </tr>
 </tbody></table>
+
+<aside class="success">
+  In most cases, it makes sense to show a Codex Record's provenance in reverse
+  chronological order, so the default ordering is <code>-createdAt</code>.
+</aside>
 <h2 id='get-a-codex-record-39-s-main-image-only'>Get a Codex Record&#39;s Main Image Only</h2>
 <p>This endpoint can be used to retrieve <em>only</em> the main image for a specific Codex
 Record. This is useful if you do not need the entire Codex Record document.</p>
@@ -244,11 +255,6 @@ Record. This is useful if you do not need the entire Codex Record document.</p>
   <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/records/0/main-image'</span><span class="p">,</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
   <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-
-  <span class="c1">// sort by date created in reverse</span>
-  <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
-    <span class="na">order</span><span class="p">:</span> <span class="s1">'-createdAt'</span><span class="p">,</span>
-  <span class="p">},</span>
 <span class="p">}</span>
 
 <span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
@@ -289,11 +295,6 @@ Codex Record. This is useful if you do not need the entire Codex Record document
   <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/records/0/images'</span><span class="p">,</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
   <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-
-  <span class="c1">// sort by date created in reverse</span>
-  <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
-    <span class="na">order</span><span class="p">:</span> <span class="s1">'-createdAt'</span><span class="p">,</span>
-  <span class="p">},</span>
 <span class="p">}</span>
 
 <span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
@@ -334,11 +335,6 @@ Codex Record. This is useful if you do not need the entire Codex Record document
   <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/records/0/files'</span><span class="p">,</span>
   <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
   <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-
-  <span class="c1">// sort by date created in reverse</span>
-  <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
-    <span class="na">order</span><span class="p">:</span> <span class="s1">'-createdAt'</span><span class="p">,</span>
-  <span class="p">},</span>
 <span class="p">}</span>
 
 <span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>

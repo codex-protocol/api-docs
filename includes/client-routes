@@ -217,6 +217,9 @@ request, the response will be the immediately-updated Codex Record.</p>
   <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
     <span class="na">isPrivate</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
     <span class="na">isHistoricalProvenancePrivate</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="na">whitelistedEmails</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s1">'user@example.com'</span><span class="p">,</span>
+    <span class="p">],</span>
     <span class="na">whitelistedAddresses</span><span class="p">:</span> <span class="p">[</span>
       <span class="s1">'0xf17f52151ebef6c7334fad080c5704d77216b732'</span><span class="p">,</span>
       <span class="s1">'0xc5fdf4076b8f3a5357c5e395ab970b5b54098fef'</span><span class="p">,</span>
@@ -243,7 +246,7 @@ request, the response will be the immediately-updated Codex Record.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><code>codex-record:address-whitelisted</code> (if <code>whitelistedAddresses</code> was replaced)</td>
+<td><code>codex-record:address-whitelisted</code> (if <code>whitelistedAddresses</code> and/or <code>whitelistedEmails</code> was replaced)</td>
 <td>Each newly added whitelisted user</td>
 </tr>
 </tbody></table>
@@ -274,7 +277,12 @@ request, the response will be the immediately-updated Codex Record.</p>
 <tr>
 <td>isPrivate</td>
 <td>Boolean</td>
-<td>This flag indicates that the metadata for the Codex Record is private and can only be retrieved by the owner, the <code>approvedAddress</code>, and the addresses listed in <code>whitelistedAddresses</code>.</td>
+<td>This flag indicates that the metadata for the Codex Record is private and can only be retrieved by the owner, the <code>approvedAddress</code>, and the addresses listed in <code>whitelistedAddresses</code> / <code>whitelistedEmails</code>.</td>
+</tr>
+<tr>
+<td>whitelistedEmails</td>
+<td>Array[String]</td>
+<td>An array of email addresses allowed to view private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records.</td>
 </tr>
 <tr>
 <td>whitelistedAddresses</td>
@@ -300,6 +308,10 @@ request, the response will be the immediately-updated Codex Record.</p>
   array, which are more suitable for adding and removing addresses one-by-one.
   See <a href="#get-a-codex-record-39-s-whitelisted-addresses">Get a Codex
   Record's Whitelisted Addresses</a> (and subsequent sections) for details.
+
+  <br><br>
+
+  The same concept applies to <code>whitelistedEmails</code>.
 </aside>
 <h2 id='modify-a-codex-record-39-s-metadata'>Modify a Codex Record&#39;s Metadata</h2>
 <p>This endpoint can be used to modify the &quot;<a href="#quot-off-chain-quot-vs-quot-on-chain-quot-data">on-chain</a>&quot;
@@ -635,10 +647,6 @@ transferred, although no data will have changed at this point.</p>
   email address has not yet been used to log in to the Codex Viewer), an email
   will be sent to the specified address with a link to sign up and claim the
   incoming transfer.
-
-  <br><br>
-
-  However, passing a valid Ethereum address will always succeed.
 </aside>
 <h2 id='cancel-a-transfer'>Cancel a Transfer</h2>
 <p>This endpoint can be used to stop the process of transferring a Codex Record to
@@ -978,7 +986,7 @@ details.</p>
 <tr>
 <td>tokenId</td>
 <td>Number</td>
-<td>The <code>tokenId</code> of the Codex Record for which to the whitelisted addresses of.</td>
+<td>The <code>tokenId</code> of the Codex Record for which to retrieve the whitelisted addresses of.</td>
 </tr>
 </tbody></table>
 <h2 id='add-an-address-to-a-codex-record-39-s-whitelisted-addresses'>Add an Address to a Codex Record&#39;s Whitelisted Addresses</h2>
@@ -990,7 +998,7 @@ metadata for this Codex Record, effectively giving them read-only access. See
 
 <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
   <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client/records/0/whitelisted-addresses'</span><span class="p">,</span>
-  <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'post'</span><span class="p">,</span>
   <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
 
   <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
@@ -1034,7 +1042,7 @@ metadata for this Codex Record, effectively giving them read-only access. See
 <tr>
 <td>tokenId</td>
 <td>Number</td>
-<td>The <code>tokenId</code> of the Codex Record for which to the whitelisted addresses of.</td>
+<td>The <code>tokenId</code> of the Codex Record for which to retrieve the whitelisted addresses of.</td>
 </tr>
 </tbody></table>
 <h3 id='request-parameters-8'>Request Parameters</h3>
@@ -1073,11 +1081,11 @@ details.</p>
 <span class="p">}</span>
 
 <span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// the updated whitelistedAddresses array for this Codex Record</span>
+  <span class="c1">// no response bodies for DELETE requests</span>
 <span class="p">})</span>
 </code></pre>
 <blockquote>
-<p>The above API call returns the updated <code>whitelistedAddresses</code> array.</p>
+<p>The above API call returns no response body, but a 204 status code will be returned to indicate a successful deletion.</p>
 </blockquote>
 <h3 id='http-request-14'>HTTP Request</h3>
 <p><code>DELETE /v1/client/records/:tokenId/whitelisted-addresses</code></p>
@@ -1092,7 +1100,7 @@ details.</p>
 <tr>
 <td>tokenId</td>
 <td>Number</td>
-<td>The <code>tokenId</code> of the Codex Record for which to the whitelisted addresses of.</td>
+<td>The <code>tokenId</code> of the Codex Record for which to retrieve the whitelisted addresses of.</td>
 </tr>
 </tbody></table>
 <h3 id='request-parameters-9'>Request Parameters</h3>
@@ -1167,7 +1175,7 @@ See <a href="#whitelisted-addresses">Whitelisted Addresses</a> for details.</p>
 <tr>
 <td>tokenId</td>
 <td>Number</td>
-<td>The <code>tokenId</code> of the Codex Record for which to the whitelisted addresses of.</td>
+<td>The <code>tokenId</code> of the Codex Record for which to retrieve the whitelisted addresses of.</td>
 </tr>
 </tbody></table>
 <h3 id='request-parameters-10'>Request Parameters</h3>
@@ -1182,5 +1190,261 @@ See <a href="#whitelisted-addresses">Whitelisted Addresses</a> for details.</p>
 <td>addresses</td>
 <td>Array[String]</td>
 <td>An array of Ethereum addresses to replace the current whitelisted addresses with.</td>
+</tr>
+</tbody></table>
+<h2 id='get-a-codex-record-39-s-whitelisted-emails'>Get a Codex Record&#39;s Whitelisted Emails</h2>
+<p>This endpoint can be used to retrieve a Codex Record&#39;s <code>whitelistedEmails</code>
+property, an array of email addresses allowed to view private metadata for
+this Codex Record. See <a href="#whitelisted-addresses">Whitelisted Addresses</a> for
+details.</p>
+
+<aside class="notice">
+  The <code>whitelistedEmails</code> array allows users to give people
+  read-only access to their Codex Records. This property is only visible to the
+  owner of a Codex Record, and is reset to an empty array when transferred.
+</aside>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client/records/0/whitelisted-emails'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// the whitelistedEmails array for this Codex Record</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns an array of email addresses (strings).</p>
+</blockquote>
+<h3 id='http-request-16'>HTTP Request</h3>
+<p><code>GET /v1/client/records/:tokenId/whitelisted-emails</code></p>
+<h3 id='url-parameters-11'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tokenId</td>
+<td>Number</td>
+<td>The <code>tokenId</code> of the Codex Record for which to retrieve the whitelisted emails of.</td>
+</tr>
+</tbody></table>
+<h2 id='add-an-email-to-a-codex-record-39-s-whitelisted-emails'>Add an Email to a Codex Record&#39;s Whitelisted Emails</h2>
+<p>This endpoint can be used to add a single email address to a Codex Record&#39;s
+<code>whitelistedEmails</code> array. The address is then allowed to view private metadata
+for this Codex Record, effectively giving them read-only access. See
+<a href="#whitelisted-addresses">Whitelisted Addresses</a> for details.</p>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client/records/0/whitelisted-emails'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'post'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
+  <span class="p">},</span>
+
+  <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">email</span><span class="p">:</span> <span class="s1">'0xf17f52151ebef6c7334fad080c5704d77216b732'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// the updated whitelistedEmails array for this Codex Record</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns the updated <code>whitelistedEmails</code> array.</p>
+</blockquote>
+<h3 id='http-request-17'>HTTP Request</h3>
+<p><code>POST /v1/client/records/:tokenId/whitelisted-emails</code></p>
+<h3 id='webhook-event-8'>Webhook Event</h3>
+<table><thead>
+<tr>
+<th>Event Name</th>
+<th>Recipient</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>codex-record:address-whitelisted</code></td>
+<td>The newly whitelisted user</td>
+</tr>
+</tbody></table>
+<h3 id='url-parameters-12'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tokenId</td>
+<td>Number</td>
+<td>The <code>tokenId</code> of the Codex Record for which to retrieve the whitelisted emails of.</td>
+</tr>
+</tbody></table>
+<h3 id='request-parameters-11'>Request Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>email</td>
+<td>String</td>
+<td>The email address to add to the list of whitelisted emails.</td>
+</tr>
+</tbody></table>
+
+<aside class="warning">
+  If the specified email address does not belong to a registered user (i.e. the
+  email address has not yet been used to log in to the Codex Viewer), an email
+  will be sent to the specified address with a link to sign up and view the
+  record.
+</aside>
+<h2 id='remove-an-email-from-a-codex-record-39-s-whitelisted-emails'>Remove an Email from a Codex Record&#39;s Whitelisted Emails</h2>
+<p>This endpoint can be used to remove a single email address from a Codex
+Record&#39;s <code>whitelistedEmails</code> array, revoking their ability to view the
+private metadata. See <a href="#whitelisted-addresses">Whitelisted Addresses</a> for
+details.</p>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client/records/0/whitelisted-emails'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'delete'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
+  <span class="p">},</span>
+
+  <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">email</span><span class="p">:</span> <span class="s1">'0xf17f52151ebef6c7334fad080c5704d77216b732'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="c1">// no response bodies for DELETE requests</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns no response body, but a 204 status code will be returned to indicate a successful deletion.</p>
+</blockquote>
+<h3 id='http-request-18'>HTTP Request</h3>
+<p><code>DELETE /v1/client/records/:tokenId/whitelisted-emails</code></p>
+<h3 id='url-parameters-13'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tokenId</td>
+<td>Number</td>
+<td>The <code>tokenId</code> of the Codex Record for which to retrieve the whitelisted emails of.</td>
+</tr>
+</tbody></table>
+<h3 id='request-parameters-12'>Request Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>email</td>
+<td>String</td>
+<td>The email address to remove from the list of whitelisted emails.</td>
+</tr>
+</tbody></table>
+<h2 id='entirely-replace-a-codex-record-39-s-whitelisted-emails'>Entirely Replace a Codex Record&#39;s Whitelisted Emails</h2>
+<p>This endpoint can be used to entirely replace a Codex Record&#39;s
+<code>whitelistedEmails</code> array, instead of <a href="#add-an-email-to-a-codex-record-39-s-whitelisted-emails">adding</a> and <a href="#remove-an-email-from-a-codex-record-39-s-whitelisted-emails">removing</a> one-by-one.
+See <a href="#whitelisted-addresses">Whitelisted Addresses</a> for details.</p>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client/records/0/whitelisted-emails'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'put'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
+  <span class="p">},</span>
+
+  <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">addresses</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s1">'0x821aea9a577a9b44299b9c15c88cf3087f3b5544'</span><span class="p">,</span>
+      <span class="s1">'0x0d1d4e623d10f9fba5db95830f7d3839406c6af2'</span><span class="p">,</span>
+      <span class="s1">'0x2932b7a2355d6fecc4b5c0b6bd44cc31df247a2e'</span><span class="p">,</span>
+      <span class="s1">'0x2191ef87e392377ec08e7c08eb105ef5448eced5'</span><span class="p">,</span>
+      <span class="s1">'0x0f4f2ac550a1b4e2280d04c21cea7ebd822934b5'</span><span class="p">,</span>
+    <span class="p">],</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// the updated whitelistedEmails array for this Codex Record</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns an array of email addresses (strings).</p>
+</blockquote>
+<h3 id='http-request-19'>HTTP Request</h3>
+<p><code>PUT /v1/client/records/:tokenId/whitelisted-emails</code></p>
+<h3 id='webhook-event-9'>Webhook Event</h3>
+<table><thead>
+<tr>
+<th>Event Name</th>
+<th>Recipient</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>codex-record:address-whitelisted</code></td>
+<td>Each newly whitelisted user</td>
+</tr>
+</tbody></table>
+<h3 id='url-parameters-14'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tokenId</td>
+<td>Number</td>
+<td>The <code>tokenId</code> of the Codex Record for which to retrieve the whitelisted emails of.</td>
+</tr>
+</tbody></table>
+<h3 id='request-parameters-13'>Request Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>addresses</td>
+<td>Array[String]</td>
+<td>An array of email addresses to replace the current whitelisted emails with.</td>
 </tr>
 </tbody></table>

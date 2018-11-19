@@ -124,6 +124,9 @@ requested data can be found in the <code>response</code> object.</p>
     <span class="s2">"0xf17f52151ebef6c7334fad080c5704d77216b732"</span><span class="p">,</span>
     <span class="s2">"0xc5fdf4076b8f3a5357c5e395ab970b5b54098fef"</span>
   <span class="p">],</span>
+  <span class="s2">"whitelistedEmails"</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s2">"user@example.com"</span>
+  <span class="p">],</span>
   <span class="s2">"fileHashes"</span><span class="p">:</span> <span class="p">[</span>
     <span class="s2">"0xb39e1bbc6d50670aafa88955217ddf1e9e1f635a2cfc8d5d806a730f014c7210"</span>
   <span class="p">],</span>
@@ -182,7 +185,7 @@ requested data can be found in the <code>response</code> object.</p>
 <td>isPrivate</td>
 <td>Boolean</td>
 <td>Public</td>
-<td>This flag indicates that the metadata for this record is private and can only be retrieved by the owner, the <code>approvedAddress</code>, and the addresses listed in <code>whitelistedAddresses</code>.</td>
+<td>This flag indicates that the metadata for this record is private and can only be retrieved by the owner, the <code>approvedAddress</code>, and the addresses listed in <code>whitelistedAddresses</code> / <code>whitelistedEmails</code>.</td>
 </tr>
 <tr>
 <td>provenance</td>
@@ -225,6 +228,12 @@ requested data can be found in the <code>response</code> object.</p>
 <td>String</td>
 <td>Public</td>
 <td>The unique ID of the metadata that belongs to this Codex Record.</td>
+</tr>
+<tr>
+<td>whitelistedEmails</td>
+<td>Array[String]</td>
+<td>Owner Only</td>
+<td>An array of email addresses allowed to view private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records. Will be <code>undefined</code> if you are not the owner. See <a href="#whitelisted-addresses">Whitelisted Addresses</a> for details.</td>
 </tr>
 <tr>
 <td>whitelistedAddresses</td>
