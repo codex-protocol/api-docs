@@ -121,6 +121,7 @@ const options = {
   // by using "formData" here instead of "body", request will send this request
   //  as multipart/form-data, which is necessary for sending file data
   formData: {
+    isPrivate: false,
     name: 'Really Cool Codex Record',
     description: 'This is a really cool Codex Record!',
     mainImage: fs.createReadStream('/tmp/uploads/cool-main-image.jpg'),
@@ -158,6 +159,7 @@ Event Name             | Recipient
 Parameter    | Type             | Description
 ------------ | ---------------- | ----------------------------------------------
 name         | String           | The plain text name of this Codex Record.
+isPrivate    | Boolean          | _(Optional, default `true`)_ This flag indicates that the metadata for the Codex Record is private and can only be retrieved by the owner, the `approvedAddress`, and the addresses listed in `whitelistedAddresses` / `whitelistedEmails`.
 description  | String           | _(Optional)_ The plain text description of this Codex Record. The field can be set to `null` or simply omitted to leave the description empty.
 mainImage    | File Data        | The main image of this Codex Record.
 images       | Array[File Data] | _(Optional)_ An array of supplemental images that belong to this metadata.
