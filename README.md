@@ -4,7 +4,7 @@
 
 > Codex API documentation built with [Slate](https://github.com/lord/slate)
 
-This repository contains source code for The Codex API documentation hosted on (https://dev.codexprotocol.com)[https://dev.codexprotocol.com].
+This repository contains source code for The Codex API documentation hosted on [https://dev.codexprotocol.com](https://dev.codexprotocol.com).
 
 ## Table of Contents
 
