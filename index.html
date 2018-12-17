@@ -328,6 +328,9 @@
                   <li>
                     <a href="#entirely-replace-a-codex-record-39-s-whitelisted-emails" class="toc-h2 toc-link" data-title="Entirely Replace a Codex Record's Whitelisted Emails">Entirely Replace a Codex Record's Whitelisted Emails</a>
                   </li>
+                  <li>
+                    <a href="#request-faucet-drip" class="toc-h2 toc-link" data-title="Request Faucet Drip">Request Faucet Drip</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -340,7 +343,7 @@
                     <a href="#webhooks" class="toc-h2 toc-link" data-title="Webhooks">Webhooks</a>
                   </li>
                   <li>
-                    <a href="#gas-allowance" class="toc-h2 toc-link" data-title="Gas Allowance">Gas Allowance</a>
+                    <a href="#codx-tokens-amp-fees" class="toc-h2 toc-link" data-title="CODX Tokens &amp; Fees">CODX Tokens &amp; Fees</a>
                   </li>
                   <li>
                     <a href="#privacy" class="toc-h2 toc-link" data-title="Privacy">Privacy</a>
@@ -946,8 +949,8 @@ in the <a href="#access-tokens">Access Tokens</a> section.</p>
 </aside>
 <h2 id='get-client'>Get Client</h2>
 <p>This endpoint can be used to retrieve the details of your application. This is
-useful if you want to check your <a href="#gas-allowance">gas allowance</a> before sending
-a request that would consume gas.</p>
+useful if you want to check your <a href="#codx-tokens-amp-fees">CODX balance</a> before sending
+a request that would consume CODX.</p>
 <pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
 
 <span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
@@ -2083,7 +2086,7 @@ See <a href="#whitelisted-addresses">Whitelisted Addresses</a> for details.</p>
       <span class="s1">'0x2191ef87e392377ec08e7c08eb105ef5448eced5'</span><span class="p">,</span>
       <span class="s1">'0x0f4f2ac550a1b4e2280d04c21cea7ebd822934b5'</span><span class="p">,</span>
     <span class="p">],</span>
-  <span class="p">}</span>
+  <span class="p">},</span>
 <span class="p">}</span>
 
 <span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
@@ -2339,7 +2342,7 @@ See <a href="#whitelisted-addresses">Whitelisted Addresses</a> for details.</p>
       <span class="s1">'0x2191ef87e392377ec08e7c08eb105ef5448eced5'</span><span class="p">,</span>
       <span class="s1">'0x0f4f2ac550a1b4e2280d04c21cea7ebd822934b5'</span><span class="p">,</span>
     <span class="p">],</span>
-  <span class="p">}</span>
+  <span class="p">},</span>
 <span class="p">}</span>
 
 <span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
@@ -2391,6 +2394,54 @@ See <a href="#whitelisted-addresses">Whitelisted Addresses</a> for details.</p>
 <td>An array of email addresses to replace the current whitelisted emails with.</td>
 </tr>
 </tbody></table>
+<h2 id='request-faucet-drip'>Request Faucet Drip</h2>
+<p>This endpoint can be used to request CODX from the faucet in Testnets. See
+<a href="#codx-tokens-amp-fees">CODX Tokens &amp; Fees</a> for details.</p>
+
+<aside class="success">
+  This is an asynchronous action. When the CODX has been sent to your
+  application's address and is available for use, your application's webhook
+  will be called with the transferred amount in the request body. See
+  <a href="#webhooks">webhooks</a> for details.
+</aside>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client/faucet/drip'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="c1">// nothing returned by this route</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns nothing, but a 200 response code means the request was successful</p>
+</blockquote>
+<h3 id='http-request-20'>HTTP Request</h3>
+<p><code>PUT /v1/client/faucet/drip</code></p>
+<h3 id='webhook-event-10'>Webhook Event</h3>
+<table><thead>
+<tr>
+<th>Event Name</th>
+<th>Recipient</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>codex-coin:transferred</code></td>
+<td>Drip requester (your application)</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+  This route is only enabled on testnets. If you try to request a faucet drip on
+  mainnet, you will receive a <code>403 Forbidden</code> error.
+</aside>
 <h1 id='general-concepts'>General Concepts</h1>
 <p>This section explains miscellaneous concepts referenced throughout this
 documentation.</p>
@@ -2580,6 +2631,11 @@ request with an <code>application/json</code> body containing the following data
 <td>Sent after <a href="#modify-a-codex-record-39-s-metadata">modifying a Codex Record&#39;s metadata</a>, when the Codex Record has been updated and logged on the blockchain.</td>
 </tr>
 <tr>
+<td>codex-coin:transferred</td>
+<td>String (amount of CODX transferred)</td>
+<td>Sent when your application receives <a href="#codx-tokens-amp-fees">CODX</a>. Usually this is after <a href="#get-codx-from-faucet">requesting CODX from a testnet faucet</a> or <a href="#purchase-codx">purchasing additional CODX on Mainnet</a>.</td>
+</tr>
+<tr>
 <td>codex-record:address-whitelisted</td>
 <td><a href="#codex-record">Codex Record</a></td>
 <td>Sent after someone <a href="#get-a-codex-record-39-s-whitelisted-addresses">adds your application to a Codex Record&#39;s whitelisted addresses</a>. This event is sent immediately as this is not an asynchronous action.</td>
@@ -2612,9 +2668,9 @@ request with an <code>application/json</code> body containing the following data
 </tbody></table>
 
 <!--
-  @TODO: add these events to the table when CODX / fees are documented:
+  @NOTE: this event is currently undocumented since contract approval happens
+  automatically on behalf of the application:
 
-  codex-coin:transferred
   codex-coin:registry-contract-approved
 -->
 
@@ -2693,42 +2749,29 @@ webhook events.</p>
 <p>The verify the request, calculate the <a href="https://nodejs.org/api/crypto.html#crypto_crypto_createhmac_algorithm_key_options">sha256</a>
 hash of the string <code>${timestamp}:${client_id}</code> using your application&#39;s secret
 as the <code>key</code>. Then compare the result with the <code>hash</code> specified in the request.</p>
-<h2 id='gas-allowance'>Gas Allowance</h2>
-<p>Since each blockchain transaction The Codex API sends on behalf of your
-application cost small amounts of Ether (known as &quot;gas&quot;), we limit all
-applications to a certain amount of gas per period. This ensures The Codex API
-is not abused.</p>
-
-<p>At the start of each period, your gas allowance is reset. The following table
-shows the reset periods for each environment:</p>
-
-<table><thead>
-<tr>
-<th>Network</th>
-<th>Period</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>Ropsten</td>
-<td>Every 24 hours</td>
-</tr>
-<tr>
-<td>Rinkeby</td>
-<td>Every 30 days</td>
-</tr>
-<tr>
-<td>Mainnet</td>
-<td>Every 30 days</td>
-</tr>
-</tbody></table>
+<h2 id='codx-tokens-amp-fees'>CODX Tokens &amp; Fees</h2>
+<p>CodexCoin (CODX) is the ERC-20 utility token used to interact with The Codex
+API. You must have CODX to create, edit, and transfer Codex Records. See
+<a href="#smart-contract-addresses">Smart Contract Addresses</a> for Etherscan links for
+the CodexCoin contracts on each network.</p>
 
 <aside class="success">
-  Currently, all applications receive <strong>40,500,000 gas</strong> per period.
-  That's enough to create and transfer about 100 records. If you believe your
-  application requires more gas per period, please
-  <a href="mailto:developers@codexprotocol.com?subject=Gas%20Allowance%20Increase%20Request&body=Let%20us%20know%20why%20your%20application%20needs%20a%20higher%20Gas%20Allowance.">contact us</a> and we can work
-  something out.
+  Currently, all applications receive <strong>100</strong> CODX upon creation.
+  Once your free CODX is depleted, you will have to obtain more. On testnets,
+  you may [request more CODX from the faucet](#get-codx-from-faucet). On
+  Mainnet, you must [purchase additional CODX](#purchase-codx).
 </aside>
+<h3 id='get-codx-from-faucet'>Get CODX From Faucet</h3>
+<p>On Testnets, you can request CODX for free from the &quot;CODX Faucet&quot;. After
+requesting a drip from the faucet, CODX will be sent to your account and you
+will receive the <code>codex-coin:transferred</code> webhook event upon success. You can
+request 1 drip every 24 hours.</p>
+
+<p>See <a href="#request-faucet-drip">Request Faucet Drip</a> for details on how to request
+CODX from the faucet.</p>
+<h3 id='purchase-codx'>Purchase CODX</h3>
+<p>On Mainnet, you must purchase CODX. Currently, there&#39;s not a good way to do this
+for API-based users, so <a href="mailto:developers@codexprotocol.com?subject=CODX%20Purchase%20Request&amp;body=I%20am%20interested%20in%20purchasing%20more%20CODX.">send us an email</a> if you need more CODX.</p>
 <h2 id='privacy'>Privacy</h2>
 <p>The public nature of blockchain presents some interesting challenges when
 dealing with information many people people wish to keep private. To take
@@ -2891,12 +2934,6 @@ properties are reset to their default values:</p>
   Otherwise, the transfer will fail because the contract cannot accept ERC-721
   tokens.
 </aside>
-
-<!--
-@TODO: add these sections when CODX / fees are documented
-## CODX Tokens & Fees
-## ERC-721 Tokens
--->
 <h1 id='response-examples'>Response Examples</h1>
 <blockquote>
 <p>An example success response (from a <a href="#get-client">Get Client</a> request):</p>
@@ -2904,9 +2941,11 @@ properties are reset to their default values:</p>
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
   <span class="s2">"error"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
   <span class="s2">"result"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s2">"gasAllowance"</span><span class="p">:</span> <span class="s2">"40500000"</span><span class="p">,</span>
     <span class="s2">"email"</span><span class="p">:</span> <span class="s2">"email@example.com"</span><span class="p">,</span>
     <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"My Codex Application"</span><span class="p">,</span>
+    <span class="s2">"faucetDripLastRequestedAt"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">"codxBalance"</span><span class="p">:</span> <span class="s2">"10000000000000000000"</span><span class="p">,</span>
+    <span class="s2">"faucetDripNextRequestAt"</span><span class="p">:</span> <span class="s2">"2018-11-26T19:25:03.056Z"</span>
     <span class="s2">"address"</span><span class="p">:</span> <span class="s2">"0x627306090abab3a6e1400e9345bc60c78a8bef57"</span>
   <span class="p">}</span>
 <span class="p">}</span>
@@ -2944,10 +2983,11 @@ requested data can be found in the <code>response</code> object.</p>
   <span class="s2">"result"</span><span class="p">:</span> <span class="kc">null</span>
 <span class="p">}</span>
 </code></pre><h2 id='client'>Client</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
-  <span class="s2">"gasAllowance"</span><span class="p">:</span> <span class="s2">"40500000"</span><span class="p">,</span>
   <span class="s2">"email"</span><span class="p">:</span> <span class="s2">"email@example.com"</span><span class="p">,</span>
   <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"My Codex Application"</span><span class="p">,</span>
-  <span class="s2">"gasAllowanceRemaining"</span><span class="p">:</span> <span class="s2">"28160450"</span><span class="p">,</span>
+  <span class="s2">"faucetDripLastRequestedAt"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="s2">"codxBalance"</span><span class="p">:</span> <span class="s2">"10000000000000000000"</span><span class="p">,</span>
+  <span class="s2">"faucetDripNextRequestAt"</span><span class="p">:</span> <span class="s2">"2018-11-26T19:25:03.056Z"</span>
   <span class="s2">"address"</span><span class="p">:</span> <span class="s2">"0x627306090abab3a6e1400e9345bc60c78a8bef57"</span>
 <span class="p">}</span>
 </code></pre>
@@ -2974,14 +3014,19 @@ requested data can be found in the <code>response</code> object.</p>
 <td>The Ethereum address that identifies the application, provisioned and managed by Codex behalf of the application developer.</td>
 </tr>
 <tr>
-<td>gasAllowance</td>
+<td>codxBalance</td>
 <td>String</td>
-<td>The total amount of gas the application can spend until the gas allowance is reset (this is what <code>gasAllowanceRemaining</code> is reset to every period.) See <a href="#gas-allowance">Gas Allowance</a> for details.</td>
+<td>The amount of CODX your application has remaining to spend on transactions. See <a href="#codx-and-fees">CODX Tokens &amp; Fees</a> for details.</td>
 </tr>
 <tr>
-<td>gasAllowanceRemaining</td>
-<td>String</td>
-<td>The amount of gas left that the application can spend until it resets. See <a href="#gas-allowance">Gas Allowance</a> for details.</td>
+<td>faucetDripNextRequestAt</td>
+<td>Date</td>
+<td><em>(Testnets only)</em> The time at which your application will next be able to <a href="#get-codx-from-faucet">request CODX from the faucet</a>.</td>
+</tr>
+<tr>
+<td>faucetDripLastRequestedAt</td>
+<td>Date</td>
+<td><em>(Testnets only)</em> The time at which your application last <a href="#get-codx-from-faucet">requested CODX from the faucet</a>.</td>
 </tr>
 </tbody></table>
 <h2 id='oauth2-access-token'>OAuth2 Access Token</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
@@ -3539,7 +3584,7 @@ is stored in the The Codex API database.</p>
 </tr>
 <tr>
 <td>402</td>
-<td>Payment Required Error - You do not have enough <a href="#gas-allowance">gas allowance</a> to perform the requested action. Wait for your allowance to reset, or purchase more allowance.</td>
+<td>Payment Required Error - You do not have enough <a href="#codx-tokens-amp-fees">CODX</a> to perform the requested action. On testnets, you may <a href="#get-codx-from-faucet">request more CODX from the faucet</a>. On Mainnet, you must <a href="#purchase-codx">purchase additional CODX</a>.</td>
 </tr>
 <tr>
 <td>403</td>
@@ -3587,8 +3632,8 @@ a link to check out that contract on Etherscan.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td><a href="https://ropsten.etherscan.io/token/0x2af5409438d2e6c241015f3130213f6a122b4064">CodexCoin</a></td>
-<td><a href="https://rinkeby.etherscan.io/address/0x6a8c5db1495ffc4ef183dfccfdc4de5164b4e95c">CodexCoin</a></td>
+<td><a href="https://ropsten.etherscan.io/token/0xc50efb6572218614d743c9929bd93b0a1a3982a9">CodexCoin</a></td>
+<td><a href="https://rinkeby.etherscan.io/address/0xe33345607c3065578f11ea456834ff9e82739d56">CodexCoin</a></td>
 <td><a href="https://etherscan.io/token/0xf226e38c3007b3d974fc79bcf5a77750035436ee">CodexCoin</a></td>
 </tr>
 <tr>
@@ -3603,13 +3648,13 @@ a link to check out that contract on Etherscan.</p>
 </tr>
 <tr>
 <td><a href="https://ropsten.etherscan.io/address/0x0bb7d24b10768431b5b7bda9afde822ca2ff3ad6">CodexStakeContract</a></td>
-<td><a href="https://rinkeby.etherscan.io/address/0x2bbcae1335a97e440c7d9f3f638db26abfad3207">CodexStakeContract</a></td>
+<td><a href="https://rinkeby.etherscan.io/address/0x8fa7c01220396a205181d289ea805023abecce61">CodexStakeContract</a></td>
 <td><a href="https://etherscan.io/address/0xdea454c9c4ad408f324cc0ea382b2b7aad99640c">CodexStakeContract</a></td>
 </tr>
 <tr>
-<td><a href="https://ropsten.etherscan.io/address/0xbb295f65335caef0cbe0e31a24466a01004a8067">IdentityPlatform</a></td>
-<td><a href="https://rinkeby.etherscan.io/address/0x7293bae565cb2d78eb8e0600e6da7397823edfdc">IdentityPlatform</a></td>
-<td>N/A</td>
+<td><a href="https://ropsten.etherscan.io/address/0x04e8c935b3b889de1a4bba16a19803eda51ef9d5">IdentityPlatform</a></td>
+<td><a href="https://rinkeby.etherscan.io/address/0x72e5ee7b7c16b321e74f2d64be18fa5b4ab648a2">IdentityPlatform</a></td>
+<td><a href="https://ropsten.etherscan.io/address/0x85e7453e884e26f9fb19f2e6487446740658e5ce">IdentityPlatform</a></td>
 </tr>
 </tbody></table>
 

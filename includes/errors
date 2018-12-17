@@ -13,7 +13,7 @@
 </tr>
 <tr>
 <td>402</td>
-<td>Payment Required Error - You do not have enough <a href="#gas-allowance">gas allowance</a> to perform the requested action. Wait for your allowance to reset, or purchase more allowance.</td>
+<td>Payment Required Error - You do not have enough <a href="#codx-tokens-amp-fees">CODX</a> to perform the requested action. On testnets, you may <a href="#get-codx-from-faucet">request more CODX from the faucet</a>. On Mainnet, you must <a href="#purchase-codx">purchase additional CODX</a>.</td>
 </tr>
 <tr>
 <td>403</td>

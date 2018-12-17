@@ -187,6 +187,11 @@ request with an <code>application/json</code> body containing the following data
 <td>Sent after <a href="#modify-a-codex-record-39-s-metadata">modifying a Codex Record&#39;s metadata</a>, when the Codex Record has been updated and logged on the blockchain.</td>
 </tr>
 <tr>
+<td>codex-coin:transferred</td>
+<td>String (amount of CODX transferred)</td>
+<td>Sent when your application receives <a href="#codx-tokens-amp-fees">CODX</a>. Usually this is after <a href="#get-codx-from-faucet">requesting CODX from a testnet faucet</a> or <a href="#purchase-codx">purchasing additional CODX on Mainnet</a>.</td>
+</tr>
+<tr>
 <td>codex-record:address-whitelisted</td>
 <td><a href="#codex-record">Codex Record</a></td>
 <td>Sent after someone <a href="#get-a-codex-record-39-s-whitelisted-addresses">adds your application to a Codex Record&#39;s whitelisted addresses</a>. This event is sent immediately as this is not an asynchronous action.</td>
@@ -219,9 +224,9 @@ request with an <code>application/json</code> body containing the following data
 </tbody></table>
 
 <!--
-  @TODO: add these events to the table when CODX / fees are documented:
+  @NOTE: this event is currently undocumented since contract approval happens
+  automatically on behalf of the application:
 
-  codex-coin:transferred
   codex-coin:registry-contract-approved
 -->
 
@@ -300,42 +305,29 @@ webhook events.</p>
 <p>The verify the request, calculate the <a href="https://nodejs.org/api/crypto.html#crypto_crypto_createhmac_algorithm_key_options">sha256</a>
 hash of the string <code>${timestamp}:${client_id}</code> using your application&#39;s secret
 as the <code>key</code>. Then compare the result with the <code>hash</code> specified in the request.</p>
-<h2 id='gas-allowance'>Gas Allowance</h2>
-<p>Since each blockchain transaction The Codex API sends on behalf of your
-application cost small amounts of Ether (known as &quot;gas&quot;), we limit all
-applications to a certain amount of gas per period. This ensures The Codex API
-is not abused.</p>
-
-<p>At the start of each period, your gas allowance is reset. The following table
-shows the reset periods for each environment:</p>
-
-<table><thead>
-<tr>
-<th>Network</th>
-<th>Period</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>Ropsten</td>
-<td>Every 24 hours</td>
-</tr>
-<tr>
-<td>Rinkeby</td>
-<td>Every 30 days</td>
-</tr>
-<tr>
-<td>Mainnet</td>
-<td>Every 30 days</td>
-</tr>
-</tbody></table>
+<h2 id='codx-tokens-amp-fees'>CODX Tokens &amp; Fees</h2>
+<p>CodexCoin (CODX) is the ERC-20 utility token used to interact with The Codex
+API. You must have CODX to create, edit, and transfer Codex Records. See
+<a href="#smart-contract-addresses">Smart Contract Addresses</a> for Etherscan links for
+the CodexCoin contracts on each network.</p>
 
 <aside class="success">
-  Currently, all applications receive <strong>40,500,000 gas</strong> per period.
-  That's enough to create and transfer about 100 records. If you believe your
-  application requires more gas per period, please
-  <a href="mailto:developers@codexprotocol.com?subject=Gas%20Allowance%20Increase%20Request&body=Let%20us%20know%20why%20your%20application%20needs%20a%20higher%20Gas%20Allowance.">contact us</a> and we can work
-  something out.
+  Currently, all applications receive <strong>100</strong> CODX upon creation.
+  Once your free CODX is depleted, you will have to obtain more. On testnets,
+  you may [request more CODX from the faucet](#get-codx-from-faucet). On
+  Mainnet, you must [purchase additional CODX](#purchase-codx).
 </aside>
+<h3 id='get-codx-from-faucet'>Get CODX From Faucet</h3>
+<p>On Testnets, you can request CODX for free from the &quot;CODX Faucet&quot;. After
+requesting a drip from the faucet, CODX will be sent to your account and you
+will receive the <code>codex-coin:transferred</code> webhook event upon success. You can
+request 1 drip every 24 hours.</p>
+
+<p>See <a href="#request-faucet-drip">Request Faucet Drip</a> for details on how to request
+CODX from the faucet.</p>
+<h3 id='purchase-codx'>Purchase CODX</h3>
+<p>On Mainnet, you must purchase CODX. Currently, there&#39;s not a good way to do this
+for API-based users, so <a href="mailto:developers@codexprotocol.com?subject=CODX%20Purchase%20Request&amp;body=I%20am%20interested%20in%20purchasing%20more%20CODX.">send us an email</a> if you need more CODX.</p>
 <h2 id='privacy'>Privacy</h2>
 <p>The public nature of blockchain presents some interesting challenges when
 dealing with information many people people wish to keep private. To take
@@ -498,9 +490,3 @@ properties are reset to their default values:</p>
   Otherwise, the transfer will fail because the contract cannot accept ERC-721
   tokens.
 </aside>
-
-<!--
-@TODO: add these sections when CODX / fees are documented
-## CODX Tokens & Fees
-## ERC-721 Tokens
--->

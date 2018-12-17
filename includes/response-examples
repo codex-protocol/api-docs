@@ -5,9 +5,11 @@
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
   <span class="s2">"error"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
   <span class="s2">"result"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s2">"gasAllowance"</span><span class="p">:</span> <span class="s2">"40500000"</span><span class="p">,</span>
     <span class="s2">"email"</span><span class="p">:</span> <span class="s2">"email@example.com"</span><span class="p">,</span>
     <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"My Codex Application"</span><span class="p">,</span>
+    <span class="s2">"faucetDripLastRequestedAt"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">"codxBalance"</span><span class="p">:</span> <span class="s2">"10000000000000000000"</span><span class="p">,</span>
+    <span class="s2">"faucetDripNextRequestAt"</span><span class="p">:</span> <span class="s2">"2018-11-26T19:25:03.056Z"</span>
     <span class="s2">"address"</span><span class="p">:</span> <span class="s2">"0x627306090abab3a6e1400e9345bc60c78a8bef57"</span>
   <span class="p">}</span>
 <span class="p">}</span>
@@ -45,10 +47,11 @@ requested data can be found in the <code>response</code> object.</p>
   <span class="s2">"result"</span><span class="p">:</span> <span class="kc">null</span>
 <span class="p">}</span>
 </code></pre><h2 id='client'>Client</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
-  <span class="s2">"gasAllowance"</span><span class="p">:</span> <span class="s2">"40500000"</span><span class="p">,</span>
   <span class="s2">"email"</span><span class="p">:</span> <span class="s2">"email@example.com"</span><span class="p">,</span>
   <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"My Codex Application"</span><span class="p">,</span>
-  <span class="s2">"gasAllowanceRemaining"</span><span class="p">:</span> <span class="s2">"28160450"</span><span class="p">,</span>
+  <span class="s2">"faucetDripLastRequestedAt"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+  <span class="s2">"codxBalance"</span><span class="p">:</span> <span class="s2">"10000000000000000000"</span><span class="p">,</span>
+  <span class="s2">"faucetDripNextRequestAt"</span><span class="p">:</span> <span class="s2">"2018-11-26T19:25:03.056Z"</span>
   <span class="s2">"address"</span><span class="p">:</span> <span class="s2">"0x627306090abab3a6e1400e9345bc60c78a8bef57"</span>
 <span class="p">}</span>
 </code></pre>
@@ -75,14 +78,19 @@ requested data can be found in the <code>response</code> object.</p>
 <td>The Ethereum address that identifies the application, provisioned and managed by Codex behalf of the application developer.</td>
 </tr>
 <tr>
-<td>gasAllowance</td>
+<td>codxBalance</td>
 <td>String</td>
-<td>The total amount of gas the application can spend until the gas allowance is reset (this is what <code>gasAllowanceRemaining</code> is reset to every period.) See <a href="#gas-allowance">Gas Allowance</a> for details.</td>
+<td>The amount of CODX your application has remaining to spend on transactions. See <a href="#codx-and-fees">CODX Tokens &amp; Fees</a> for details.</td>
 </tr>
 <tr>
-<td>gasAllowanceRemaining</td>
-<td>String</td>
-<td>The amount of gas left that the application can spend until it resets. See <a href="#gas-allowance">Gas Allowance</a> for details.</td>
+<td>faucetDripNextRequestAt</td>
+<td>Date</td>
+<td><em>(Testnets only)</em> The time at which your application will next be able to <a href="#get-codx-from-faucet">request CODX from the faucet</a>.</td>
+</tr>
+<tr>
+<td>faucetDripLastRequestedAt</td>
+<td>Date</td>
+<td><em>(Testnets only)</em> The time at which your application last <a href="#get-codx-from-faucet">requested CODX from the faucet</a>.</td>
 </tr>
 </tbody></table>
 <h2 id='oauth2-access-token'>OAuth2 Access Token</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
