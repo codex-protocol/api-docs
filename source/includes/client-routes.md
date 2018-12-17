@@ -13,8 +13,8 @@ in the <a href="#access-tokens">Access Tokens</a> section.
 ## Get Client
 
 This endpoint can be used to retrieve the details of your application. This is
-useful if you want to check your [gas allowance](#gas-allowance) before sending
-a request that would consume gas.
+useful if you want to check your [CODX balance](#codx-tokens-amp-fees) before sending
+a request that would consume CODX.
 
 ```javascript
 import request from 'request'
@@ -951,7 +951,7 @@ const options = {
       '0x2191ef87e392377ec08e7c08eb105ef5448eced5',
       '0x0f4f2ac550a1b4e2280d04c21cea7ebd822934b5',
     ],
-  }
+  },
 }
 
 request(options, (error, response) => {
@@ -1163,7 +1163,7 @@ const options = {
       '0x2191ef87e392377ec08e7c08eb105ef5448eced5',
       '0x0f4f2ac550a1b4e2280d04c21cea7ebd822934b5',
     ],
-  }
+  },
 }
 
 request(options, (error, response) => {
@@ -1194,3 +1194,51 @@ tokenId      | Number | The `tokenId` of the Codex Record for which to retrieve 
 Parameter    | Type          | Description
 ------------ | ------------- | -------------------------------------------------
 addresses    | Array[String] | An array of email addresses to replace the current whitelisted emails with.
+
+
+## Request Faucet Drip
+
+This endpoint can be used to request CODX from the faucet in Testnets. See
+[CODX Tokens & Fees](#codx-tokens-amp-fees) for details.
+
+<aside class="success">
+  This is an asynchronous action. When the CODX has been sent to your
+  application's address and is available for use, your application's webhook
+  will be called with the transferred amount in the request body. See
+  <a href="#webhooks">webhooks</a> for details.
+</aside>
+
+```javascript
+import request from 'request'
+
+const options = {
+  url: 'https://rinkeby-api.codexprotocol.com/v1/client/faucet/drip',
+  method: 'get',
+  json: true,
+
+  headers: {
+    Authorization: 'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e',
+  },
+}
+
+request(options, (error, response) => {
+  // nothing returned by this route
+})
+```
+
+> The above API call returns nothing, but a 200 response code means the request was successful
+
+### HTTP Request
+
+`PUT /v1/client/faucet/drip`
+
+### Webhook Event
+
+Event Name               | Recipient
+------------------------ | -------------------------------------------
+`codex-coin:transferred` | Drip requester (your application)
+
+<aside class="notice">
+  This route is only enabled on testnets. If you try to request a faucet drip on
+  mainnet, you will receive a <code>403 Forbidden</code> error.
+</aside>

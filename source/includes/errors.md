@@ -5,7 +5,7 @@ The Codex API can return the following error codes:
 Error Code | Error Description
 ---------- | -----------------
 401        | Unauthorized Error - Your access token is invalid (e.g. it has expired and you need to request a new one.)
-402        | Payment Required Error - You do not have enough [gas allowance](#gas-allowance) to perform the requested action. Wait for your allowance to reset, or purchase more allowance.
+402        | Payment Required Error - You do not have enough [CODX](#codx-tokens-amp-fees) to perform the requested action. On testnets, you may [request more CODX from the faucet](#get-codx-from-faucet). On Mainnet, you must [purchase additional CODX](#purchase-codx).
 403        | Forbidden Error - Your access token is valid, but you do not have permission to perform the request action (e.g. "admin only" actions.)
 404        | Not Found Error - The requested resource (or route) does not exist.
 409        | Missing Parameter Error - A required parameter was not specified in the request data. See error message for details.

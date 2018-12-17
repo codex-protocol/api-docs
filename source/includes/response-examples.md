@@ -6,9 +6,11 @@
 {
   "error": null,
   "result": {
-    "gasAllowance": "40500000",
     "email": "email@example.com",
     "name": "My Codex Application",
+    "faucetDripLastRequestedAt": null,
+    "codxBalance": "10000000000000000000",
+    "faucetDripNextRequestAt": "2018-11-26T19:25:03.056Z"
     "address": "0x627306090abab3a6e1400e9345bc60c78a8bef57"
   }
 }
@@ -52,21 +54,23 @@ requested data can be found in the `response` object.
 
 ```javascript
 {
-  "gasAllowance": "40500000",
   "email": "email@example.com",
   "name": "My Codex Application",
-  "gasAllowanceRemaining": "28160450",
+  "faucetDripLastRequestedAt": null,
+  "codxBalance": "10000000000000000000",
+  "faucetDripNextRequestAt": "2018-11-26T19:25:03.056Z"
   "address": "0x627306090abab3a6e1400e9345bc60c78a8bef57"
 }
 ```
 
-Property                      | Type   | Description
------------------------------ | ------ | ---------------------------------------
-name                          | String | The name of the application. This will be shown in the Codex Viewer as a registered application, taking the place of your application's Ethereum address in the Codex Record’s provenance.
-email                         | String | The application developer’s email address. This will be used to communicate any breaking API changes or development updates.
-address                       | String | The Ethereum address that identifies the application, provisioned and managed by Codex behalf of the application developer.
-gasAllowance                  | String | The total amount of gas the application can spend until the gas allowance is reset (this is what `gasAllowanceRemaining` is reset to every period.) See [Gas Allowance](#gas-allowance) for details.
-gasAllowanceRemaining         | String | The amount of gas left that the application can spend until it resets. See [Gas Allowance](#gas-allowance) for details.
+Property                  | Type   | Description
+------------------------- | ------ | ---------------------------------------
+name                      | String | The name of the application. This will be shown in the Codex Viewer as a registered application, taking the place of your application's Ethereum address in the Codex Record’s provenance.
+email                     | String | The application developer’s email address. This will be used to communicate any breaking API changes or development updates.
+address                   | String | The Ethereum address that identifies the application, provisioned and managed by Codex behalf of the application developer.
+codxBalance               | String | The amount of CODX your application has remaining to spend on transactions. See [CODX Tokens & Fees](#codx-and-fees) for details.
+faucetDripNextRequestAt   | Date   | _(Testnets only)_ The time at which your application will next be able to [request CODX from the faucet](#get-codx-from-faucet).
+faucetDripLastRequestedAt | Date   | _(Testnets only)_ The time at which your application last [requested CODX from the faucet](#get-codx-from-faucet).
 
 
 ## OAuth2 Access Token

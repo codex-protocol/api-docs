@@ -138,21 +138,22 @@ eventData | Varies | The relevant data for this event. Usually a [Codex Record](
 
 The following table lists all webhook events.
 
-Event Name                             | Event Data                    | Description
--------------------------------------- | ----------------------------- | -----------
-codex-record:created                   | [Codex Record](#codex-record) | Sent after [creating a Codex Record](#create-a-codex-record), when the Codex Record has been created and logged on the blockchain.
-codex-record:modified                  | [Codex Record](#codex-record) | Sent after [modifying a Codex Record's metadata](#modify-a-codex-record-39-s-metadata), when the Codex Record has been updated and logged on the blockchain.
-codex-record:address-whitelisted       | [Codex Record](#codex-record) | Sent after someone [adds your application to a Codex Record's whitelisted addresses](#get-a-codex-record-39-s-whitelisted-addresses). This event is sent immediately as this is not an asynchronous action.
-codex-record:transferred:new-owner     | [Codex Record](#codex-record) | Sent after [accepting an incoming transfer](#accept-a-transfer), when the Codex Record has been successfully transferred to your address and logged on the blockchain.
-codex-record:transferred:old-owner     | [Codex Record](#codex-record) | Sent after someone [accepts one of your application's outgoing transfers](#accept-a-transfer), when the Codex Record has been successfully transferred to the recipient's address and logged on the blockchain.
-codex-record:address-approved:owner    | [Codex Record](#codex-record) | Sent after [starting a transfer](#start-a-transfer), when the Codex Record's `approvedAddress` has been updated on the blockchain and is ready to be [accepted](#accept-a-transfer) by the recipient.
-codex-record:address-approved:approved | [Codex Record](#codex-record) | Sent after someone [starts a transfer](#start-a-transfer) to your application, when the Codex Record's `approvedAddress` has been updated on the blockchain and is ready to be [accepted](#accept-a-transfer) by your application.
-codex-record:address-approved:cancel   | [Codex Record](#codex-record) | Sent after [cancelling a transfer](#start-a-transfer), when the Codex Record's `approvedAddress` has been cleared on the blockchain and can no longer be [accepted](#accept-a-transfer) by the recipient.
+Event Name                             | Event Data                          | Description
+-------------------------------------- | ----------------------------------- | -----------
+codex-record:created                   | [Codex Record](#codex-record)       | Sent after [creating a Codex Record](#create-a-codex-record), when the Codex Record has been created and logged on the blockchain.
+codex-record:modified                  | [Codex Record](#codex-record)       | Sent after [modifying a Codex Record's metadata](#modify-a-codex-record-39-s-metadata), when the Codex Record has been updated and logged on the blockchain.
+codex-coin:transferred                 | String (amount of CODX transferred) | Sent when your application receives [CODX](#codx-tokens-amp-fees). Usually this is after [requesting CODX from a testnet faucet](#get-codx-from-faucet) or [purchasing additional CODX on Mainnet](#purchase-codx).
+codex-record:address-whitelisted       | [Codex Record](#codex-record)       | Sent after someone [adds your application to a Codex Record's whitelisted addresses](#get-a-codex-record-39-s-whitelisted-addresses). This event is sent immediately as this is not an asynchronous action.
+codex-record:transferred:new-owner     | [Codex Record](#codex-record)       | Sent after [accepting an incoming transfer](#accept-a-transfer), when the Codex Record has been successfully transferred to your address and logged on the blockchain.
+codex-record:transferred:old-owner     | [Codex Record](#codex-record)       | Sent after someone [accepts one of your application's outgoing transfers](#accept-a-transfer), when the Codex Record has been successfully transferred to the recipient's address and logged on the blockchain.
+codex-record:address-approved:owner    | [Codex Record](#codex-record)       | Sent after [starting a transfer](#start-a-transfer), when the Codex Record's `approvedAddress` has been updated on the blockchain and is ready to be [accepted](#accept-a-transfer) by the recipient.
+codex-record:address-approved:approved | [Codex Record](#codex-record)       | Sent after someone [starts a transfer](#start-a-transfer) to your application, when the Codex Record's `approvedAddress` has been updated on the blockchain and is ready to be [accepted](#accept-a-transfer) by your application.
+codex-record:address-approved:cancel   | [Codex Record](#codex-record)       | Sent after [cancelling a transfer](#start-a-transfer), when the Codex Record's `approvedAddress` has been cleared on the blockchain and can no longer be [accepted](#accept-a-transfer) by the recipient.
 
 <!--
-  @TODO: add these events to the table when CODX / fees are documented:
+  @NOTE: this event is currently undocumented since contract approval happens
+  automatically on behalf of the application:
 
-  codex-coin:transferred
   codex-coin:registry-contract-approved
 -->
 
@@ -233,30 +234,34 @@ The verify the request, calculate the [sha256](https://nodejs.org/api/crypto.htm
 hash of the string `${timestamp}:${client_id}` using your application's secret
 as the `key`. Then compare the result with the `hash` specified in the request.
 
+## CODX Tokens & Fees
 
-## Gas Allowance
-
-Since each blockchain transaction The Codex API sends on behalf of your
-application cost small amounts of Ether (known as "gas"), we limit all
-applications to a certain amount of gas per period. This ensures The Codex API
-is not abused.
-
-At the start of each period, your gas allowance is reset. The following table
-shows the reset periods for each environment:
-
-Network | Period
-------- | ----------------------------------------------------------------------
-Ropsten | Every 24 hours
-Rinkeby | Every 30 days
-Mainnet | Every 30 days
+CodexCoin (CODX) is the ERC-20 utility token used to interact with The Codex
+API. You must have CODX to create, edit, and transfer Codex Records. See
+[Smart Contract Addresses](#smart-contract-addresses) for Etherscan links for
+the CodexCoin contracts on each network.
 
 <aside class="success">
-  Currently, all applications receive <strong>40,500,000 gas</strong> per period.
-  That's enough to create and transfer about 100 records. If you believe your
-  application requires more gas per period, please
-  <a href="mailto:developers@codexprotocol.com?subject=Gas%20Allowance%20Increase%20Request&body=Let%20us%20know%20why%20your%20application%20needs%20a%20higher%20Gas%20Allowance.">contact us</a> and we can work
-  something out.
+  Currently, all applications receive <strong>100</strong> CODX upon creation.
+  Once your free CODX is depleted, you will have to obtain more. On testnets,
+  you may [request more CODX from the faucet](#get-codx-from-faucet). On
+  Mainnet, you must [purchase additional CODX](#purchase-codx).
 </aside>
+
+### Get CODX From Faucet
+
+On Testnets, you can request CODX for free from the "CODX Faucet". After
+requesting a drip from the faucet, CODX will be sent to your account and you
+will receive the `codex-coin:transferred` webhook event upon success. You can
+request 1 drip every 24 hours.
+
+See [Request Faucet Drip](#request-faucet-drip) for details on how to request
+CODX from the faucet.
+
+### Purchase CODX
+
+On Mainnet, you must purchase CODX. Currently, there's not a good way to do this
+for API-based users, so [send us an email](mailto:developers@codexprotocol.com?subject=CODX%20Purchase%20Request&body=I%20am%20interested%20in%20purchasing%20more%20CODX.) if you need more CODX.
 
 
 ## Privacy
@@ -406,10 +411,3 @@ isHistoricalProvenancePrivate | `true`
   Otherwise, the transfer will fail because the contract cannot accept ERC-721
   tokens.
 </aside>
-
-
-<!--
-@TODO: add these sections when CODX / fees are documented
-## CODX Tokens & Fees
-## ERC-721 Tokens
--->
