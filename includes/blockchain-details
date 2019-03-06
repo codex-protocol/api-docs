@@ -16,7 +16,7 @@ a link to check out that contract on Etherscan.</p>
 </thead><tbody>
 <tr>
 <td><a href="https://ropsten.etherscan.io/token/0xc50efb6572218614d743c9929bd93b0a1a3982a9">CodexCoin</a></td>
-<td><a href="https://rinkeby.etherscan.io/address/0xe33345607c3065578f11ea456834ff9e82739d56">CodexCoin</a></td>
+<td><a href="https://rinkeby.etherscan.io/token/0xe33345607c3065578f11ea456834ff9e82739d56">CodexCoin</a></td>
 <td><a href="https://etherscan.io/token/0xf226e38c3007b3d974fc79bcf5a77750035436ee">CodexCoin</a></td>
 </tr>
 <tr>
@@ -29,22 +29,55 @@ a link to check out that contract on Etherscan.</p>
 <td><a href="https://rinkeby.etherscan.io/address/0xa3fb132c4622db86bbf39cf5e6301d8a2a1145a8">CodexRecordProxy</a></td>
 <td><a href="https://etherscan.io/address/0x8853b05833029e3cf8d3cbb592f9784fa43d2a79">CodexRecordProxy</a></td>
 </tr>
-<tr>
-<td><a href="https://ropsten.etherscan.io/address/0x0bb7d24b10768431b5b7bda9afde822ca2ff3ad6">CodexStakeContract</a></td>
-<td><a href="https://rinkeby.etherscan.io/address/0x8fa7c01220396a205181d289ea805023abecce61">CodexStakeContract</a></td>
-<td><a href="https://etherscan.io/address/0xdea454c9c4ad408f324cc0ea382b2b7aad99640c">CodexStakeContract</a></td>
-</tr>
-<tr>
-<td><a href="https://ropsten.etherscan.io/address/0x04e8c935b3b889de1a4bba16a19803eda51ef9d5">IdentityPlatform</a></td>
-<td><a href="https://rinkeby.etherscan.io/address/0x72e5ee7b7c16b321e74f2d64be18fa5b4ab648a2">IdentityPlatform</a></td>
-<td><a href="https://ropsten.etherscan.io/address/0x85e7453e884e26f9fb19f2e6487446740658e5ce">IdentityPlatform</a></td>
-</tr>
 </tbody></table>
+
+<!--
+Hide the CodexStakeContract contract since staking isn't really used right now
+[CodexStakeContract](https://ropsten.etherscan.io/address/0x0bb7d24b10768431b5b7bda9afde822ca2ff3ad6) | [CodexStakeContract](https://rinkeby.etherscan.io/address/0x8fa7c01220396a205181d289ea805023abecce61) | [CodexStakeContract](https://etherscan.io/address/0xdea454c9c4ad408f324cc0ea382b2b7aad99640c)
+-->
+
+<!--
+Hide the IdentityPlatform contract since that's not really necessary to expose to developers
+[IdentityPlatform](https://ropsten.etherscan.io/address/0x04e8c935b3b889de1a4bba16a19803eda51ef9d5) | [IdentityPlatform](https://rinkeby.etherscan.io/address/0x72e5ee7b7c16b321e74f2d64be18fa5b4ab648a2) | [IdentityPlatform](https://etherscan.io/address/0x85e7453e884e26f9fb19f2e6487446740658e5ce)
+-->
 
 <aside class="warning">
   The Rinkeby &amp; Ropsten addresses are subject to change, but the Mainnet
   addresses will never change.
 </aside>
+<h2 id='listening-to-contract-events'>Listening to Contract Events</h2>
+<blockquote>
+<p>Listening for events via the CodexRecordProxy:</p>
+</blockquote>
+<pre class="highlight javascript tab-javascript"><code>
+<span class="kr">import</span> <span class="nx">Web3</span> <span class="nx">from</span> <span class="s1">'web3'</span>
+<span class="kr">const</span> <span class="nx">web3</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Web3</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">ETHEREUM_RPC_URL</span><span class="p">)</span>
+
+<span class="kr">const</span> <span class="nx">codexRecordProxyAddress</span> <span class="o">=</span> <span class="cm">/* see table above */</span>
+<span class="kr">const</span> <span class="nx">codexRecordABI</span> <span class="o">=</span> <span class="cm">/* see: https://raw.githubusercontent.com/codex-protocol/npm.ethereum-service/master/static/contracts/1/CodexRecord.json */</span>
+
+<span class="kr">const</span> <span class="nx">CodexRecord</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">web3</span><span class="p">.</span><span class="nx">eth</span><span class="p">.</span><span class="nx">Contract</span><span class="p">(</span><span class="nx">codexRecordABI</span><span class="p">,</span> <span class="nx">codexRecordProxyAddress</span><span class="p">)</span>
+
+<span class="c1">// @NOTE: this is just an example, this would likely pull way too many events so</span>
+<span class="c1">//  you'd need to request event in chunks</span>
+<span class="nx">CodexRecord</span>
+  <span class="p">.</span><span class="nx">getPastEvents</span><span class="p">(</span><span class="s1">'allEvents'</span><span class="p">,</span> <span class="p">{</span> <span class="na">fromBlock</span><span class="p">:</span> <span class="mi">6000000</span><span class="p">,</span> <span class="na">toBlock</span><span class="p">:</span> <span class="s1">'latest'</span> <span class="p">})</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">events</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="c1">// see https://web3js.readthedocs.io/en/1.0/web3-eth-contract.html?highlight=events#getpastevents</span>
+  <span class="p">})</span>
+
+</code></pre>
+<blockquote>
+<p>To get CodexRecord events, you must specify the ABI of the CodexRecord
+contract but the address of the CodexRecordProxy contract.</p>
+</blockquote>
+
+<p>If you wish to subscribe to CodexRecord contract events, please note that events
+are emitted from the CodexRecordProxy contract address and <strong>NOT</strong> the
+CodexRecord contract.</p>
+
+<!-- This mechanism allows for the possibility of contract logic changes while
+keeping the CodexRecordProxy contract address the same. -->
 <h2 id='get-erc-721-token-metadata'>Get ERC-721 Token Metadata</h2>
 <blockquote>
 <p>Get a token&#39;s metadata for display in an Ethereum wallet with NFT support:</p>
