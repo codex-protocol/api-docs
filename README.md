@@ -46,7 +46,6 @@ For more information see [Slate's deployment documentation](https://github.com/l
 
 ## Maintainers
 
-- [John Forrest](mailto:john@codexprotocol.com) ([@johnhforrest](https://github.com/johnhforrest))
 - [Colin Wood](mailto:colin@codexprotocol.com) ([@Anaphase](https://github.com/Anaphase))
 
 
