@@ -246,7 +246,7 @@ the asynchronous nature of blockchain transactions.
 
 <aside class="success">
   Since a Pending Update is essentially a "placeholder" for a Codex Record's
-  metadata, the structure is essentially the same.
+  metadata, the structure is very similar.
 </aside>
 
 Property        | Type                 | Description

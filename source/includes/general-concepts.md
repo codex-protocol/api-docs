@@ -50,7 +50,7 @@ The Codex API is very flexible with how it handles incoming requests. For most
 routes, the API will accept a request with a `Content-Type` of
 `multipart/form-data`, `application/x-www-form-urlencoded`, or
 `application/json`. Additionally, you may specify request parameters as either
-query parameters or body parameters (with the exception of file data, of course).
+query parameters or body parameters (with the exception of file data, of course.)
 
 The exceptions are:
 
@@ -237,15 +237,14 @@ as the `key`. Then compare the result with the `hash` specified in the request.
 ## CODX Tokens & Fees
 
 CodexCoin (CODX) is the ERC-20 utility token used to interact with The Codex
-API. You must have CODX to create, edit, and transfer Codex Records. See
-[Smart Contract Addresses](#smart-contract-addresses) for Etherscan links for
-the CodexCoin contracts on each network.
+API. You must have CODX to create and edit Codex Records. See [Smart Contract Addresses](#smart-contract-addresses)
+for Etherscan links for the CodexCoin contracts on each network.
 
 <aside class="success">
-  Currently, all applications receive <strong>100</strong> CODX upon creation.
+  Currently, all applications receive <strong>80</strong> CODX upon creation.
   Once your free CODX is depleted, you will have to obtain more. On testnets,
-  you may [request more CODX from the faucet](#get-codx-from-faucet). On
-  Mainnet, you must [purchase additional CODX](#purchase-codx).
+  you may <a href="#get-codx-from-faucet">request more CODX from the faucet</a>.
+  On Mainnet, you must <a href="#purchase-codx">purchase additional CODX</a>.
 </aside>
 
 ### Get CODX From Faucet
@@ -395,13 +394,16 @@ properties are reset to their default values:
 
 Property                      | Reset To
 ----------------------------- | ------------------------------------------------
-isPrivate                     | `true`
 isIgnored                     | `false`
 isInGallery                   | `false`
 approvedAddress               | `null`
 whitelistedEmails             | `[]`
 whitelistedAddresses          | `[]`
 isHistoricalProvenancePrivate | `true`
+
+<aside class="notice">
+  As of May 2019, <code>isPrivate</code> is no longer reset on transfer.
+</aside>
 
 <aside class="notice">
   If for some reason your application chooses to transfer a Codex Record to an

@@ -8,8 +8,8 @@ To use The Codex API, you will need to register an OAuth2 application with us.
 See [Authentication](#authentication) for more information.
 
 If you have any questions or suggestions for edits to this documentation, please
-visit the [GitHub](https://github.com/codex-protocol/site.dev-codexprotocol-com)
-repository and open an [issue](https://github.com/codex-protocol/site.dev-codexprotocol-com/issues)
+visit the [GitHub repository](https://github.com/codex-protocol/site.dev-codexprotocol-com)
+and open an [issue](https://github.com/codex-protocol/site.dev-codexprotocol-com/issues)
 and/or [pull request.](https://github.com/codex-protocol/site.dev-codexprotocol-com/pulls)
 
 <aside class="notice">

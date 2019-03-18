@@ -4,19 +4,21 @@
 
 Currently there is no admin interface built out for application developers, so
 the process for registering an application requires manual steps from both
-Codex and the application developer. Additionally, we only support the
-`client_credentials` grant, which means that calls to The Codex API
-<strong>must</strong> be from a confidential client. A confidential client is an
-application that can protect secrets from public users (i.e. calls to The Codex
-API should be happening on a server application and not from within the browser.)
-
-To register an application, [send us an email](mailto:developers@codexprotocol.com?subject=Codex%20API%20Application%20Request&body=Please%20provide%20a%20brief%20description%20of%20your%20application.) with the following information:
+Codex and the application developer. To register an application, [send us an email](mailto:developers@codexprotocol.com?subject=Codex%20API%20Application%20Request&body=Please%20provide%20a%20brief%20description%20of%20your%20application.) with the following information:
 
 Property   | Description
 ---------- | -------------------------------------------------------------------
 name       | The name of the application. This will be shown in the Codex Viewer as a registered application, taking the place of your application's Ethereum address in the Codex Record’s provenance.
 email      | The application developer’s email address. This will be used to communicate any breaking API changes or development updates.
 webhookUrl | For example, `https://your-api.example.com/codex-webhook`. Since blockchain transactions are asynchronous, this `webhookUrl` will be used to inform your application that an event has occurred, for example when your Codex Records have been created. See [webhooks](#webhooks) for details.
+
+<aside class="warning">
+  We only support the <code>client_credentials</code> OAuth2 grant, which means
+  that calls to The Codex API <strong>must</strong> be from a "confidential
+  client." A confidential client is an application that can protect secrets from
+  public users - that is to say <strong>all calls to The Codex API should
+  originate from a server application and not from within a browser.</strong>
+</aside>
 
 
 ## Access Tokens
