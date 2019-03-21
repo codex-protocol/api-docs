@@ -88,7 +88,9 @@ Parameter    | Type   | Default   | Description
 ------------ | ------ | --------- | --------------------------------------------
 limit        | Number | 100       | How many records to retrieve. Use with `offset` to paginate through Codex Records.
 offset       | Number | 0         | How many records to skip before applying the `limit`. Use with `limit` to paginate through Codex Records.
-order        | String | createdAt | To sort in reverse order, specify this value as `-createdAt`.
+order        | String | createdAt | To sort in reverse order, specify this value as `-createdAt`. Other options are `metadata.name` and `-metadata.name`.
+
+<!-- @TODO: document "query" param here? -->
 
 
 ## Create a Codex Record
@@ -156,14 +158,16 @@ Event Name             | Recipient
 
 ### Request Parameters
 
-Parameter    | Type             | Description
------------- | ---------------- | ----------------------------------------------
-name         | String           | The plain text name of this Codex Record.
-isPrivate    | Boolean          | _(Optional, default `true`)_ This flag indicates that the metadata for the Codex Record is private and can only be retrieved by the owner, the `approvedAddress`, and the addresses listed in `whitelistedAddresses` / `whitelistedEmails`.
-description  | String           | _(Optional)_ The plain text description of this Codex Record. The field can be set to `null` or simply omitted to leave the description empty.
-mainImage    | File Data        | The main image of this Codex Record.
-images       | Array[File Data] | _(Optional)_ An array of supplemental images that belong to this metadata.
-files        | Array[File Data] | _(Optional)_ An array of supplemental files that belong to this metadata. This is considered the "[historical provenance](#historical-provenance)" of the Codex Record.
+Parameter            | Type             | Description
+-------------------- | ---------------- | --------------------------------------
+name                 | String           | The plain text name of this Codex Record.
+isPrivate            | Boolean          | _(Optional, default `true`)_ This flag indicates that the metadata for the Codex Record is private and can only be retrieved by the owner, the `approvedAddress`, and the addresses listed in `whitelistedAddresses` / `whitelistedEmails`.
+description          | String           | _(Optional)_ The plain text description of this Codex Record. The field can be set to `null` or simply omitted to leave the description empty.
+mainImage            | File Data        | The main image of this Codex Record.
+images               | Array[File Data] | _(Optional)_ An array of supplemental images that belong to this metadata.
+files                | Array[File Data] | _(Optional)_ An array of supplemental files that belong to this metadata. This is considered the "[historical provenance](#historical-provenance)" of the Codex Record.
+additionalMetadata   | Object           | _(Optional)_ A list of additional metadata about this asset. See [Additional Metadata](#additional-metadata) for details.
+auctionHouseMetadata | Object           | _(Optional)_ An arbitrary list of data specific to your application (this field is ignored if your application is not an auction house.) See [Auction House Metadata](#auction-house-metadata) for details.
 
 
 ## Modify a Codex Record
@@ -526,7 +530,7 @@ address      | String | _(Required if `email` is not specified)_ The Ethereum ad
 
 <aside class="warning">
   If the specified email address does not belong to a registered user (i.e. the
-  email address has not yet been used to log in to the Codex Viewer), an email
+  email address has not yet been used to log in to The Codex Viewer), an email
   will be sent to the specified address with a link to sign up and claim the
   incoming transfer.
 </aside>
@@ -1083,7 +1087,7 @@ email        | String | The email address to add to the list of whitelisted emai
 
 <aside class="warning">
   If the specified email address does not belong to a registered user (i.e. the
-  email address has not yet been used to log in to the Codex Viewer), an email
+  email address has not yet been used to log in to The Codex Viewer), an email
   will be sent to the specified address with a link to sign up and view the
   record.
 </aside>

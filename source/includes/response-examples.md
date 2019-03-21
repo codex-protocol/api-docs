@@ -6,10 +6,10 @@
 {
   "error": null,
   "result": {
+    "availableCODXBalance": 100,
     "email": "email@example.com",
     "name": "My Codex Application",
     "faucetDripLastRequestedAt": null,
-    "codxBalance": "10000000000000000000",
     "faucetDripNextRequestAt": "2018-11-26T19:25:03.056Z"
     "address": "0x627306090abab3a6e1400e9345bc60c78a8bef57"
   }
@@ -54,10 +54,10 @@ requested data can be found in the `response` object.
 
 ```javascript
 {
+  "availableCODXBalance": 100,
   "email": "email@example.com",
   "name": "My Codex Application",
   "faucetDripLastRequestedAt": null,
-  "codxBalance": "10000000000000000000",
   "faucetDripNextRequestAt": "2018-11-26T19:25:03.056Z"
   "address": "0x627306090abab3a6e1400e9345bc60c78a8bef57"
 }
@@ -65,10 +65,10 @@ requested data can be found in the `response` object.
 
 Property                  | Type   | Description
 ------------------------- | ------ | ---------------------------------------
-name                      | String | The name of the application. This will be shown in the Codex Viewer as a registered application, taking the place of your application's Ethereum address in the Codex Record’s provenance.
+name                      | String | The name of the application. This will be shown in The Codex Viewer as a registered application, taking the place of your application's Ethereum address in the Codex Record’s provenance.
 email                     | String | The application developer’s email address. This will be used to communicate any breaking API changes or development updates.
 address                   | String | The Ethereum address that identifies the application, provisioned and managed by Codex behalf of the application developer.
-codxBalance               | String | The amount of CODX your application has remaining to spend on transactions. See [CODX Tokens & Fees](#codx-and-fees) for details.
+availableCODXBalance      | Number | The amount of CODX your application has remaining to spend on transactions. See [CODX Tokens & Fees](#codx-and-fees) for details.
 faucetDripNextRequestAt   | Date   | _(Testnets only)_ The time at which your application will next be able to [request CODX from the faucet](#get-codx-from-faucet).
 faucetDripLastRequestedAt | Date   | _(Testnets only)_ The time at which your application last [requested CODX from the faucet](#get-codx-from-faucet).
 
@@ -167,6 +167,12 @@ isHistoricalProvenancePrivate | Boolean                                      | P
   "fileHashes": [
     "0xb39e1bbc6d50670aafa88955217ddf1e9e1f635a2cfc8d5d806a730f014c7210"
   ],
+  "additionalMetadata": {
+    // see "Additional Metadata" below
+  },
+  "auctionHouseMetadata": {
+    // see "Auction House Metadata" below
+  },
   "pendingUpdates": [
     {
       // see "Pending Update" below
@@ -194,21 +200,81 @@ corresponding hashes stored on the blockchain. Storing this (potentially)
 sensitive data off-chain is necessary for privacy controls, since the nature of
 blockchain transactions are public.
 
-Property           | Type                                     | Permissions                                                                                  | Description
------------------- | ---------------------------------------- | -------------------------------------------------------------------------------------------- | ----------------
-id                 | String                                   | Public                                                                                          | The unique ID of the metadata.
-name               | String                                   | Whitelisted Addresses (if `isPrivate` is `true`)                                                | The plain text name of the Codex Record. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
-files              | Array[[File](#file)]                     | Whitelisted Addresses (if `isPrivate` is `true` and `isHistoricalProvenancePrivate` is `false`) | An array of supplemental files that belong to this metadata. This is considered the "[historical provenance](#historical-provenance)". Can `undefined` if `isHistoricalProvenancePrivate` is `true` on the Codex Record. See [File](#file) for details.
-images             | Array[[File](#file)]                     | Whitelisted Addresses (if `isPrivate` is `true`)                                                | An array of supplemental images that belong to this metadata. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address. See [File](#file) for details.
-nameHash           | String                                   | Public                                                                                          | The hash of the plain text name.
-mainImage          | [File](#file)                            | Whitelisted Addresses (if `isPrivate` is `true`)                                                | The main image of this Codex Record. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
-fileHashes         | Array[String]                            | Public                                                                                          | An array of file hashes that belong to this metadata.
-description        | String                                   | Whitelisted Addresses (if `isPrivate` is `true`)                                                | The plain text description of the Codex Record. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
-pendingUpdates     | Array[[Pending Update](#pending-update)] | Owner Only                                                                                      | An array of updates that are currently being processed for this metadata. See [Pending Update](#pending-update) for details. Will be `undefined` if you are not the owner.
-creatorAddress     | String                                   | Public                                                                                          | The Ethereum address of the client / user who created this metadata (not necessarily the current Codex Record owner!)
-descriptionHash    | String                                   | Public                                                                                          | The hash of the plain text description.
-hasPendingUpdates  | Boolean                                  | Public                                                                                          | This flag is true if there is currently a "modify" transaction processing on the blockchain (e.g. after [modifying a Codex Record's metadata](#modify-a-codex-record-39-s-metadata)). This is useful for showing some sort of loading state on a Codex Record while modifications are pending. See [Pending Update](#pending-update) for details.
-codexRecordTokenId | String                                   | Public                                                                                          | The `tokenId` of the Codex Record this metadata belongs to.
+Property             | Type                                     | Permissions                                                                                  | Description
+-------------------- | ---------------------------------------- | -------------------------------------------------------------------------------------------- | -----------
+id                   | String                                   | Public                                                                                          | The unique ID of the metadata.
+name                 | String                                   | Whitelisted Addresses (if `isPrivate` is `true`)                                                | The plain text name of the Codex Record. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
+files                | Array[[File](#file)]                     | Whitelisted Addresses (if `isPrivate` is `true` and `isHistoricalProvenancePrivate` is `false`) | An array of supplemental files that belong to this metadata. This is considered the "[historical provenance](#historical-provenance)". Can `undefined` if `isHistoricalProvenancePrivate` is `true` on the Codex Record. See [File](#file) for details.
+images               | Array[[File](#file)]                     | Whitelisted Addresses (if `isPrivate` is `true`)                                                | An array of supplemental images that belong to this metadata. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address. See [File](#file) for details.
+nameHash             | String                                   | Public                                                                                          | The hash of the plain text name.
+mainImage            | [File](#file)                            | Whitelisted Addresses (if `isPrivate` is `true`)                                                | The main image of this Codex Record. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
+fileHashes           | Array[String]                            | Public                                                                                          | An array of file hashes that belong to this metadata.
+description          | String                                   | Whitelisted Addresses (if `isPrivate` is `true`)                                                | The plain text description of the Codex Record. Will be `undefined` if `isPrivate` is `true` and you are not the owner or a whitelisted address.
+pendingUpdates      | Array[[Pending Update](#pending-update)] | Owner Only                                                                                      | An array of updates that are currently being processed for this metadata. See [Pending Update](#pending-update) for details. Will be `undefined` if you are not the owner.
+creatorAddress       | String                                   | Public                                                                                          | The Ethereum address of the client / user who created this metadata (not necessarily the current Codex Record owner!)
+descriptionHash      | String                                   | Public                                                                                          | The hash of the plain text description.
+hasPendingUpdates    | Boolean                                  | Public                                                                                          | This flag is true if there is currently a "modify" transaction processing on the blockchain (e.g. after [modifying a Codex Record's metadata](#modify-a-codex-record-39-s-metadata)). This is useful for showing some sort of loading state on a Codex Record while modifications are pending. See [Pending Update](#pending-update) for details.
+codexRecordTokenId   | String                                   | Public                                                                                          | The `tokenId` of the Codex Record this metadata belongs to.
+additionalMetadata   | Object                                   | Whitelisted Addresses (if isPrivate is true) | A list of additional metadata about the asset. See [Additional Metadata](#additional-metadata) for details.
+auctionHouseMetadata | Object                                   | Whitelisted Addresses (if isPrivate is true) | An arbitrary list of data specific to the Auction House that created the Codex Record. See [Auction House Metadata](#auction-house-metadata) for details.
+
+## Additional Metadata
+
+```javascript
+{
+  "condition": "Excellent",
+  "dimensionsInches": "18 x 23",
+  "creatorName": "Cool Guy McGee"
+  "medium": "mixed media on paper",
+  "dimensionsCentimeters": "45.7 x 58.4",
+  "assetSoldAt": "2019-03-21T16:30:06.030Z",
+  "assetCreatedAt": "1993-01-01T00:00:00.000Z",
+  "creatorSignatureLocation": "front, top left"
+}
+```
+
+This is a list of additional properties about the asset for which the Codex
+Record was created. This object is intended to contain information about the
+physical asset such as it's condition and dimensions. This entire object and all
+of it's values are optional.
+
+Property                 | Type                 | Description
+------------------------ | -------------------- | ------------------------------
+medium                   | String               | The asset's medium.
+condition                | String               | The asset's condition.
+creatorName              | String               | The name of the asset's creator.
+assetSoldAt              | Date                 | When the asset was sold.
+assetCreatedAt           | Date                 | When the asset was created.
+dimensionsInches         | String               | The asset's dimensions (in inches).
+dimensionsCentimeters    | String               | The asset's dimensions (in centimeters).
+creatorSignatureLocation | String               | The location of the creator's signature.
+
+## Auction House Metadata
+
+```javascript
+{
+  "id": "1234",
+  "linkbackUrl": "https://example.com/my-auction-house/asset/1234",
+
+  // any other arbitrary data (e.g. transactionId, inventoryNumber, artistId, etc...)
+
+}
+```
+
+This is a list of arbitrary data an auction house can specify when creating a
+Codex Record. This object is intended to contain information specific to the
+auction house, such as a transaction ID, inventory number, etc.
+
+<aside class="warning">
+  Note that if this field is specified, then an <code>id</code> value **MUST**
+  be specified.
+</aside>
+
+<aside class="success">
+  If a <code>linkbackUrl</code> value is specified, then this URL can be used to
+  view the asset on the auction house website.
+</aside>
+
 
 
 ## Pending Update
@@ -235,7 +301,7 @@ codexRecordTokenId | String                                   | Public          
     {
       // see "File" below
     }
-  ],
+  ]
 }
 ```
 
@@ -353,3 +419,35 @@ creatorAddress | String | The Ethereum address of the client / user created this
   Your application will likely only ever use the <code>fileType</code> and
   <code>uri</code> fields.
 </aside>
+
+
+## Bulk Transaction
+
+```javascript
+{
+  "id": "5c9162551a54697e9331d88b",
+  "type": "record-mint",
+  "status": "complete",
+  "recordMintData": {
+    "numCreated": 4,
+    "insertionErrors": [
+      "name: Path `name` is required."
+    ]
+  }
+}
+```
+
+> In this example, 5 metadata objects were specified when [creating Codex Records in bulk](#create-codex-records-in-bulk), one of which failed due to a missing `name` parameter.
+
+When bulk routes are are called (e.g. when [creating Codex Records in bulk](#create-codex-records-in-bulk)),
+a Bulk Transaction object is returned. This object can be used to monitor the
+progress of an in-progress Bulk Transaction, or to retrieve stats about an
+already-completed Bulk Transaction such as how many Codex Records were created.
+
+Property                        | Type          | Description
+------------------------------- | ------------- | ------------------------------
+id                              | String        | The unique ID of the Bulk Transaction.
+type                            | String        | The type of Bulk Transaction, currently the only value this can have is `record-mint`.
+status                          | String        | One of the following `created`, `pending`, or `complete`. "Created" means the Bulk Transaction is in the queue waiting to be processed, "pending" means it's in progress, and "completed" means the entire Bulk Transaction is done.
+recordMintData[numCreated]      | Number        | If this Bulk Transaction is of type `record-mint`, this is the number of successful Codex Record created. This is updated as records are being minted (i.e. while the `status` is `pending`).
+recordMintData[insertionErrors] | Array[String] | If this Bulk Transaction is of type `record-mint`, this is a list of errors that occurred while inserting the soon-to-be-created metadata records.

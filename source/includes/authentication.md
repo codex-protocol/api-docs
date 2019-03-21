@@ -8,7 +8,7 @@ Codex and the application developer. To register an application, [send us an ema
 
 Property   | Description
 ---------- | -------------------------------------------------------------------
-name       | The name of the application. This will be shown in the Codex Viewer as a registered application, taking the place of your application's Ethereum address in the Codex Record’s provenance.
+name       | The name of the application. This will be shown in The Codex Viewer as a registered application, taking the place of your application's Ethereum address in the Codex Record’s provenance.
 email      | The application developer’s email address. This will be used to communicate any breaking API changes or development updates.
 webhookUrl | For example, `https://your-api.example.com/codex-webhook`. Since blockchain transactions are asynchronous, this `webhookUrl` will be used to inform your application that an event has occurred, for example when your Codex Records have been created. See [webhooks](#webhooks) for details.
 

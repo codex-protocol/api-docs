@@ -97,6 +97,7 @@ Action                                                                      | Ev
 [Starting a Transfer](#start-a-transfer)                                    | `codex-record:address-approved:owner` and `codex-record:address-approved:approved`
 [Canceling a Transfer](#cancel-a-transfer)                                  | `codex-record:address-approved:cancel`
 [Accepting a Transfer](#accept-a-transfer)                                  | `codex-record:transferred:old-owner` and `codex-record:transferred:new-owner`
+[Creating Codex Records in Bulk](#create-codex-records-in-bulk)             | `bulk-transaction:started` and `bulk-transaction:completed`
 
 ### Webhook Structure
 
@@ -138,18 +139,19 @@ eventData | Varies | The relevant data for this event. Usually a [Codex Record](
 
 The following table lists all webhook events.
 
-Event Name                             | Event Data                          | Description
--------------------------------------- | ----------------------------------- | -----------
-codex-record:created                   | [Codex Record](#codex-record)       | Sent after [creating a Codex Record](#create-a-codex-record), when the Codex Record has been created and logged on the blockchain.
-codex-record:modified                  | [Codex Record](#codex-record)       | Sent after [modifying a Codex Record's metadata](#modify-a-codex-record-39-s-metadata), when the Codex Record has been updated and logged on the blockchain.
-codex-coin:transferred                 | String (amount of CODX transferred) | Sent when your application receives [CODX](#codx-tokens-amp-fees). Usually this is after [requesting CODX from a testnet faucet](#get-codx-from-faucet) or [purchasing additional CODX on Mainnet](#purchase-codx).
-codex-record:address-whitelisted       | [Codex Record](#codex-record)       | Sent after someone [adds your application to a Codex Record's whitelisted addresses](#get-a-codex-record-39-s-whitelisted-addresses). This event is sent immediately as this is not an asynchronous action.
-codex-record:transferred:new-owner     | [Codex Record](#codex-record)       | Sent after [accepting an incoming transfer](#accept-a-transfer), when the Codex Record has been successfully transferred to your address and logged on the blockchain.
-codex-record:transferred:old-owner     | [Codex Record](#codex-record)       | Sent after someone [accepts one of your application's outgoing transfers](#accept-a-transfer), when the Codex Record has been successfully transferred to the recipient's address and logged on the blockchain.
-codex-record:address-approved:owner    | [Codex Record](#codex-record)       | Sent after [starting a transfer](#start-a-transfer), when the Codex Record's `approvedAddress` has been updated on the blockchain and is ready to be [accepted](#accept-a-transfer) by the recipient.
-codex-record:address-approved:approved | [Codex Record](#codex-record)       | Sent after someone [starts a transfer](#start-a-transfer) to your application, when the Codex Record's `approvedAddress` has been updated on the blockchain and is ready to be [accepted](#accept-a-transfer) by your application.
-codex-record:address-approved:cancel   | [Codex Record](#codex-record)       | Sent after [cancelling a transfer](#start-a-transfer), when the Codex Record's `approvedAddress` has been cleared on the blockchain and can no longer be [accepted](#accept-a-transfer) by the recipient.
-
+Event Name                             | Event Data                            | Description
+-------------------------------------- | ------------------------------------- | -----------
+codex-record:created                   | [Codex Record](#codex-record)         | Sent after [creating a Codex Record](#create-a-codex-record), when the Codex Record has been created and logged on the blockchain.
+codex-record:modified                  | [Codex Record](#codex-record)         | Sent after [modifying a Codex Record's metadata](#modify-a-codex-record-39-s-metadata), when the Codex Record has been updated and logged on the blockchain.
+codex-coin:transferred                 | String (amount of CODX transferred)   | Sent when your application receives [CODX](#codx-tokens-amp-fees). Usually this is after [requesting CODX from a testnet faucet](#get-codx-from-faucet) or [purchasing additional CODX on Mainnet](#purchase-codx).
+codex-record:address-whitelisted       | [Codex Record](#codex-record)         | Sent after someone [adds your application to a Codex Record's whitelisted addresses](#get-a-codex-record-39-s-whitelisted-addresses). This event is sent immediately as this is not an asynchronous action.
+codex-record:transferred:new-owner     | [Codex Record](#codex-record)         | Sent after [accepting an incoming transfer](#accept-a-transfer), when the Codex Record has been successfully transferred to your address and logged on the blockchain.
+codex-record:transferred:old-owner     | [Codex Record](#codex-record)         | Sent after someone [accepts one of your application's outgoing transfers](#accept-a-transfer), when the Codex Record has been successfully transferred to the recipient's address and logged on the blockchain.
+codex-record:address-approved:owner    | [Codex Record](#codex-record)         | Sent after [starting a transfer](#start-a-transfer), when the Codex Record's `approvedAddress` has been updated on the blockchain and is ready to be [accepted](#accept-a-transfer) by the recipient.
+codex-record:address-approved:approved | [Codex Record](#codex-record)         | Sent after someone [starts a transfer](#start-a-transfer) to your application, when the Codex Record's `approvedAddress` has been updated on the blockchain and is ready to be [accepted](#accept-a-transfer) by your application.
+codex-record:address-approved:cancel   | [Codex Record](#codex-record)         | Sent after [cancelling a transfer](#start-a-transfer), when the Codex Record's `approvedAddress` has been cleared on the blockchain and can no longer be [accepted](#accept-a-transfer) by the recipient.
+bulk-transaction:started               | [Bulk Transaction](#bulk-transaction) | Sent after [creating Codex Records in bulk](#create-codex-records-in-bulk), when transactions start getting sent to the blockchain.
+bulk-transaction:completed             | [Bulk Transaction](#bulk-transaction) | Sent after [creating Codex Records in bulk](#create-codex-records-in-bulk), when all Codex Records have been created and logged on the blockchain.
 <!--
   @NOTE: this event is currently undocumented since contract approval happens
   automatically on behalf of the application:
@@ -234,6 +236,7 @@ The verify the request, calculate the [sha256](https://nodejs.org/api/crypto.htm
 hash of the string `${timestamp}:${client_id}` using your application's secret
 as the `key`. Then compare the result with the `hash` specified in the request.
 
+
 ## CODX Tokens & Fees
 
 CodexCoin (CODX) is the ERC-20 utility token used to interact with The Codex
@@ -259,8 +262,9 @@ CODX from the faucet.
 
 ### Purchase CODX
 
-On Mainnet, you must purchase CODX. Currently, there's not a good way to do this
-for API-based users, so [send us an email](mailto:developers@codexprotocol.com?subject=CODX%20Purchase%20Request&body=I%20am%20interested%20in%20purchasing%20more%20CODX.) if you need more CODX.
+On Mainnet, you must purchase CODX. Currently, there is no way to do this
+programmatically so you must login into The Codex Viewer and purchase CODX via
+Stripe. See [The Codex Viewer](#the-codex-viewer) for details.
 
 
 ## Privacy
@@ -338,7 +342,6 @@ providing _some_ access to others.
   functionality as <code>whitelistedAddresses</code> but with email addresses.
 </aside>
 
-
 ### Approved Addresses
 
 A Codex Record can also have an `approvedAddress`, which is an Ethereum address
@@ -367,6 +370,13 @@ separate privacy control is available to keep these files hidden even when being
 viewed by someone with [permissions to see private metadata](#permissions). If a
 Codex Record's `isHistoricalProvenancePrivate` flag is `true`, the `files`
 array will always be visible _to the owner only._
+
+<aside class="warning">
+  Historical provenance is not currently supported on The Codex Viewer. If
+  you create Codex Records with historical provenance, those files will not show
+  up in The Codex Viewer, but they are safely stored with the metadata in our
+  database.
+</aside>
 
 
 ## Transferring Codex Records
@@ -412,4 +422,48 @@ isHistoricalProvenancePrivate | `true`
   <a href="https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md" rel="noopener noreferrer">specification</a>.
   Otherwise, the transfer will fail because the contract cannot accept ERC-721
   tokens.
+</aside>
+
+
+## Proxy Users
+
+Some applications need to perform actions on behalf of other users. This is
+currently limited to creating records on behalf of other addresses, and is only
+supported when [creating Codex Records in bulk](#create-codex-records-in-bulk).
+
+If you believe your application needs proxy user support, please [send us an email](mailto:developers@codexprotocol.com?subject=Proxy%20User%20Request&body=Please%20provide%20a%20brief%20description%20of%20why%20your%20application%20needs%20proxy%20user%20support.) and we'll be happy to help.
+
+
+## The Codex Viewer
+
+The Codex Viewer is a frontend application written by Codex Protocol that
+interfaces with The Codex API. This application can be used to create, modify,
+and transfer Codex Records, as well as purchase CODX and browse public
+collections.
+
+The Codex Viewer is available in all the same environments as the API:
+
+Environment | Network | URL
+----------- | ------- | --------------------------------------------------------
+Development | Ropsten | [http://ropsten.codex-viewer.com](http://ropsten.codex-viewer.com)
+Staging     | Rinkeby | [https://rinkeby.codex-viewer.com](https://rinkeby.codex-viewer.com)
+Production  | Mainnet | [https://codex-viewer.com](https://codex-viewer.com)
+
+<aside class="warning">
+  Note the <code>http</code> instead of <code>https</code> for Ropsten.
+</aside>
+
+### Logging Into The Codex Viewer
+
+Even though OAuth2 accounts have direct API access, sometimes it's necessary to
+log into The Codex Viewer directly (e.g. when [purchasing CODX](#purchase-codx).)
+
+To login, simply visit the Codex Viewer in the appropriate environment (see
+table above) and use your application's `email` and `client_secret` as the
+password at the login screen.
+
+<aside class="success">
+  After logging into The Codex Viewer, you are free to change your password.
+  Changing your Codex Viewer password will <strong>NOT</strong> affect your
+  application's <code>client_secret</code>.
 </aside>
