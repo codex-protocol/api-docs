@@ -5,10 +5,10 @@
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
   <span class="s2">"error"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
   <span class="s2">"result"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"availableCODXBalance"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
     <span class="s2">"email"</span><span class="p">:</span> <span class="s2">"email@example.com"</span><span class="p">,</span>
     <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"My Codex Application"</span><span class="p">,</span>
     <span class="s2">"faucetDripLastRequestedAt"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
-    <span class="s2">"codxBalance"</span><span class="p">:</span> <span class="s2">"10000000000000000000"</span><span class="p">,</span>
     <span class="s2">"faucetDripNextRequestAt"</span><span class="p">:</span> <span class="s2">"2018-11-26T19:25:03.056Z"</span>
     <span class="s2">"address"</span><span class="p">:</span> <span class="s2">"0x627306090abab3a6e1400e9345bc60c78a8bef57"</span>
   <span class="p">}</span>
@@ -47,10 +47,10 @@ requested data can be found in the <code>response</code> object.</p>
   <span class="s2">"result"</span><span class="p">:</span> <span class="kc">null</span>
 <span class="p">}</span>
 </code></pre><h2 id='client'>Client</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"availableCODXBalance"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
   <span class="s2">"email"</span><span class="p">:</span> <span class="s2">"email@example.com"</span><span class="p">,</span>
   <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"My Codex Application"</span><span class="p">,</span>
   <span class="s2">"faucetDripLastRequestedAt"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
-  <span class="s2">"codxBalance"</span><span class="p">:</span> <span class="s2">"10000000000000000000"</span><span class="p">,</span>
   <span class="s2">"faucetDripNextRequestAt"</span><span class="p">:</span> <span class="s2">"2018-11-26T19:25:03.056Z"</span>
   <span class="s2">"address"</span><span class="p">:</span> <span class="s2">"0x627306090abab3a6e1400e9345bc60c78a8bef57"</span>
 <span class="p">}</span>
@@ -65,7 +65,7 @@ requested data can be found in the <code>response</code> object.</p>
 <tr>
 <td>name</td>
 <td>String</td>
-<td>The name of the application. This will be shown in the Codex Viewer as a registered application, taking the place of your application&#39;s Ethereum address in the Codex Record’s provenance.</td>
+<td>The name of the application. This will be shown in The Codex Viewer as a registered application, taking the place of your application&#39;s Ethereum address in the Codex Record’s provenance.</td>
 </tr>
 <tr>
 <td>email</td>
@@ -78,8 +78,8 @@ requested data can be found in the <code>response</code> object.</p>
 <td>The Ethereum address that identifies the application, provisioned and managed by Codex behalf of the application developer.</td>
 </tr>
 <tr>
-<td>codxBalance</td>
-<td>String</td>
+<td>availableCODXBalance</td>
+<td>Number</td>
 <td>The amount of CODX your application has remaining to spend on transactions. See <a href="#codx-and-fees">CODX Tokens &amp; Fees</a> for details.</td>
 </tr>
 <tr>
@@ -272,6 +272,12 @@ requested data can be found in the <code>response</code> object.</p>
   <span class="s2">"fileHashes"</span><span class="p">:</span> <span class="p">[</span>
     <span class="s2">"0xb39e1bbc6d50670aafa88955217ddf1e9e1f635a2cfc8d5d806a730f014c7210"</span>
   <span class="p">],</span>
+  <span class="s2">"additionalMetadata"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="c1">// see "Additional Metadata" below</span>
+  <span class="p">},</span>
+  <span class="s2">"auctionHouseMetadata"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="c1">// see "Auction House Metadata" below</span>
+  <span class="p">},</span>
   <span class="s2">"pendingUpdates"</span><span class="p">:</span> <span class="p">[</span>
     <span class="p">{</span>
       <span class="c1">// see "Pending Update" below</span>
@@ -384,7 +390,104 @@ blockchain transactions are public.</p>
 <td>Public</td>
 <td>The <code>tokenId</code> of the Codex Record this metadata belongs to.</td>
 </tr>
+<tr>
+<td>additionalMetadata</td>
+<td>Object</td>
+<td>Whitelisted Addresses (if isPrivate is true)</td>
+<td>A list of additional metadata about the asset. See <a href="#additional-metadata">Additional Metadata</a> for details.</td>
+</tr>
+<tr>
+<td>auctionHouseMetadata</td>
+<td>Object</td>
+<td>Whitelisted Addresses (if isPrivate is true)</td>
+<td>An arbitrary list of data specific to the Auction House that created the Codex Record. See <a href="#auction-house-metadata">Auction House Metadata</a> for details.</td>
+</tr>
 </tbody></table>
+<h2 id='additional-metadata'>Additional Metadata</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"condition"</span><span class="p">:</span> <span class="s2">"Excellent"</span><span class="p">,</span>
+  <span class="s2">"dimensionsInches"</span><span class="p">:</span> <span class="s2">"18 x 23"</span><span class="p">,</span>
+  <span class="s2">"creatorName"</span><span class="p">:</span> <span class="s2">"Cool Guy McGee"</span>
+  <span class="s2">"medium"</span><span class="p">:</span> <span class="s2">"mixed media on paper"</span><span class="p">,</span>
+  <span class="s2">"dimensionsCentimeters"</span><span class="p">:</span> <span class="s2">"45.7 x 58.4"</span><span class="p">,</span>
+  <span class="s2">"assetSoldAt"</span><span class="p">:</span> <span class="s2">"2019-03-21T16:30:06.030Z"</span><span class="p">,</span>
+  <span class="s2">"assetCreatedAt"</span><span class="p">:</span> <span class="s2">"1993-01-01T00:00:00.000Z"</span><span class="p">,</span>
+  <span class="s2">"creatorSignatureLocation"</span><span class="p">:</span> <span class="s2">"front, top left"</span>
+<span class="p">}</span>
+</code></pre>
+<p>This is a list of additional properties about the asset for which the Codex
+Record was created. This object is intended to contain information about the
+physical asset such as it&#39;s condition and dimensions. This entire object and all
+of it&#39;s values are optional.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>medium</td>
+<td>String</td>
+<td>The asset&#39;s medium.</td>
+</tr>
+<tr>
+<td>condition</td>
+<td>String</td>
+<td>The asset&#39;s condition.</td>
+</tr>
+<tr>
+<td>creatorName</td>
+<td>String</td>
+<td>The name of the asset&#39;s creator.</td>
+</tr>
+<tr>
+<td>assetSoldAt</td>
+<td>Date</td>
+<td>When the asset was sold.</td>
+</tr>
+<tr>
+<td>assetCreatedAt</td>
+<td>Date</td>
+<td>When the asset was created.</td>
+</tr>
+<tr>
+<td>dimensionsInches</td>
+<td>String</td>
+<td>The asset&#39;s dimensions (in inches).</td>
+</tr>
+<tr>
+<td>dimensionsCentimeters</td>
+<td>String</td>
+<td>The asset&#39;s dimensions (in centimeters).</td>
+</tr>
+<tr>
+<td>creatorSignatureLocation</td>
+<td>String</td>
+<td>The location of the creator&#39;s signature.</td>
+</tr>
+</tbody></table>
+<h2 id='auction-house-metadata'>Auction House Metadata</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"1234"</span><span class="p">,</span>
+  <span class="s2">"linkbackUrl"</span><span class="p">:</span> <span class="s2">"https://example.com/my-auction-house/asset/1234"</span><span class="p">,</span>
+
+  <span class="c1">// any other arbitrary data (e.g. transactionId, inventoryNumber, artistId, etc...)</span>
+
+<span class="p">}</span>
+</code></pre>
+<p>This is a list of arbitrary data an auction house can specify when creating a
+Codex Record. This object is intended to contain information specific to the
+auction house, such as a transaction ID, inventory number, etc.</p>
+
+<aside class="warning">
+  Note that if this field is specified, then an <code>id</code> value **MUST**
+  be specified.
+</aside>
+
+<aside class="success">
+  If a <code>linkbackUrl</code> value is specified, then this URL can be used to
+  view the asset on the auction house website.
+</aside>
 <h2 id='pending-update'>Pending Update</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
   <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"5bb661ab92d258fdf2efa29b"</span><span class="p">,</span>
   <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Super Duper New Title"</span><span class="p">,</span>
@@ -406,7 +509,7 @@ blockchain transactions are public.</p>
     <span class="p">{</span>
       <span class="c1">// see "File" below</span>
     <span class="p">}</span>
-  <span class="p">],</span>
+  <span class="p">]</span>
 <span class="p">}</span>
 </code></pre>
 <p>Typically generated after <a href="#modify-a-codex-record-39-s-metadata">modifying a Codex Record&#39;s metadata</a>,
@@ -416,7 +519,7 @@ the asynchronous nature of blockchain transactions.</p>
 
 <aside class="success">
   Since a Pending Update is essentially a "placeholder" for a Codex Record's
-  metadata, the structure is essentially the same.
+  metadata, the structure is very similar.
 </aside>
 
 <table><thead>
@@ -633,3 +736,57 @@ is stored in the The Codex API database.</p>
   Your application will likely only ever use the <code>fileType</code> and
   <code>uri</code> fields.
 </aside>
+<h2 id='bulk-transaction'>Bulk Transaction</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"5c9162551a54697e9331d88b"</span><span class="p">,</span>
+  <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"record-mint"</span><span class="p">,</span>
+  <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"complete"</span><span class="p">,</span>
+  <span class="s2">"recordMintData"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"numCreated"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="s2">"insertionErrors"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">"name: Path `name` is required."</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>In this example, 5 metadata objects were specified when <a href="#create-codex-records-in-bulk">creating Codex Records in bulk</a>, one of which failed due to a missing <code>name</code> parameter.</p>
+</blockquote>
+
+<p>When bulk routes are are called (e.g. when <a href="#create-codex-records-in-bulk">creating Codex Records in bulk</a>),
+a Bulk Transaction object is returned. This object can be used to monitor the
+progress of an in-progress Bulk Transaction, or to retrieve stats about an
+already-completed Bulk Transaction such as how many Codex Records were created.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>String</td>
+<td>The unique ID of the Bulk Transaction.</td>
+</tr>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>The type of Bulk Transaction, currently the only value this can have is <code>record-mint</code>.</td>
+</tr>
+<tr>
+<td>status</td>
+<td>String</td>
+<td>One of the following <code>created</code>, <code>pending</code>, or <code>complete</code>. &quot;Created&quot; means the Bulk Transaction is in the queue waiting to be processed, &quot;pending&quot; means it&#39;s in progress, and &quot;completed&quot; means the entire Bulk Transaction is done.</td>
+</tr>
+<tr>
+<td>recordMintData[numCreated]</td>
+<td>Number</td>
+<td>If this Bulk Transaction is of type <code>record-mint</code>, this is the number of successful Codex Record created. This is updated as records are being minted (i.e. while the <code>status</code> is <code>pending</code>).</td>
+</tr>
+<tr>
+<td>recordMintData[insertionErrors]</td>
+<td>Array[String]</td>
+<td>If this Bulk Transaction is of type <code>record-mint</code>, this is a list of errors that occurred while inserting the soon-to-be-created metadata records.</td>
+</tr>
+</tbody></table>

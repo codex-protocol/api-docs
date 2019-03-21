@@ -334,6 +334,23 @@
               </ul>
           </li>
           <li>
+            <a href="#bulk-routes" class="toc-h1 toc-link" data-title="Bulk Routes">Bulk Routes</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#create-codex-records-in-bulk" class="toc-h2 toc-link" data-title="Create Codex Records in Bulk">Create Codex Records in Bulk</a>
+                  </li>
+                  <li>
+                    <a href="#convert-metadata-xml-into-json" class="toc-h2 toc-link" data-title="Convert Metadata XML into JSON">Convert Metadata XML into JSON</a>
+                  </li>
+                  <li>
+                    <a href="#get-a-bulk-transaction" class="toc-h2 toc-link" data-title="Get a Bulk Transaction">Get a Bulk Transaction</a>
+                  </li>
+                  <li>
+                    <a href="#get-all-bulk-transactions" class="toc-h2 toc-link" data-title="Get All Bulk Transactions">Get All Bulk Transactions</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#general-concepts" class="toc-h1 toc-link" data-title="General Concepts">General Concepts</a>
               <ul class="toc-list-h2">
                   <li>
@@ -354,6 +371,12 @@
                   <li>
                     <a href="#transferring-codex-records" class="toc-h2 toc-link" data-title="Transferring Codex Records">Transferring Codex Records</a>
                   </li>
+                  <li>
+                    <a href="#proxy-users" class="toc-h2 toc-link" data-title="Proxy Users">Proxy Users</a>
+                  </li>
+                  <li>
+                    <a href="#the-codex-viewer" class="toc-h2 toc-link" data-title="The Codex Viewer">The Codex Viewer</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -372,6 +395,12 @@
                     <a href="#metadata" class="toc-h2 toc-link" data-title="Metadata">Metadata</a>
                   </li>
                   <li>
+                    <a href="#additional-metadata" class="toc-h2 toc-link" data-title="Additional Metadata">Additional Metadata</a>
+                  </li>
+                  <li>
+                    <a href="#auction-house-metadata" class="toc-h2 toc-link" data-title="Auction House Metadata">Auction House Metadata</a>
+                  </li>
+                  <li>
                     <a href="#pending-update" class="toc-h2 toc-link" data-title="Pending Update">Pending Update</a>
                   </li>
                   <li>
@@ -382,6 +411,9 @@
                   </li>
                   <li>
                     <a href="#file" class="toc-h2 toc-link" data-title="File">File</a>
+                  </li>
+                  <li>
+                    <a href="#bulk-transaction" class="toc-h2 toc-link" data-title="Bulk Transaction">Bulk Transaction</a>
                   </li>
               </ul>
           </li>
@@ -420,8 +452,8 @@ direct blockchain interaction.</p>
 See <a href="#authentication">Authentication</a> for more information.</p>
 
 <p>If you have any questions or suggestions for edits to this documentation, please
-visit the <a href="https://github.com/codex-protocol/site.dev-codexprotocol-com">GitHub</a>
-repository and open an <a href="https://github.com/codex-protocol/site.dev-codexprotocol-com/issues">issue</a>
+visit the <a href="https://github.com/codex-protocol/site.dev-codexprotocol-com">GitHub repository</a>
+and open an <a href="https://github.com/codex-protocol/site.dev-codexprotocol-com/issues">issue</a>
 and/or <a href="https://github.com/codex-protocol/site.dev-codexprotocol-com/pulls">pull request.</a></p>
 
 <aside class="notice">
@@ -475,13 +507,7 @@ developing against.</p>
 <h1 id='authentication'>Authentication</h1><h2 id='registering-an-application'>Registering an Application</h2>
 <p>Currently there is no admin interface built out for application developers, so
 the process for registering an application requires manual steps from both
-Codex and the application developer. Additionally, we only support the
-<code>client_credentials</code> grant, which means that calls to The Codex API
-<strong>must</strong> be from a confidential client. A confidential client is an
-application that can protect secrets from public users (i.e. calls to The Codex
-API should be happening on a server application and not from within the browser.)</p>
-
-<p>To register an application, <a href="mailto:developers@codexprotocol.com?subject=Codex%20API%20Application%20Request&amp;body=Please%20provide%20a%20brief%20description%20of%20your%20application.">send us an email</a> with the following information:</p>
+Codex and the application developer. To register an application, <a href="mailto:developers@codexprotocol.com?subject=Codex%20API%20Application%20Request&amp;body=Please%20provide%20a%20brief%20description%20of%20your%20application.">send us an email</a> with the following information:</p>
 
 <table><thead>
 <tr>
@@ -491,7 +517,7 @@ API should be happening on a server application and not from within the browser.
 </thead><tbody>
 <tr>
 <td>name</td>
-<td>The name of the application. This will be shown in the Codex Viewer as a registered application, taking the place of your application&#39;s Ethereum address in the Codex Record’s provenance.</td>
+<td>The name of the application. This will be shown in The Codex Viewer as a registered application, taking the place of your application&#39;s Ethereum address in the Codex Record’s provenance.</td>
 </tr>
 <tr>
 <td>email</td>
@@ -502,6 +528,14 @@ API should be happening on a server application and not from within the browser.
 <td>For example, <code>https://your-api.example.com/codex-webhook</code>. Since blockchain transactions are asynchronous, this <code>webhookUrl</code> will be used to inform your application that an event has occurred, for example when your Codex Records have been created. See <a href="#webhooks">webhooks</a> for details.</td>
 </tr>
 </tbody></table>
+
+<aside class="warning">
+  We only support the <code>client_credentials</code> OAuth2 grant, which means
+  that calls to The Codex API <strong>must</strong> be from a "confidential
+  client." A confidential client is an application that can protect secrets from
+  public users - that is to say <strong>all calls to The Codex API should
+  originate from a server application and not from within a browser.</strong>
+</aside>
 <h2 id='access-tokens'>Access Tokens</h2><h3 id='obtaining-an-access-token'>Obtaining an Access Token</h3>
 <p>Before you can make API calls, you&#39;ll need an access token. See
 <a href="#get-an-access-token">Get an Access Token</a> for more details.</p>
@@ -1036,9 +1070,11 @@ currently owns.</em></p>
 <td>order</td>
 <td>String</td>
 <td>createdAt</td>
-<td>To sort in reverse order, specify this value as <code>-createdAt</code>.</td>
+<td>To sort in reverse order, specify this value as <code>-createdAt</code>. Other options are <code>metadata.name</code> and <code>-metadata.name</code>.</td>
 </tr>
 </tbody></table>
+
+<!-- @TODO: document "query" param here? -->
 <h2 id='create-a-codex-record'>Create a Codex Record</h2>
 <p>This endpoint can be used to begin the creation of a Codex Record. With this
 request, you&#39;re actually creating the Codex Record&#39;s <a href="#metadata">metadata</a> since
@@ -1140,6 +1176,16 @@ Codex Record itself can&#39;t be created until the transaction has been mined.</
 <td>files</td>
 <td>Array[File Data]</td>
 <td><em>(Optional)</em> An array of supplemental files that belong to this metadata. This is considered the &quot;<a href="#historical-provenance">historical provenance</a>&quot; of the Codex Record.</td>
+</tr>
+<tr>
+<td>additionalMetadata</td>
+<td>Object</td>
+<td><em>(Optional)</em> A list of additional metadata about this asset. See <a href="#additional-metadata">Additional Metadata</a> for details.</td>
+</tr>
+<tr>
+<td>auctionHouseMetadata</td>
+<td>Object</td>
+<td><em>(Optional)</em> An arbitrary list of data specific to your application (this field is ignored if your application is not an auction house.) See <a href="#auction-house-metadata">Auction House Metadata</a> for details.</td>
 </tr>
 </tbody></table>
 <h2 id='modify-a-codex-record'>Modify a Codex Record</h2>
@@ -1593,7 +1639,7 @@ transferred, although no data will have changed at this point.</p>
 
 <aside class="warning">
   If the specified email address does not belong to a registered user (i.e. the
-  email address has not yet been used to log in to the Codex Viewer), an email
+  email address has not yet been used to log in to The Codex Viewer), an email
   will be sent to the specified address with a link to sign up and claim the
   incoming transfer.
 </aside>
@@ -2260,7 +2306,7 @@ for this Codex Record, effectively giving them read-only access. See
 
 <aside class="warning">
   If the specified email address does not belong to a registered user (i.e. the
-  email address has not yet been used to log in to the Codex Viewer), an email
+  email address has not yet been used to log in to The Codex Viewer), an email
   will be sent to the specified address with a link to sign up and view the
   record.
 </aside>
@@ -2445,6 +2491,453 @@ See <a href="#whitelisted-addresses">Whitelisted Addresses</a> for details.</p>
   This route is only enabled on testnets. If you try to request a faucet drip on
   mainnet, you will receive a <code>403 Forbidden</code> error.
 </aside>
+<h1 id='bulk-routes'>Bulk Routes</h1>
+<p>Bulk routes are a subset of <a href="#client-routes">client routes</a>, which means they
+are also prefixed with <code>/v1/client</code> and only perform actions on data owned by
+your application. All bulk routes require an <code>accessToken</code> in the Authorization
+header, as described in the <a href="#access-tokens">Access Tokens</a> section.</p>
+
+<p>However, bulk routes are listed separately here because they work a bit
+differently. They are designed to take large sets of data and process actions in
+a queue. For example, these bulk routes can be used to <a href="#create-codex-records-in-bulk">create hundreds of Codex Records</a>
+with just one API request.</p>
+
+<aside class="success">
+  All requests to bulk routes require an <a href="#access-tokens">Access Token</a>.
+</aside>
+<h2 id='create-codex-records-in-bulk'>Create Codex Records in Bulk</h2>
+<p>This endpoint can be used to create a large number of Codex Records with just
+one API request. This route is essentially the same as
+<a href="#create-a-codex-record">the single-record creation route</a>, but it takes an
+array of metadata objects instead of a single metadata object. Another
+difference is that this route takes URLs for files and NOT file data (these
+files are downloaded an re-hosted by Codex during processing.)</p>
+
+<aside class="success">
+  This is an asynchronous action. When all Codex Records have been created and
+  logged on the blockchain, your application's webhook will be called with the
+  Bulk Transaction in the request body. See <a href="#webhooks">webhooks</a>
+  for details.
+</aside>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client/bulk-transaction/record-mint'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'post'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
+  <span class="p">},</span>
+
+  <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">proxyUserAddress</span><span class="p">:</span> <span class="s1">'0xf17f52151ebef6c7334fad080c5704d77216b732'</span>
+    <span class="na">metadata</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="na">isPrivate</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="na">name</span><span class="p">:</span> <span class="s1">'Really Cool Codex Record #1'</span><span class="p">,</span>
+        <span class="na">description</span><span class="p">:</span> <span class="s1">'This is a really cool Codex Record!'</span><span class="p">,</span>
+
+        <span class="na">mainImageUrl</span><span class="p">:</span> <span class="s1">'https://example.com/images/cool-main-image.jpg'</span><span class="p">,</span>
+        <span class="na">imageUrls</span><span class="p">:</span> <span class="p">[</span>
+          <span class="s1">'https://example.com/images/cool-supplemental-image-1.jpg'</span><span class="p">,</span>
+          <span class="s1">'https://example.com/images/cool-supplemental-image-2.jpg'</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="na">fileUrls</span><span class="p">:</span> <span class="p">[</span>
+          <span class="s1">'https://example.com/files/author-notes.txt'</span><span class="p">,</span>
+          <span class="s1">'https://example.com/files/certificate-of-authenticity.pdf'</span><span class="p">,</span>
+        <span class="p">],</span>
+
+        <span class="na">additionalMetadata</span><span class="p">:</span> <span class="p">{</span>
+          <span class="na">condition</span><span class="p">:</span> <span class="s1">'Excellent'</span><span class="p">,</span>
+          <span class="na">dimensionsInches</span><span class="p">:</span> <span class="s1">'18 x 23'</span><span class="p">,</span>
+          <span class="na">creatorName</span><span class="p">:</span> <span class="s1">'Cool Guy McGee'</span><span class="p">,</span>
+          <span class="na">medium</span><span class="p">:</span> <span class="s1">'mixed media on paper'</span><span class="p">,</span>
+          <span class="na">dimensionsCentimeters</span><span class="p">:</span> <span class="s1">'45.7 x 58.4'</span><span class="p">,</span>
+          <span class="na">assetSoldAt</span><span class="p">:</span> <span class="s1">'2019-03-21T16:30:06.030Z'</span><span class="p">,</span>
+          <span class="na">assetCreatedAt</span><span class="p">:</span> <span class="s1">'1993-01-01T00:00:00.000Z'</span><span class="p">,</span>
+          <span class="na">creatorSignatureLocation</span><span class="p">:</span> <span class="s1">'front, top left'</span><span class="p">,</span>
+        <span class="p">},</span>
+
+        <span class="na">auctionHouseMetadata</span><span class="p">:</span> <span class="p">{</span>
+          <span class="na">id</span><span class="p">:</span> <span class="s1">'1234'</span><span class="p">,</span>
+          <span class="na">linkbackUrl</span><span class="p">:</span> <span class="s1">'https://example.com/my-auction-house/asset/1234'</span><span class="p">,</span>
+
+          <span class="c1">// any other arbitrary fields</span>
+          <span class="na">transactionId</span><span class="p">:</span> <span class="mi">27299</span><span class="p">,</span>
+          <span class="na">inventoryNumber</span><span class="p">:</span> <span class="s1">'TWC1123-G16926-001'</span><span class="p">,</span>
+        <span class="p">},</span>
+      <span class="p">},</span>
+      <span class="p">{</span>
+        <span class="na">isPrivate</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="na">name</span><span class="p">:</span> <span class="s1">'Really Cool Codex Record #2'</span><span class="p">,</span>
+        <span class="na">description</span><span class="p">:</span> <span class="s1">'This is also a really cool Codex Record!'</span><span class="p">,</span>
+
+        <span class="na">mainImageUrl</span><span class="p">:</span> <span class="s1">'https://example.com/images/another-cool-main-image.jpg'</span><span class="p">,</span>
+        <span class="na">imageUrls</span><span class="p">:</span> <span class="p">[</span>
+          <span class="s1">'https://example.com/images/another-cool-supplemental-image-1.jpg'</span><span class="p">,</span>
+          <span class="s1">'https://example.com/images/another-cool-supplemental-image-2.jpg'</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="na">fileUrls</span><span class="p">:</span> <span class="p">[</span>
+          <span class="s1">'https://example.com/files/more-author-notes.txt'</span><span class="p">,</span>
+          <span class="s1">'https://example.com/files/another-certificate-of-authenticity.pdf'</span><span class="p">,</span>
+        <span class="p">],</span>
+
+        <span class="na">additionalMetadata</span><span class="p">:</span> <span class="p">{</span>
+          <span class="na">condition</span><span class="p">:</span> <span class="s1">'Poor'</span><span class="p">,</span>
+          <span class="na">medium</span><span class="p">:</span> <span class="s1">'linocut in 4 colors'</span><span class="p">,</span>
+          <span class="na">creatorName</span><span class="p">:</span> <span class="s1">'Cool Guy McGee'</span><span class="p">,</span>
+          <span class="na">dimensionsInches</span><span class="p">:</span> <span class="s1">'7 1/2 x 11 3/4'</span><span class="p">,</span>
+          <span class="na">dimensionsCentimeters</span><span class="p">:</span> <span class="s1">'19.1 x 29.8'</span><span class="p">,</span>
+          <span class="na">assetSoldAt</span><span class="p">:</span> <span class="s1">'2019-03-20T14:30:06.030Z'</span><span class="p">,</span>
+          <span class="na">assetCreatedAt</span><span class="p">:</span> <span class="s1">'1976-01-01T00:00:00.000Z'</span><span class="p">,</span>
+          <span class="na">creatorSignatureLocation</span><span class="p">:</span> <span class="s1">'back, bottom left'</span><span class="p">,</span>
+        <span class="p">},</span>
+
+        <span class="na">auctionHouseMetadata</span><span class="p">:</span> <span class="p">{</span>
+          <span class="na">id</span><span class="p">:</span> <span class="s1">'4321'</span><span class="p">,</span>
+          <span class="na">linkbackUrl</span><span class="p">:</span> <span class="s1">'https://example.com/my-auction-house/asset/4321'</span><span class="p">,</span>
+
+          <span class="c1">// any other arbitrary fields</span>
+          <span class="na">transactionId</span><span class="p">:</span> <span class="mi">27300</span><span class="p">,</span>
+          <span class="na">inventoryNumber</span><span class="p">:</span> <span class="s1">'TWC1123-G16926-002'</span><span class="p">,</span>
+        <span class="p">},</span>
+      <span class="p">},</span>
+
+      <span class="c1">// more metadata objects here</span>
+
+    <span class="p">],</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// a Bulk Transaction object</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call (eventually) creates two Codex Records and returns a single <a href="#bulk-transaction">Bulk Transaction</a>.</p>
+</blockquote>
+<h3 id='http-request'>HTTP Request</h3>
+<p><code>POST /v1/client/bulk-transaction/record-mint</code></p>
+<h3 id='webhook-event'>Webhook Event</h3>
+<table><thead>
+<tr>
+<th>Event Name</th>
+<th>Recipient</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>bulk-transaction:started</code></td>
+<td>Bulk Transaction Creator (and <em>not</em> the proxy user, if specified)</td>
+</tr>
+<tr>
+<td><code>bulk-transaction:completed</code></td>
+<td>Bulk Transaction Creator (and <em>not</em> the proxy user, if specified)</td>
+</tr>
+</tbody></table>
+<h3 id='request-parameters'>Request Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>proxyUserAddress</td>
+<td>String</td>
+<td><em>(Optional)</em> The Ethereum address of the user to create these Codex Records for. This field is only for applications with <a href="#proxy-users">Proxy Users</a>.</td>
+</tr>
+<tr>
+<td>metadata[][name]</td>
+<td>String</td>
+<td>The plain text name of this Codex Record.</td>
+</tr>
+<tr>
+<td>metadata[][isPrivate]</td>
+<td>Boolean</td>
+<td><em>(Optional, default <code>false</code>)</em> This flag indicates that the metadata for the Codex Record is private and can only be retrieved by the owner, the <code>approvedAddress</code>, and the addresses listed in <code>whitelistedAddresses</code> / <code>whitelistedEmails</code>.</td>
+</tr>
+<tr>
+<td>metadata[][description]</td>
+<td>String</td>
+<td><em>(Optional)</em> The plain text description of this Codex Record. The field can be set to <code>null</code> or simply omitted to leave the description empty.</td>
+</tr>
+<tr>
+<td>metadata[][mainImageUrl]</td>
+<td>String</td>
+<td>The main image of this Codex Record.</td>
+</tr>
+<tr>
+<td>metadata[][imageUrls]</td>
+<td>String</td>
+<td><em>(Optional)</em> An array of supplemental images that belong to this metadata.</td>
+</tr>
+<tr>
+<td>metadata[][fileUrls]</td>
+<td>String</td>
+<td><em>(Optional)</em> An array of supplemental files that belong to this metadata. This is considered the &quot;<a href="#historical-provenance">historical provenance</a>&quot; of the Codex Record.</td>
+</tr>
+<tr>
+<td>metadata[][additionalMetadata]</td>
+<td>Object</td>
+<td><em>(Optional)</em> A list of additional metadata about this asset. See <a href="#additional-metadata">Additional Metadata</a> for details.</td>
+</tr>
+<tr>
+<td>metadata[][auctionHouseMetadata]</td>
+<td>Object</td>
+<td>An arbitrary list of data specific to your application (this field is ignored if your application is not an auction house.) IF your account is an auction house account, this field is required (as well as the <code>auctionHouseMetadata.id</code> parameter.) See <a href="#auction-house-metadata">Auction House Metadata</a> for details.</td>
+</tr>
+</tbody></table>
+
+<aside class="success">
+  All files (<code>mainImageUrl</code>, <code>imageUrls</code>, and
+  <code>fileUrls</code>) are downloaded and re-hosted by Codex. These URLs do
+  not need to be permanent, but they should be available until the entire bulk
+  transaction has finished processing. If a file URL does not return a 2XX
+  response, the Codex Record will not be created.
+</aside>
+
+<aside class="warning">
+  This route is written to be as forgiving as possible, so if some metadata
+  objects contain errors, as many valid records as possible will be created and
+  any errors will be returned in the Bulk Transaction object. See
+  <a href="#bulk-transaction">Bulk Transaction</a> for details.
+</aside>
+
+<aside class="notice">
+  This route returns a <a href="#bulk-transaction">Bulk Transaction</a> object,
+  which can be used in conjunction with the <a href="#get-a-bulk-transaction">
+  Get a Bulk Transaction</a> route to monitor the progress of the Codex Records
+  being created.
+</aside>
+<h2 id='convert-metadata-xml-into-json'>Convert Metadata XML into JSON</h2>
+<p>It may be easier for your application to export metadata as XML instead of JSON,
+so a utility route exists to simply convert an XML file into a JSON response.
+You can then use this JSON response as the <code>metadata</code> array when
+<a href="#create-codex-records-in-bulk">creating Codex Records in bulk</a>.</p>
+
+<aside class="success">
+  The Codex Viewer has an option to do this action in-browser for auction house
+  accounts.
+</aside>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">fs</span> <span class="nx">from</span> <span class="s1">'fs'</span>
+<span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">convertXMLRequestOptions</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client/bulk-transactions/record-mint/convert/xml'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'post'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
+  <span class="p">},</span>
+
+  <span class="c1">// by using "formData" here instead of "body", request will send this request</span>
+  <span class="c1">//  as multipart/form-data, which is necessary for sending file data</span>
+  <span class="na">formData</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">mainImage</span><span class="p">:</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">createReadStream</span><span class="p">(</span><span class="s1">'/tmp/xml-metadata.xml'</span><span class="p">),</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">convertXMLRequestOptions</span><span class="p">,</span> <span class="p">(</span><span class="nx">convertXMLError</span><span class="p">,</span> <span class="nx">convertXMLResponse</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+  <span class="c1">// now take the JSON metadata and send it to the bulk transaction route...</span>
+  <span class="kr">const</span> <span class="nx">metadata</span> <span class="o">=</span> <span class="nx">convertXMLResponse</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span>
+
+  <span class="kr">const</span> <span class="nx">createBulkTransactionRequestOptions</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client/bulk-transaction/record-mint'</span><span class="p">,</span>
+    <span class="na">method</span><span class="p">:</span> <span class="s1">'post'</span><span class="p">,</span>
+    <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+    <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
+    <span class="p">},</span>
+
+    <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nx">metadata</span><span class="p">,</span>
+    <span class="p">},</span>
+  <span class="p">}</span>
+
+  <span class="nx">request</span><span class="p">(</span><span class="nx">createBulkTransactionRequestOptions</span><span class="p">,</span> <span class="p">(</span><span class="nx">createBulkTransactionError</span><span class="p">,</span> <span class="nx">createBulkTransaction</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">createBulkTransaction</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// a Bulk Transaction object</span>
+  <span class="p">})</span>
+
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API sends an XML file, retrieves converted JSON in the response, and sends that JSON metadata to the <a href="#create-codex-records-in-bulk">create Codex Records in Bulk</a> route.</p>
+</blockquote>
+<h3 id='http-request-2'>HTTP Request</h3>
+<p><code>POST /v1/client/bulk-transactions/record-mint/convert/xml</code></p>
+<h3 id='request-parameters-2'>Request Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>metadata</td>
+<td>File Data</td>
+<td>The XML file to convert.</td>
+</tr>
+</tbody></table>
+
+<!--
+  the previous code example is hella long, and the spacing looks weird with the
+  upcoming code example right next to it, so this is kind of a hacky way to push
+  down this subheader so that it's code example isn't nestled up next to the
+  previous one
+  -->
+
+<p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
+<h3 id='example-xml-structure'>Example XML Structure</h3><pre class="highlight xml tab-xml"><code><span class="nt">&lt;Records&gt;</span>
+  <span class="nt">&lt;Record&gt;</span>
+    <span class="c">&lt;!-- required --&gt;</span>
+    <span class="nt">&lt;Name&gt;</span>Really Cool Codex Record #1<span class="nt">&lt;/Name&gt;</span>
+    <span class="nt">&lt;IsPrivate&gt;</span>false<span class="nt">&lt;/IsPrivate&gt;</span>
+    <span class="nt">&lt;Description&gt;</span>This is a really cool Codex Record!<span class="nt">&lt;/Description&gt;</span>
+    <span class="nt">&lt;MainImageUrl&gt;</span>https://example.com/images/cool-main-image.jpg<span class="nt">&lt;/MainImageUrl&gt;</span>
+
+    <span class="c">&lt;!-- optional additional images --&gt;</span>
+    <span class="nt">&lt;ImageUrl&gt;</span>https://example.com/images/cool-supplemental-image-1.jpg<span class="nt">&lt;/ImageUrl&gt;</span>
+    <span class="nt">&lt;ImageUrl&gt;</span>https://example.com/images/cool-supplemental-image-2.jpg<span class="nt">&lt;/ImageUrl&gt;</span>
+
+    <span class="c">&lt;!-- optional additional files --&gt;</span>
+    <span class="nt">&lt;FileUrl&gt;</span>https://example.com/files/author-notes.txt<span class="nt">&lt;/FileUrl&gt;</span>
+    <span class="nt">&lt;FileUrl&gt;</span>https://example.com/files/certificate-of-authenticity.pdf<span class="nt">&lt;/FileUrl&gt;</span>
+
+    <span class="c">&lt;!-- optional --&gt;</span>
+    <span class="nt">&lt;AdditionalMetadata&gt;</span>
+      <span class="nt">&lt;Condition&gt;</span>Excellent<span class="nt">&lt;/Condition&gt;</span>
+      <span class="nt">&lt;Medium&gt;</span>mixed media on paper<span class="nt">&lt;/Medium&gt;</span>
+      <span class="nt">&lt;CreatorSignatureLocation&gt;</span>front, top left<span class="nt">&lt;/CreatorSignatureLocation&gt;</span>
+      <span class="nt">&lt;DimensionsInches&gt;</span>18 x 23<span class="nt">&lt;/DimensionsInches&gt;</span>
+      <span class="nt">&lt;DimensionsCentimeters&gt;</span>45.7 x 58.4<span class="nt">&lt;/DimensionsCentimeters&gt;</span>
+      <span class="nt">&lt;CreatorName&gt;</span>Cool Guy McGee<span class="nt">&lt;/CreatorName&gt;</span>
+      <span class="nt">&lt;AssetCreatedAt&gt;</span>1993-01-01T00:00:00.000Z<span class="nt">&lt;/AssetCreatedAt&gt;</span>
+      <span class="nt">&lt;AssetSoldAt&gt;</span>2019-03-21T16:30:06.030Z<span class="nt">&lt;/AssetSoldAt&gt;</span>
+    <span class="nt">&lt;/AdditionalMetadata&gt;</span>
+
+    <span class="nt">&lt;AuctionHouseMetadata&gt;</span>
+      <span class="c">&lt;!-- required --&gt;</span>
+      <span class="nt">&lt;Id&gt;</span>1234<span class="nt">&lt;/Id&gt;</span>
+
+      <span class="c">&lt;!-- optional --&gt;</span>
+      <span class="nt">&lt;LinkbackUrl&gt;</span>https://www.heffel.com/auction/Details_E.aspx?ID=30510<span class="nt">&lt;/LinkbackUrl&gt;</span>
+
+      <span class="c">&lt;!-- any other arbitrary fields --&gt;</span>
+      <span class="nt">&lt;TransactionID&gt;</span>27299<span class="nt">&lt;/TransactionID&gt;</span>
+      <span class="nt">&lt;InventoryNumber&gt;</span>TWC1123-G16926-001<span class="nt">&lt;/InventoryNumber&gt;</span>
+    <span class="nt">&lt;/AuctionHouseMetadata&gt;</span>
+  <span class="nt">&lt;/Record&gt;</span>
+
+  <span class="c">&lt;!-- more &lt;Record&gt; elements here --&gt;</span>
+
+<span class="nt">&lt;/Records&gt;</span>
+</code></pre>
+<p>The structure of XML metadata is very similar to the structure of JSON metadata.
+Please see the example in this section to guide you when constructing your XML
+metadata.</p>
+<h2 id='get-a-bulk-transaction'>Get a Bulk Transaction</h2>
+<p>This endpoint can be used to retrieve a specific Bulk Transaction that your
+application has created. This data can be used to monitor the progress of an
+in-progress Bulk Transaction, or to retrieve stats about an already-completed
+Bulk Transaction (such as how many Codex Records were created.)</p>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client/bulk-transactions/5c8fe94329de5e47fb9df266'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// Bulk Transaction with id 5c8fe94329de5e47fb9df266</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns a single <a href="#bulk-transaction">Bulk Transaction</a>.</p>
+</blockquote>
+<h3 id='http-request-3'>HTTP Request</h3>
+<p><code>GET /v1/client/bulk-transactions/:bulkTransactionId</code></p>
+<h3 id='url-parameters'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>bulkTransactionId</td>
+<td>String</td>
+<td>The <code>id</code> of the Bulk Transaction to retrieve.</td>
+</tr>
+</tbody></table>
+<h2 id='get-all-bulk-transactions'>Get All Bulk Transactions</h2>
+<p>This endpoint can be used to retrieve all Bulk Transactions that your
+application has created. This data can be used to monitor the progress of
+in-progress Bulk Transactions, or to retrieve stats about a already-completed
+Bulk Transactions (such as how many Codex Records were created.)</p>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client/bulk-transactions'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'get'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
+  <span class="p">},</span>
+
+  <span class="c1">// sort by date created in reverse and get 5 records, skipping the first ten</span>
+  <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">limit</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="na">offset</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="na">order</span><span class="p">:</span> <span class="s1">'-createdAt'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// an array of your application's Bulk Transactions</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call returns an array of <a href="#bulk-transaction">Bulk Transactions</a>.</p>
+</blockquote>
+<h3 id='http-request-4'>HTTP Request</h3>
+<p><code>GET /v1/client/bulk-transactions</code></p>
+<h3 id='request-parameters-3'>Request Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>limit</td>
+<td>Number</td>
+<td>100</td>
+<td>How many records to retrieve. Use with <code>offset</code> to paginate through Bulk Transactions.</td>
+</tr>
+<tr>
+<td>offset</td>
+<td>Number</td>
+<td>0</td>
+<td>How many records to skip before applying the <code>limit</code>. Use with <code>limit</code> to paginate through Bulk Transactions.</td>
+</tr>
+<tr>
+<td>order</td>
+<td>String</td>
+<td>-createdAt</td>
+<td>To sort in chronological order, specify this value as <code>createdAt</code>.</td>
+</tr>
+</tbody></table>
 <h1 id='general-concepts'>General Concepts</h1>
 <p>This section explains miscellaneous concepts referenced throughout this
 documentation.</p>
@@ -2490,7 +2983,7 @@ Really Cool Codex Record
 routes, the API will accept a request with a <code>Content-Type</code> of
 <code>multipart/form-data</code>, <code>application/x-www-form-urlencoded</code>, or
 <code>application/json</code>. Additionally, you may specify request parameters as either
-query parameters or body parameters (with the exception of file data, of course).</p>
+query parameters or body parameters (with the exception of file data, of course.)</p>
 
 <p>The exceptions are:</p>
 
@@ -2552,6 +3045,10 @@ to them as successful.</p>
 <tr>
 <td><a href="#accept-a-transfer">Accepting a Transfer</a></td>
 <td><code>codex-record:transferred:old-owner</code> and <code>codex-record:transferred:new-owner</code></td>
+</tr>
+<tr>
+<td><a href="#create-codex-records-in-bulk">Creating Codex Records in Bulk</a></td>
+<td><code>bulk-transaction:started</code> and <code>bulk-transaction:completed</code></td>
 </tr>
 </tbody></table>
 <h3 id='webhook-structure'>Webhook Structure</h3>
@@ -2668,6 +3165,16 @@ request with an <code>application/json</code> body containing the following data
 <td><a href="#codex-record">Codex Record</a></td>
 <td>Sent after <a href="#start-a-transfer">cancelling a transfer</a>, when the Codex Record&#39;s <code>approvedAddress</code> has been cleared on the blockchain and can no longer be <a href="#accept-a-transfer">accepted</a> by the recipient.</td>
 </tr>
+<tr>
+<td>bulk-transaction:started</td>
+<td><a href="#bulk-transaction">Bulk Transaction</a></td>
+<td>Sent after <a href="#create-codex-records-in-bulk">creating Codex Records in bulk</a>, when transactions start getting sent to the blockchain.</td>
+</tr>
+<tr>
+<td>bulk-transaction:completed</td>
+<td><a href="#bulk-transaction">Bulk Transaction</a></td>
+<td>Sent after <a href="#create-codex-records-in-bulk">creating Codex Records in bulk</a>, when all Codex Records have been created and logged on the blockchain.</td>
+</tr>
 </tbody></table>
 
 <!--
@@ -2754,15 +3261,14 @@ hash of the string <code>${timestamp}:${client_id}</code> using your application
 as the <code>key</code>. Then compare the result with the <code>hash</code> specified in the request.</p>
 <h2 id='codx-tokens-amp-fees'>CODX Tokens &amp; Fees</h2>
 <p>CodexCoin (CODX) is the ERC-20 utility token used to interact with The Codex
-API. You must have CODX to create, edit, and transfer Codex Records. See
-<a href="#smart-contract-addresses">Smart Contract Addresses</a> for Etherscan links for
-the CodexCoin contracts on each network.</p>
+API. You must have CODX to create and edit Codex Records. See <a href="#smart-contract-addresses">Smart Contract Addresses</a>
+for Etherscan links for the CodexCoin contracts on each network.</p>
 
 <aside class="success">
-  Currently, all applications receive <strong>100</strong> CODX upon creation.
+  Currently, all applications receive <strong>80</strong> CODX upon creation.
   Once your free CODX is depleted, you will have to obtain more. On testnets,
-  you may [request more CODX from the faucet](#get-codx-from-faucet). On
-  Mainnet, you must [purchase additional CODX](#purchase-codx).
+  you may <a href="#get-codx-from-faucet">request more CODX from the faucet</a>.
+  On Mainnet, you must <a href="#purchase-codx">purchase additional CODX</a>.
 </aside>
 <h3 id='get-codx-from-faucet'>Get CODX From Faucet</h3>
 <p>On Testnets, you can request CODX for free from the &quot;CODX Faucet&quot;. After
@@ -2773,8 +3279,9 @@ request 1 drip every 24 hours.</p>
 <p>See <a href="#request-faucet-drip">Request Faucet Drip</a> for details on how to request
 CODX from the faucet.</p>
 <h3 id='purchase-codx'>Purchase CODX</h3>
-<p>On Mainnet, you must purchase CODX. Currently, there&#39;s not a good way to do this
-for API-based users, so <a href="mailto:developers@codexprotocol.com?subject=CODX%20Purchase%20Request&amp;body=I%20am%20interested%20in%20purchasing%20more%20CODX.">send us an email</a> if you need more CODX.</p>
+<p>On Mainnet, you must purchase CODX. Currently, there is no way to do this
+programmatically so you must login into The Codex Viewer and purchase CODX via
+Stripe. See <a href="#the-codex-viewer">The Codex Viewer</a> for details.</p>
 <h2 id='privacy'>Privacy</h2>
 <p>The public nature of blockchain presents some interesting challenges when
 dealing with information many people people wish to keep private. To take
@@ -2870,6 +3377,13 @@ separate privacy control is available to keep these files hidden even when being
 viewed by someone with <a href="#permissions">permissions to see private metadata</a>. If a
 Codex Record&#39;s <code>isHistoricalProvenancePrivate</code> flag is <code>true</code>, the <code>files</code>
 array will always be visible <em>to the owner only.</em></p>
+
+<aside class="warning">
+  Historical provenance is not currently supported on The Codex Viewer. If
+  you create Codex Records with historical provenance, those files will not show
+  up in The Codex Viewer, but they are safely stored with the metadata in our
+  database.
+</aside>
 <h2 id='transferring-codex-records'>Transferring Codex Records</h2>
 <p>Transferring a Codex Record is a two-step process:</p>
 
@@ -2900,10 +3414,6 @@ properties are reset to their default values:</p>
 </tr>
 </thead><tbody>
 <tr>
-<td>isPrivate</td>
-<td><code>true</code></td>
-</tr>
-<tr>
 <td>isIgnored</td>
 <td><code>false</code></td>
 </tr>
@@ -2930,12 +3440,70 @@ properties are reset to their default values:</p>
 </tbody></table>
 
 <aside class="notice">
+  As of May 2019, <code>isPrivate</code> is no longer reset on transfer.
+</aside>
+
+<aside class="notice">
   If for some reason your application chooses to transfer a Codex Record to an
   Ethereum smart contract, that contract <em>must</em> implement the
   <code>ERC721TokenReceiver</code> interface as defined in the
   <a href="https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md" rel="noopener noreferrer">specification</a>.
   Otherwise, the transfer will fail because the contract cannot accept ERC-721
   tokens.
+</aside>
+<h2 id='proxy-users'>Proxy Users</h2>
+<p>Some applications need to perform actions on behalf of other users. This is
+currently limited to creating records on behalf of other addresses, and is only
+supported when <a href="#create-codex-records-in-bulk">creating Codex Records in bulk</a>.</p>
+
+<p>If you believe your application needs proxy user support, please <a href="mailto:developers@codexprotocol.com?subject=Proxy%20User%20Request&amp;body=Please%20provide%20a%20brief%20description%20of%20why%20your%20application%20needs%20proxy%20user%20support.">send us an email</a> and we&#39;ll be happy to help.</p>
+<h2 id='the-codex-viewer'>The Codex Viewer</h2>
+<p>The Codex Viewer is a frontend application written by Codex Protocol that
+interfaces with The Codex API. This application can be used to create, modify,
+and transfer Codex Records, as well as purchase CODX and browse public
+collections.</p>
+
+<p>The Codex Viewer is available in all the same environments as the API:</p>
+
+<table><thead>
+<tr>
+<th>Environment</th>
+<th>Network</th>
+<th>URL</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Development</td>
+<td>Ropsten</td>
+<td><a href="http://ropsten.codex-viewer.com">http://ropsten.codex-viewer.com</a></td>
+</tr>
+<tr>
+<td>Staging</td>
+<td>Rinkeby</td>
+<td><a href="https://rinkeby.codex-viewer.com">https://rinkeby.codex-viewer.com</a></td>
+</tr>
+<tr>
+<td>Production</td>
+<td>Mainnet</td>
+<td><a href="https://codex-viewer.com">https://codex-viewer.com</a></td>
+</tr>
+</tbody></table>
+
+<aside class="warning">
+  Note the <code>http</code> instead of <code>https</code> for Ropsten.
+</aside>
+<h3 id='logging-into-the-codex-viewer'>Logging Into The Codex Viewer</h3>
+<p>Even though OAuth2 accounts have direct API access, sometimes it&#39;s necessary to
+log into The Codex Viewer directly (e.g. when <a href="#purchase-codx">purchasing CODX</a>.)</p>
+
+<p>To login, simply visit the Codex Viewer in the appropriate environment (see
+table above) and use your application&#39;s <code>email</code> and <code>client_secret</code> as the
+password at the login screen.</p>
+
+<aside class="success">
+  After logging into The Codex Viewer, you are free to change your password.
+  Changing your Codex Viewer password will <strong>NOT</strong> affect your
+  application's <code>client_secret</code>.
 </aside>
 <h1 id='response-examples'>Response Examples</h1>
 <blockquote>
@@ -2944,10 +3512,10 @@ properties are reset to their default values:</p>
 <pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
   <span class="s2">"error"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
   <span class="s2">"result"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"availableCODXBalance"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
     <span class="s2">"email"</span><span class="p">:</span> <span class="s2">"email@example.com"</span><span class="p">,</span>
     <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"My Codex Application"</span><span class="p">,</span>
     <span class="s2">"faucetDripLastRequestedAt"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
-    <span class="s2">"codxBalance"</span><span class="p">:</span> <span class="s2">"10000000000000000000"</span><span class="p">,</span>
     <span class="s2">"faucetDripNextRequestAt"</span><span class="p">:</span> <span class="s2">"2018-11-26T19:25:03.056Z"</span>
     <span class="s2">"address"</span><span class="p">:</span> <span class="s2">"0x627306090abab3a6e1400e9345bc60c78a8bef57"</span>
   <span class="p">}</span>
@@ -2986,10 +3554,10 @@ requested data can be found in the <code>response</code> object.</p>
   <span class="s2">"result"</span><span class="p">:</span> <span class="kc">null</span>
 <span class="p">}</span>
 </code></pre><h2 id='client'>Client</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"availableCODXBalance"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
   <span class="s2">"email"</span><span class="p">:</span> <span class="s2">"email@example.com"</span><span class="p">,</span>
   <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"My Codex Application"</span><span class="p">,</span>
   <span class="s2">"faucetDripLastRequestedAt"</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
-  <span class="s2">"codxBalance"</span><span class="p">:</span> <span class="s2">"10000000000000000000"</span><span class="p">,</span>
   <span class="s2">"faucetDripNextRequestAt"</span><span class="p">:</span> <span class="s2">"2018-11-26T19:25:03.056Z"</span>
   <span class="s2">"address"</span><span class="p">:</span> <span class="s2">"0x627306090abab3a6e1400e9345bc60c78a8bef57"</span>
 <span class="p">}</span>
@@ -3004,7 +3572,7 @@ requested data can be found in the <code>response</code> object.</p>
 <tr>
 <td>name</td>
 <td>String</td>
-<td>The name of the application. This will be shown in the Codex Viewer as a registered application, taking the place of your application&#39;s Ethereum address in the Codex Record’s provenance.</td>
+<td>The name of the application. This will be shown in The Codex Viewer as a registered application, taking the place of your application&#39;s Ethereum address in the Codex Record’s provenance.</td>
 </tr>
 <tr>
 <td>email</td>
@@ -3017,8 +3585,8 @@ requested data can be found in the <code>response</code> object.</p>
 <td>The Ethereum address that identifies the application, provisioned and managed by Codex behalf of the application developer.</td>
 </tr>
 <tr>
-<td>codxBalance</td>
-<td>String</td>
+<td>availableCODXBalance</td>
+<td>Number</td>
 <td>The amount of CODX your application has remaining to spend on transactions. See <a href="#codx-and-fees">CODX Tokens &amp; Fees</a> for details.</td>
 </tr>
 <tr>
@@ -3211,6 +3779,12 @@ requested data can be found in the <code>response</code> object.</p>
   <span class="s2">"fileHashes"</span><span class="p">:</span> <span class="p">[</span>
     <span class="s2">"0xb39e1bbc6d50670aafa88955217ddf1e9e1f635a2cfc8d5d806a730f014c7210"</span>
   <span class="p">],</span>
+  <span class="s2">"additionalMetadata"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="c1">// see "Additional Metadata" below</span>
+  <span class="p">},</span>
+  <span class="s2">"auctionHouseMetadata"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="c1">// see "Auction House Metadata" below</span>
+  <span class="p">},</span>
   <span class="s2">"pendingUpdates"</span><span class="p">:</span> <span class="p">[</span>
     <span class="p">{</span>
       <span class="c1">// see "Pending Update" below</span>
@@ -3323,7 +3897,104 @@ blockchain transactions are public.</p>
 <td>Public</td>
 <td>The <code>tokenId</code> of the Codex Record this metadata belongs to.</td>
 </tr>
+<tr>
+<td>additionalMetadata</td>
+<td>Object</td>
+<td>Whitelisted Addresses (if isPrivate is true)</td>
+<td>A list of additional metadata about the asset. See <a href="#additional-metadata">Additional Metadata</a> for details.</td>
+</tr>
+<tr>
+<td>auctionHouseMetadata</td>
+<td>Object</td>
+<td>Whitelisted Addresses (if isPrivate is true)</td>
+<td>An arbitrary list of data specific to the Auction House that created the Codex Record. See <a href="#auction-house-metadata">Auction House Metadata</a> for details.</td>
+</tr>
 </tbody></table>
+<h2 id='additional-metadata'>Additional Metadata</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"condition"</span><span class="p">:</span> <span class="s2">"Excellent"</span><span class="p">,</span>
+  <span class="s2">"dimensionsInches"</span><span class="p">:</span> <span class="s2">"18 x 23"</span><span class="p">,</span>
+  <span class="s2">"creatorName"</span><span class="p">:</span> <span class="s2">"Cool Guy McGee"</span>
+  <span class="s2">"medium"</span><span class="p">:</span> <span class="s2">"mixed media on paper"</span><span class="p">,</span>
+  <span class="s2">"dimensionsCentimeters"</span><span class="p">:</span> <span class="s2">"45.7 x 58.4"</span><span class="p">,</span>
+  <span class="s2">"assetSoldAt"</span><span class="p">:</span> <span class="s2">"2019-03-21T16:30:06.030Z"</span><span class="p">,</span>
+  <span class="s2">"assetCreatedAt"</span><span class="p">:</span> <span class="s2">"1993-01-01T00:00:00.000Z"</span><span class="p">,</span>
+  <span class="s2">"creatorSignatureLocation"</span><span class="p">:</span> <span class="s2">"front, top left"</span>
+<span class="p">}</span>
+</code></pre>
+<p>This is a list of additional properties about the asset for which the Codex
+Record was created. This object is intended to contain information about the
+physical asset such as it&#39;s condition and dimensions. This entire object and all
+of it&#39;s values are optional.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>medium</td>
+<td>String</td>
+<td>The asset&#39;s medium.</td>
+</tr>
+<tr>
+<td>condition</td>
+<td>String</td>
+<td>The asset&#39;s condition.</td>
+</tr>
+<tr>
+<td>creatorName</td>
+<td>String</td>
+<td>The name of the asset&#39;s creator.</td>
+</tr>
+<tr>
+<td>assetSoldAt</td>
+<td>Date</td>
+<td>When the asset was sold.</td>
+</tr>
+<tr>
+<td>assetCreatedAt</td>
+<td>Date</td>
+<td>When the asset was created.</td>
+</tr>
+<tr>
+<td>dimensionsInches</td>
+<td>String</td>
+<td>The asset&#39;s dimensions (in inches).</td>
+</tr>
+<tr>
+<td>dimensionsCentimeters</td>
+<td>String</td>
+<td>The asset&#39;s dimensions (in centimeters).</td>
+</tr>
+<tr>
+<td>creatorSignatureLocation</td>
+<td>String</td>
+<td>The location of the creator&#39;s signature.</td>
+</tr>
+</tbody></table>
+<h2 id='auction-house-metadata'>Auction House Metadata</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"1234"</span><span class="p">,</span>
+  <span class="s2">"linkbackUrl"</span><span class="p">:</span> <span class="s2">"https://example.com/my-auction-house/asset/1234"</span><span class="p">,</span>
+
+  <span class="c1">// any other arbitrary data (e.g. transactionId, inventoryNumber, artistId, etc...)</span>
+
+<span class="p">}</span>
+</code></pre>
+<p>This is a list of arbitrary data an auction house can specify when creating a
+Codex Record. This object is intended to contain information specific to the
+auction house, such as a transaction ID, inventory number, etc.</p>
+
+<aside class="warning">
+  Note that if this field is specified, then an <code>id</code> value **MUST**
+  be specified.
+</aside>
+
+<aside class="success">
+  If a <code>linkbackUrl</code> value is specified, then this URL can be used to
+  view the asset on the auction house website.
+</aside>
 <h2 id='pending-update'>Pending Update</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
   <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"5bb661ab92d258fdf2efa29b"</span><span class="p">,</span>
   <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Super Duper New Title"</span><span class="p">,</span>
@@ -3345,7 +4016,7 @@ blockchain transactions are public.</p>
     <span class="p">{</span>
       <span class="c1">// see "File" below</span>
     <span class="p">}</span>
-  <span class="p">],</span>
+  <span class="p">]</span>
 <span class="p">}</span>
 </code></pre>
 <p>Typically generated after <a href="#modify-a-codex-record-39-s-metadata">modifying a Codex Record&#39;s metadata</a>,
@@ -3355,7 +4026,7 @@ the asynchronous nature of blockchain transactions.</p>
 
 <aside class="success">
   Since a Pending Update is essentially a "placeholder" for a Codex Record's
-  metadata, the structure is essentially the same.
+  metadata, the structure is very similar.
 </aside>
 
 <table><thead>
@@ -3572,6 +4243,60 @@ is stored in the The Codex API database.</p>
   Your application will likely only ever use the <code>fileType</code> and
   <code>uri</code> fields.
 </aside>
+<h2 id='bulk-transaction'>Bulk Transaction</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+  <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"5c9162551a54697e9331d88b"</span><span class="p">,</span>
+  <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"record-mint"</span><span class="p">,</span>
+  <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"complete"</span><span class="p">,</span>
+  <span class="s2">"recordMintData"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"numCreated"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="s2">"insertionErrors"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">"name: Path `name` is required."</span>
+    <span class="p">]</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>In this example, 5 metadata objects were specified when <a href="#create-codex-records-in-bulk">creating Codex Records in bulk</a>, one of which failed due to a missing <code>name</code> parameter.</p>
+</blockquote>
+
+<p>When bulk routes are are called (e.g. when <a href="#create-codex-records-in-bulk">creating Codex Records in bulk</a>),
+a Bulk Transaction object is returned. This object can be used to monitor the
+progress of an in-progress Bulk Transaction, or to retrieve stats about an
+already-completed Bulk Transaction such as how many Codex Records were created.</p>
+
+<table><thead>
+<tr>
+<th>Property</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>String</td>
+<td>The unique ID of the Bulk Transaction.</td>
+</tr>
+<tr>
+<td>type</td>
+<td>String</td>
+<td>The type of Bulk Transaction, currently the only value this can have is <code>record-mint</code>.</td>
+</tr>
+<tr>
+<td>status</td>
+<td>String</td>
+<td>One of the following <code>created</code>, <code>pending</code>, or <code>complete</code>. &quot;Created&quot; means the Bulk Transaction is in the queue waiting to be processed, &quot;pending&quot; means it&#39;s in progress, and &quot;completed&quot; means the entire Bulk Transaction is done.</td>
+</tr>
+<tr>
+<td>recordMintData[numCreated]</td>
+<td>Number</td>
+<td>If this Bulk Transaction is of type <code>record-mint</code>, this is the number of successful Codex Record created. This is updated as records are being minted (i.e. while the <code>status</code> is <code>pending</code>).</td>
+</tr>
+<tr>
+<td>recordMintData[insertionErrors]</td>
+<td>Array[String]</td>
+<td>If this Bulk Transaction is of type <code>record-mint</code>, this is a list of errors that occurred while inserting the soon-to-be-created metadata records.</td>
+</tr>
+</tbody></table>
 <h1 id='errors'>Errors</h1>
 <p>The Codex API can return the following error codes:</p>
 

@@ -93,9 +93,11 @@ currently owns.</em></p>
 <td>order</td>
 <td>String</td>
 <td>createdAt</td>
-<td>To sort in reverse order, specify this value as <code>-createdAt</code>.</td>
+<td>To sort in reverse order, specify this value as <code>-createdAt</code>. Other options are <code>metadata.name</code> and <code>-metadata.name</code>.</td>
 </tr>
 </tbody></table>
+
+<!-- @TODO: document "query" param here? -->
 <h2 id='create-a-codex-record'>Create a Codex Record</h2>
 <p>This endpoint can be used to begin the creation of a Codex Record. With this
 request, you&#39;re actually creating the Codex Record&#39;s <a href="#metadata">metadata</a> since
@@ -197,6 +199,16 @@ Codex Record itself can&#39;t be created until the transaction has been mined.</
 <td>files</td>
 <td>Array[File Data]</td>
 <td><em>(Optional)</em> An array of supplemental files that belong to this metadata. This is considered the &quot;<a href="#historical-provenance">historical provenance</a>&quot; of the Codex Record.</td>
+</tr>
+<tr>
+<td>additionalMetadata</td>
+<td>Object</td>
+<td><em>(Optional)</em> A list of additional metadata about this asset. See <a href="#additional-metadata">Additional Metadata</a> for details.</td>
+</tr>
+<tr>
+<td>auctionHouseMetadata</td>
+<td>Object</td>
+<td><em>(Optional)</em> An arbitrary list of data specific to your application (this field is ignored if your application is not an auction house.) See <a href="#auction-house-metadata">Auction House Metadata</a> for details.</td>
 </tr>
 </tbody></table>
 <h2 id='modify-a-codex-record'>Modify a Codex Record</h2>
@@ -650,7 +662,7 @@ transferred, although no data will have changed at this point.</p>
 
 <aside class="warning">
   If the specified email address does not belong to a registered user (i.e. the
-  email address has not yet been used to log in to the Codex Viewer), an email
+  email address has not yet been used to log in to The Codex Viewer), an email
   will be sent to the specified address with a link to sign up and claim the
   incoming transfer.
 </aside>
@@ -1317,7 +1329,7 @@ for this Codex Record, effectively giving them read-only access. See
 
 <aside class="warning">
   If the specified email address does not belong to a registered user (i.e. the
-  email address has not yet been used to log in to the Codex Viewer), an email
+  email address has not yet been used to log in to The Codex Viewer), an email
   will be sent to the specified address with a link to sign up and view the
   record.
 </aside>

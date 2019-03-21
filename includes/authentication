@@ -1,13 +1,7 @@
 <h1 id='authentication'>Authentication</h1><h2 id='registering-an-application'>Registering an Application</h2>
 <p>Currently there is no admin interface built out for application developers, so
 the process for registering an application requires manual steps from both
-Codex and the application developer. Additionally, we only support the
-<code>client_credentials</code> grant, which means that calls to The Codex API
-<strong>must</strong> be from a confidential client. A confidential client is an
-application that can protect secrets from public users (i.e. calls to The Codex
-API should be happening on a server application and not from within the browser.)</p>
-
-<p>To register an application, <a href="mailto:developers@codexprotocol.com?subject=Codex%20API%20Application%20Request&amp;body=Please%20provide%20a%20brief%20description%20of%20your%20application.">send us an email</a> with the following information:</p>
+Codex and the application developer. To register an application, <a href="mailto:developers@codexprotocol.com?subject=Codex%20API%20Application%20Request&amp;body=Please%20provide%20a%20brief%20description%20of%20your%20application.">send us an email</a> with the following information:</p>
 
 <table><thead>
 <tr>
@@ -17,7 +11,7 @@ API should be happening on a server application and not from within the browser.
 </thead><tbody>
 <tr>
 <td>name</td>
-<td>The name of the application. This will be shown in the Codex Viewer as a registered application, taking the place of your application&#39;s Ethereum address in the Codex Record’s provenance.</td>
+<td>The name of the application. This will be shown in The Codex Viewer as a registered application, taking the place of your application&#39;s Ethereum address in the Codex Record’s provenance.</td>
 </tr>
 <tr>
 <td>email</td>
@@ -28,6 +22,14 @@ API should be happening on a server application and not from within the browser.
 <td>For example, <code>https://your-api.example.com/codex-webhook</code>. Since blockchain transactions are asynchronous, this <code>webhookUrl</code> will be used to inform your application that an event has occurred, for example when your Codex Records have been created. See <a href="#webhooks">webhooks</a> for details.</td>
 </tr>
 </tbody></table>
+
+<aside class="warning">
+  We only support the <code>client_credentials</code> OAuth2 grant, which means
+  that calls to The Codex API <strong>must</strong> be from a "confidential
+  client." A confidential client is an application that can protect secrets from
+  public users - that is to say <strong>all calls to The Codex API should
+  originate from a server application and not from within a browser.</strong>
+</aside>
 <h2 id='access-tokens'>Access Tokens</h2><h3 id='obtaining-an-access-token'>Obtaining an Access Token</h3>
 <p>Before you can make API calls, you&#39;ll need an access token. See
 <a href="#get-an-access-token">Get an Access Token</a> for more details.</p>

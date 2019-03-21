@@ -43,7 +43,7 @@ Really Cool Codex Record
 routes, the API will accept a request with a <code>Content-Type</code> of
 <code>multipart/form-data</code>, <code>application/x-www-form-urlencoded</code>, or
 <code>application/json</code>. Additionally, you may specify request parameters as either
-query parameters or body parameters (with the exception of file data, of course).</p>
+query parameters or body parameters (with the exception of file data, of course.)</p>
 
 <p>The exceptions are:</p>
 
@@ -105,6 +105,10 @@ to them as successful.</p>
 <tr>
 <td><a href="#accept-a-transfer">Accepting a Transfer</a></td>
 <td><code>codex-record:transferred:old-owner</code> and <code>codex-record:transferred:new-owner</code></td>
+</tr>
+<tr>
+<td><a href="#create-codex-records-in-bulk">Creating Codex Records in Bulk</a></td>
+<td><code>bulk-transaction:started</code> and <code>bulk-transaction:completed</code></td>
 </tr>
 </tbody></table>
 <h3 id='webhook-structure'>Webhook Structure</h3>
@@ -221,6 +225,16 @@ request with an <code>application/json</code> body containing the following data
 <td><a href="#codex-record">Codex Record</a></td>
 <td>Sent after <a href="#start-a-transfer">cancelling a transfer</a>, when the Codex Record&#39;s <code>approvedAddress</code> has been cleared on the blockchain and can no longer be <a href="#accept-a-transfer">accepted</a> by the recipient.</td>
 </tr>
+<tr>
+<td>bulk-transaction:started</td>
+<td><a href="#bulk-transaction">Bulk Transaction</a></td>
+<td>Sent after <a href="#create-codex-records-in-bulk">creating Codex Records in bulk</a>, when transactions start getting sent to the blockchain.</td>
+</tr>
+<tr>
+<td>bulk-transaction:completed</td>
+<td><a href="#bulk-transaction">Bulk Transaction</a></td>
+<td>Sent after <a href="#create-codex-records-in-bulk">creating Codex Records in bulk</a>, when all Codex Records have been created and logged on the blockchain.</td>
+</tr>
 </tbody></table>
 
 <!--
@@ -307,15 +321,14 @@ hash of the string <code>${timestamp}:${client_id}</code> using your application
 as the <code>key</code>. Then compare the result with the <code>hash</code> specified in the request.</p>
 <h2 id='codx-tokens-amp-fees'>CODX Tokens &amp; Fees</h2>
 <p>CodexCoin (CODX) is the ERC-20 utility token used to interact with The Codex
-API. You must have CODX to create, edit, and transfer Codex Records. See
-<a href="#smart-contract-addresses">Smart Contract Addresses</a> for Etherscan links for
-the CodexCoin contracts on each network.</p>
+API. You must have CODX to create and edit Codex Records. See <a href="#smart-contract-addresses">Smart Contract Addresses</a>
+for Etherscan links for the CodexCoin contracts on each network.</p>
 
 <aside class="success">
-  Currently, all applications receive <strong>100</strong> CODX upon creation.
+  Currently, all applications receive <strong>80</strong> CODX upon creation.
   Once your free CODX is depleted, you will have to obtain more. On testnets,
-  you may [request more CODX from the faucet](#get-codx-from-faucet). On
-  Mainnet, you must [purchase additional CODX](#purchase-codx).
+  you may <a href="#get-codx-from-faucet">request more CODX from the faucet</a>.
+  On Mainnet, you must <a href="#purchase-codx">purchase additional CODX</a>.
 </aside>
 <h3 id='get-codx-from-faucet'>Get CODX From Faucet</h3>
 <p>On Testnets, you can request CODX for free from the &quot;CODX Faucet&quot;. After
@@ -326,8 +339,9 @@ request 1 drip every 24 hours.</p>
 <p>See <a href="#request-faucet-drip">Request Faucet Drip</a> for details on how to request
 CODX from the faucet.</p>
 <h3 id='purchase-codx'>Purchase CODX</h3>
-<p>On Mainnet, you must purchase CODX. Currently, there&#39;s not a good way to do this
-for API-based users, so <a href="mailto:developers@codexprotocol.com?subject=CODX%20Purchase%20Request&amp;body=I%20am%20interested%20in%20purchasing%20more%20CODX.">send us an email</a> if you need more CODX.</p>
+<p>On Mainnet, you must purchase CODX. Currently, there is no way to do this
+programmatically so you must login into The Codex Viewer and purchase CODX via
+Stripe. See <a href="#the-codex-viewer">The Codex Viewer</a> for details.</p>
 <h2 id='privacy'>Privacy</h2>
 <p>The public nature of blockchain presents some interesting challenges when
 dealing with information many people people wish to keep private. To take
@@ -423,6 +437,13 @@ separate privacy control is available to keep these files hidden even when being
 viewed by someone with <a href="#permissions">permissions to see private metadata</a>. If a
 Codex Record&#39;s <code>isHistoricalProvenancePrivate</code> flag is <code>true</code>, the <code>files</code>
 array will always be visible <em>to the owner only.</em></p>
+
+<aside class="warning">
+  Historical provenance is not currently supported on The Codex Viewer. If
+  you create Codex Records with historical provenance, those files will not show
+  up in The Codex Viewer, but they are safely stored with the metadata in our
+  database.
+</aside>
 <h2 id='transferring-codex-records'>Transferring Codex Records</h2>
 <p>Transferring a Codex Record is a two-step process:</p>
 
@@ -453,10 +474,6 @@ properties are reset to their default values:</p>
 </tr>
 </thead><tbody>
 <tr>
-<td>isPrivate</td>
-<td><code>true</code></td>
-</tr>
-<tr>
 <td>isIgnored</td>
 <td><code>false</code></td>
 </tr>
@@ -483,10 +500,68 @@ properties are reset to their default values:</p>
 </tbody></table>
 
 <aside class="notice">
+  As of May 2019, <code>isPrivate</code> is no longer reset on transfer.
+</aside>
+
+<aside class="notice">
   If for some reason your application chooses to transfer a Codex Record to an
   Ethereum smart contract, that contract <em>must</em> implement the
   <code>ERC721TokenReceiver</code> interface as defined in the
   <a href="https://github.com/ethereum/EIPs/blob/master/EIPS/eip-721.md" rel="noopener noreferrer">specification</a>.
   Otherwise, the transfer will fail because the contract cannot accept ERC-721
   tokens.
+</aside>
+<h2 id='proxy-users'>Proxy Users</h2>
+<p>Some applications need to perform actions on behalf of other users. This is
+currently limited to creating records on behalf of other addresses, and is only
+supported when <a href="#create-codex-records-in-bulk">creating Codex Records in bulk</a>.</p>
+
+<p>If you believe your application needs proxy user support, please <a href="mailto:developers@codexprotocol.com?subject=Proxy%20User%20Request&amp;body=Please%20provide%20a%20brief%20description%20of%20why%20your%20application%20needs%20proxy%20user%20support.">send us an email</a> and we&#39;ll be happy to help.</p>
+<h2 id='the-codex-viewer'>The Codex Viewer</h2>
+<p>The Codex Viewer is a frontend application written by Codex Protocol that
+interfaces with The Codex API. This application can be used to create, modify,
+and transfer Codex Records, as well as purchase CODX and browse public
+collections.</p>
+
+<p>The Codex Viewer is available in all the same environments as the API:</p>
+
+<table><thead>
+<tr>
+<th>Environment</th>
+<th>Network</th>
+<th>URL</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Development</td>
+<td>Ropsten</td>
+<td><a href="http://ropsten.codex-viewer.com">http://ropsten.codex-viewer.com</a></td>
+</tr>
+<tr>
+<td>Staging</td>
+<td>Rinkeby</td>
+<td><a href="https://rinkeby.codex-viewer.com">https://rinkeby.codex-viewer.com</a></td>
+</tr>
+<tr>
+<td>Production</td>
+<td>Mainnet</td>
+<td><a href="https://codex-viewer.com">https://codex-viewer.com</a></td>
+</tr>
+</tbody></table>
+
+<aside class="warning">
+  Note the <code>http</code> instead of <code>https</code> for Ropsten.
+</aside>
+<h3 id='logging-into-the-codex-viewer'>Logging Into The Codex Viewer</h3>
+<p>Even though OAuth2 accounts have direct API access, sometimes it&#39;s necessary to
+log into The Codex Viewer directly (e.g. when <a href="#purchase-codx">purchasing CODX</a>.)</p>
+
+<p>To login, simply visit the Codex Viewer in the appropriate environment (see
+table above) and use your application&#39;s <code>email</code> and <code>client_secret</code> as the
+password at the login screen.</p>
+
+<aside class="success">
+  After logging into The Codex Viewer, you are free to change your password.
+  Changing your Codex Viewer password will <strong>NOT</strong> affect your
+  application's <code>client_secret</code>.
 </aside>
