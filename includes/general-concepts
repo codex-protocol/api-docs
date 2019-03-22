@@ -324,12 +324,12 @@ as the <code>key</code>. Then compare the result with the <code>hash</code> spec
 API. You must have CODX to create and edit Codex Records. See <a href="#smart-contract-addresses">Smart Contract Addresses</a>
 for Etherscan links for the CodexCoin contracts on each network.</p>
 
-<aside class="success">
+<!-- <aside class="success">
   Currently, all applications receive <strong>80</strong> CODX upon creation.
   Once your free CODX is depleted, you will have to obtain more. On testnets,
   you may <a href="#get-codx-from-faucet">request more CODX from the faucet</a>.
   On Mainnet, you must <a href="#purchase-codx">purchase additional CODX</a>.
-</aside>
+</aside> -->
 <h3 id='get-codx-from-faucet'>Get CODX From Faucet</h3>
 <p>On Testnets, you can request CODX for free from the &quot;CODX Faucet&quot;. After
 requesting a drip from the faucet, CODX will be sent to your account and you
@@ -341,7 +341,8 @@ CODX from the faucet.</p>
 <h3 id='purchase-codx'>Purchase CODX</h3>
 <p>On Mainnet, you must purchase CODX. Currently, there is no way to do this
 programmatically so you must login into The Codex Viewer and purchase CODX via
-Stripe. See <a href="#the-codex-viewer">The Codex Viewer</a> for details.</p>
+Stripe. See <a href="#logging-into-the-codex-viewer">Logging Into The Codex Viewer</a> for
+details.</p>
 <h2 id='privacy'>Privacy</h2>
 <p>The public nature of blockchain presents some interesting challenges when
 dealing with information many people people wish to keep private. To take
