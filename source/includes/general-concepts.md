@@ -243,12 +243,12 @@ CodexCoin (CODX) is the ERC-20 utility token used to interact with The Codex
 API. You must have CODX to create and edit Codex Records. See [Smart Contract Addresses](#smart-contract-addresses)
 for Etherscan links for the CodexCoin contracts on each network.
 
-<aside class="success">
+<!-- <aside class="success">
   Currently, all applications receive <strong>80</strong> CODX upon creation.
   Once your free CODX is depleted, you will have to obtain more. On testnets,
   you may <a href="#get-codx-from-faucet">request more CODX from the faucet</a>.
   On Mainnet, you must <a href="#purchase-codx">purchase additional CODX</a>.
-</aside>
+</aside> -->
 
 ### Get CODX From Faucet
 
@@ -264,7 +264,8 @@ CODX from the faucet.
 
 On Mainnet, you must purchase CODX. Currently, there is no way to do this
 programmatically so you must login into The Codex Viewer and purchase CODX via
-Stripe. See [The Codex Viewer](#the-codex-viewer) for details.
+Stripe. See [Logging Into The Codex Viewer](#logging-into-the-codex-viewer) for
+details.
 
 
 ## Privacy
