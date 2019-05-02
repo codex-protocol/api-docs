@@ -48,6 +48,7 @@ const options = {
     metadata: [
       {
         isPrivate: true,
+        isHistoricalProvenancePrivate: true,
         name: 'Really Cool Codex Record #1',
         description: 'This is a really cool Codex Record!',
 
@@ -83,6 +84,7 @@ const options = {
       },
       {
         isPrivate: false,
+        isHistoricalProvenancePrivate: false,
         name: 'Really Cool Codex Record #2',
         description: 'This is also a really cool Codex Record!',
 
@@ -143,17 +145,18 @@ Event Name                   | Recipient
 
 ### Request Parameters
 
-Parameter                        | Type    | Description
--------------------------------- | ------- | -----------------------------------
-proxyUserAddress                 | String  | _(Optional)_ The Ethereum address of the user to create these Codex Records for. This field is only for applications with [Proxy Users](#proxy-users).
-metadata[][name]                 | String  | The plain text name of this Codex Record.
-metadata[][isPrivate]            | Boolean | _(Optional, default `false`)_ This flag indicates that the metadata for the Codex Record is private and can only be retrieved by the owner, the `approvedAddress`, and the addresses listed in `whitelistedAddresses` / `whitelistedEmails`.
-metadata[][description]          | String  | _(Optional)_ The plain text description of this Codex Record. The field can be set to `null` or simply omitted to leave the description empty.
-metadata[][mainImageUrl]         | String  | The main image of this Codex Record.
-metadata[][imageUrls]            | String  | _(Optional)_ An array of supplemental images that belong to this metadata.
-metadata[][fileUrls]             | String  | _(Optional)_ An array of supplemental files that belong to this metadata. This is considered the "[historical provenance](#historical-provenance)" of the Codex Record.
-metadata[][additionalMetadata]   | Object  | _(Optional)_ A list of additional metadata about this asset. See [Additional Metadata](#additional-metadata) for details.
-metadata[][auctionHouseMetadata] | Object  | An arbitrary list of data specific to your application (this field is ignored if your application is not an auction house.) IF your account is an auction house account, this field is required (as well as the `auctionHouseMetadata.id` parameter.) See [Auction House Metadata](#auction-house-metadata) for details.
+Parameter                                 | Type    | Description
+----------------------------------------- | ------- | -----------------------------------
+proxyUserAddress                          | String  | _(Optional)_ The Ethereum address of the user to create these Codex Records for. This field is only for applications with [Proxy Users](#proxy-users).
+metadata[][name]                          | String  | The plain text name of this Codex Record.
+metadata[][isPrivate]                     | Boolean | _(Optional, default `false`)_ This flag indicates that the metadata for the Codex Record is private and can only be retrieved by the owner, the `approvedAddress`, and the addresses listed in `whitelistedAddresses` / `whitelistedEmails`.
+metadata[][isHistoricalProvenancePrivate] | Boolean | _(Optional, default `true`)_ This flag indicates whether or not [historical provenance](#historical-provenance) (i.e. `metadata[][files]`) should be hidden, regardless of the value of `isPrivate`.
+metadata[][description]                   | String  | _(Optional)_ The plain text description of this Codex Record. The field can be set to `null` or simply omitted to leave the description empty.
+metadata[][mainImageUrl]                  | String  | The main image of this Codex Record.
+metadata[][imageUrls]                     | String  | _(Optional)_ An array of supplemental images that belong to this metadata.
+metadata[][fileUrls]                      | String  | _(Optional)_ An array of supplemental files that belong to this metadata. This is considered the "[historical provenance](#historical-provenance)" of the Codex Record.
+metadata[][additionalMetadata]            | Object  | _(Optional)_ A list of additional metadata about this asset. See [Additional Metadata](#additional-metadata) for details.
+metadata[][auctionHouseMetadata]          | Object  | An arbitrary list of data specific to your application (this field is ignored if your application is not an auction house.) IF your account is an auction house account, this field is required (as well as the `auctionHouseMetadata.id` parameter.) See [Auction House Metadata](#auction-house-metadata) for details.
 
 <aside class="success">
   All files (<code>mainImageUrl</code>, <code>imageUrls</code>, and
@@ -264,6 +267,7 @@ metadata  | File Data | The XML file to convert.
     <!-- required -->
     <Name>Really Cool Codex Record #1</Name>
     <IsPrivate>false</IsPrivate>
+    <IsHistoricalProvenancePrivate>false</IsHistoricalProvenancePrivate>
     <Description>This is a really cool Codex Record!</Description>
     <MainImageUrl>https://example.com/images/cool-main-image.jpg</MainImageUrl>
 

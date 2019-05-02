@@ -124,6 +124,7 @@ const options = {
   //  as multipart/form-data, which is necessary for sending file data
   formData: {
     isPrivate: false,
+    isHistoricalProvenancePrivate: true,
     name: 'Really Cool Codex Record',
     description: 'This is a really cool Codex Record!',
     mainImage: fs.createReadStream('/tmp/uploads/cool-main-image.jpg'),
@@ -158,16 +159,17 @@ Event Name             | Recipient
 
 ### Request Parameters
 
-Parameter            | Type             | Description
--------------------- | ---------------- | --------------------------------------
-name                 | String           | The plain text name of this Codex Record.
-isPrivate            | Boolean          | _(Optional, default `true`)_ This flag indicates that the metadata for the Codex Record is private and can only be retrieved by the owner, the `approvedAddress`, and the addresses listed in `whitelistedAddresses` / `whitelistedEmails`.
-description          | String           | _(Optional)_ The plain text description of this Codex Record. The field can be set to `null` or simply omitted to leave the description empty.
-mainImage            | File Data        | The main image of this Codex Record.
-images               | Array[File Data] | _(Optional)_ An array of supplemental images that belong to this metadata.
-files                | Array[File Data] | _(Optional)_ An array of supplemental files that belong to this metadata. This is considered the "[historical provenance](#historical-provenance)" of the Codex Record.
-additionalMetadata   | Object           | _(Optional)_ A list of additional metadata about this asset. See [Additional Metadata](#additional-metadata) for details.
-auctionHouseMetadata | Object           | _(Optional)_ An arbitrary list of data specific to your application (this field is ignored if your application is not an auction house.) See [Auction House Metadata](#auction-house-metadata) for details.
+Parameter                     | Type             | Description
+----------------------------- | ---------------- | --------------------------------------
+name                          | String           | The plain text name of this Codex Record.
+isPrivate                     | Boolean          | _(Optional, default `true`)_ This flag indicates that the metadata for the Codex Record is private and can only be retrieved by the owner, the `approvedAddress`, and the addresses listed in `whitelistedAddresses` / `whitelistedEmails`.
+isHistoricalProvenancePrivate | Boolean          | _(Optional, default `true`)_ This flag indicates whether or not [historical provenance](#historical-provenance) (i.e. `files`) should be hidden, regardless of the value of `isPrivate`.
+description                   | String           | _(Optional)_ The plain text description of this Codex Record. The field can be set to `null` or simply omitted to leave the description empty.
+mainImage                     | File Data        | The main image of this Codex Record.
+images                        | Array[File Data] | _(Optional)_ An array of supplemental images that belong to this metadata.
+files                         | Array[File Data] | _(Optional)_ An array of supplemental files that belong to this metadata. This is considered the "[historical provenance](#historical-provenance)" of the Codex Record.
+additionalMetadata            | Object           | _(Optional)_ A list of additional metadata about this asset. See [Additional Metadata](#additional-metadata) for details.
+auctionHouseMetadata          | Object           | _(Optional)_ An arbitrary list of data specific to your application (this field is ignored if your application is not an auction house.) See [Auction House Metadata](#auction-house-metadata) for details.
 
 
 ## Modify a Codex Record
