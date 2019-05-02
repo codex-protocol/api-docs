@@ -1103,6 +1103,7 @@ the blockchain.</p>
   <span class="c1">//  as multipart/form-data, which is necessary for sending file data</span>
   <span class="na">formData</span><span class="p">:</span> <span class="p">{</span>
     <span class="na">isPrivate</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="na">isHistoricalProvenancePrivate</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
     <span class="na">name</span><span class="p">:</span> <span class="s1">'Really Cool Codex Record'</span><span class="p">,</span>
     <span class="na">description</span><span class="p">:</span> <span class="s1">'This is a really cool Codex Record!'</span><span class="p">,</span>
     <span class="na">mainImage</span><span class="p">:</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">createReadStream</span><span class="p">(</span><span class="s1">'/tmp/uploads/cool-main-image.jpg'</span><span class="p">),</span>
@@ -1156,6 +1157,11 @@ Codex Record itself can&#39;t be created until the transaction has been mined.</
 <td>isPrivate</td>
 <td>Boolean</td>
 <td><em>(Optional, default <code>true</code>)</em> This flag indicates that the metadata for the Codex Record is private and can only be retrieved by the owner, the <code>approvedAddress</code>, and the addresses listed in <code>whitelistedAddresses</code> / <code>whitelistedEmails</code>.</td>
+</tr>
+<tr>
+<td>isHistoricalProvenancePrivate</td>
+<td>Boolean</td>
+<td><em>(Optional, default <code>true</code>)</em> This flag indicates whether or not <a href="#historical-provenance">historical provenance</a> (i.e. <code>files</code>) should be hidden, regardless of the value of <code>isPrivate</code>.</td>
 </tr>
 <tr>
 <td>description</td>
@@ -2535,6 +2541,7 @@ files are downloaded an re-hosted by Codex during processing.)</p>
     <span class="na">metadata</span><span class="p">:</span> <span class="p">[</span>
       <span class="p">{</span>
         <span class="na">isPrivate</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="na">isHistoricalProvenancePrivate</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
         <span class="na">name</span><span class="p">:</span> <span class="s1">'Really Cool Codex Record #1'</span><span class="p">,</span>
         <span class="na">description</span><span class="p">:</span> <span class="s1">'This is a really cool Codex Record!'</span><span class="p">,</span>
 
@@ -2570,6 +2577,7 @@ files are downloaded an re-hosted by Codex during processing.)</p>
       <span class="p">},</span>
       <span class="p">{</span>
         <span class="na">isPrivate</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="na">isHistoricalProvenancePrivate</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
         <span class="na">name</span><span class="p">:</span> <span class="s1">'Really Cool Codex Record #2'</span><span class="p">,</span>
         <span class="na">description</span><span class="p">:</span> <span class="s1">'This is also a really cool Codex Record!'</span><span class="p">,</span>
 
@@ -2657,6 +2665,11 @@ files are downloaded an re-hosted by Codex during processing.)</p>
 <td>metadata[][isPrivate]</td>
 <td>Boolean</td>
 <td><em>(Optional, default <code>false</code>)</em> This flag indicates that the metadata for the Codex Record is private and can only be retrieved by the owner, the <code>approvedAddress</code>, and the addresses listed in <code>whitelistedAddresses</code> / <code>whitelistedEmails</code>.</td>
+</tr>
+<tr>
+<td>metadata[][isHistoricalProvenancePrivate]</td>
+<td>Boolean</td>
+<td><em>(Optional, default <code>true</code>)</em> This flag indicates whether or not <a href="#historical-provenance">historical provenance</a> (i.e. <code>metadata[][files]</code>) should be hidden, regardless of the value of <code>isPrivate</code>.</td>
 </tr>
 <tr>
 <td>metadata[][description]</td>
@@ -2798,6 +2811,7 @@ You can then use this JSON response as the <code>metadata</code> array when
     <span class="c">&lt;!-- required --&gt;</span>
     <span class="nt">&lt;Name&gt;</span>Really Cool Codex Record #1<span class="nt">&lt;/Name&gt;</span>
     <span class="nt">&lt;IsPrivate&gt;</span>false<span class="nt">&lt;/IsPrivate&gt;</span>
+    <span class="nt">&lt;IsHistoricalProvenancePrivate&gt;</span>false<span class="nt">&lt;/IsHistoricalProvenancePrivate&gt;</span>
     <span class="nt">&lt;Description&gt;</span>This is a really cool Codex Record!<span class="nt">&lt;/Description&gt;</span>
     <span class="nt">&lt;MainImageUrl&gt;</span>https://example.com/images/cool-main-image.jpg<span class="nt">&lt;/MainImageUrl&gt;</span>
 
