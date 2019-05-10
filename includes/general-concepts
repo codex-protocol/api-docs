@@ -479,10 +479,6 @@ properties are reset to their default values:</p>
 <td><code>false</code></td>
 </tr>
 <tr>
-<td>isInGallery</td>
-<td><code>false</code></td>
-</tr>
-<tr>
 <td>approvedAddress</td>
 <td><code>null</code></td>
 </tr>
