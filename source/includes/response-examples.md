@@ -96,7 +96,6 @@ accessToken          | String | The access token itself. This should be [added t
   "tokenId": "0",
   "isPrivate": false,
   "isIgnored": false,
-  "isInGallery": false,
   "providerId": "codex",
   "isHistoricalProvenancePrivate": true,
   "providerMetadataId": "5bae56f75d7971becf854a72",

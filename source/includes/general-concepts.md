@@ -406,7 +406,6 @@ properties are reset to their default values:
 Property                      | Reset To
 ----------------------------- | ------------------------------------------------
 isIgnored                     | `false`
-isInGallery                   | `false`
 approvedAddress               | `null`
 whitelistedEmails             | `[]`
 whitelistedAddresses          | `[]`
