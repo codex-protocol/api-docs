@@ -221,9 +221,11 @@ auctionHouseMetadata | Object                                   | Whitelisted Ad
 
 ```javascript
 {
+  "lotNumber": "123A",
   "condition": "Excellent",
   "dimensionsInches": "18 x 23",
   "creatorName": "Cool Guy McGee"
+  "auctionName": "My Cool Auction",
   "medium": "mixed media on paper",
   "dimensionsCentimeters": "45.7 x 58.4",
   "assetSoldAt": "2019-03-21T16:30:06.030Z",
@@ -241,6 +243,8 @@ Property                 | Type                 | Description
 ------------------------ | -------------------- | ------------------------------
 medium                   | String               | The asset's medium.
 condition                | String               | The asset's condition.
+lotNumber                | String               | The lot number of the auction this asset was part of.
+auctionName              | String               | The name of the auction this asset was part of.
 creatorName              | String               | The name of the asset's creator.
 assetSoldAt              | Date                 | When the asset was sold.
 assetCreatedAt           | Date                 | When the asset was created.
@@ -265,8 +269,8 @@ Codex Record. This object is intended to contain information specific to the
 auction house, such as a transaction ID, inventory number, etc.
 
 <aside class="warning">
-  Note that if this field is specified, then an <code>id</code> value **MUST**
-  be specified.
+  Note that if this field is specified, then an <code>id</code> value
+  <em>MUST</em> be specified.
 </aside>
 
 <aside class="success">

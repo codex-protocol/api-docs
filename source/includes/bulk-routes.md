@@ -63,9 +63,11 @@ const options = {
         ],
 
         additionalMetadata: {
+          lotNumber: '123A',
           condition: 'Excellent',
           dimensionsInches: '18 x 23',
           creatorName: 'Cool Guy McGee',
+          auctionName: 'My Cool Auction',
           medium: 'mixed media on paper',
           dimensionsCentimeters: '45.7 x 58.4',
           assetSoldAt: '2019-03-21T16:30:06.030Z',
@@ -99,9 +101,11 @@ const options = {
         ],
 
         additionalMetadata: {
+          lotNumber: '123A',
           condition: 'Poor',
           medium: 'linocut in 4 colors',
           creatorName: 'Cool Guy McGee',
+          auctionName: 'My Cool Auction',
           dimensionsInches: '7 1/2 x 11 3/4',
           dimensionsCentimeters: '19.1 x 29.8',
           assetSoldAt: '2019-03-20T14:30:06.030Z',
@@ -281,14 +285,16 @@ metadata  | File Data | The XML file to convert.
 
     <!-- optional -->
     <AdditionalMetadata>
+      <LotNumber>123A</LotNumber>
       <Condition>Excellent</Condition>
       <Medium>mixed media on paper</Medium>
-      <CreatorSignatureLocation>front, top left</CreatorSignatureLocation>
-      <DimensionsInches>18 x 23</DimensionsInches>
-      <DimensionsCentimeters>45.7 x 58.4</DimensionsCentimeters>
       <CreatorName>Cool Guy McGee</CreatorName>
-      <AssetCreatedAt>1993-01-01T00:00:00.000Z</AssetCreatedAt>
+      <AuctionName>My Cool Auction</AuctionName>
+      <DimensionsInches>18 x 23</DimensionsInches>
       <AssetSoldAt>2019-03-21T16:30:06.030Z</AssetSoldAt>
+      <AssetCreatedAt>1993-01-01T00:00:00.000Z</AssetCreatedAt>
+      <DimensionsCentimeters>45.7 x 58.4</DimensionsCentimeters>
+      <CreatorSignatureLocation>front, top left</CreatorSignatureLocation>
     </AdditionalMetadata>
 
     <AuctionHouseMetadata>
