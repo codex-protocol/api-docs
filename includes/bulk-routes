@@ -57,9 +57,11 @@ files are downloaded an re-hosted by Codex during processing.)</p>
         <span class="p">],</span>
 
         <span class="na">additionalMetadata</span><span class="p">:</span> <span class="p">{</span>
+          <span class="na">lotNumber</span><span class="p">:</span> <span class="s1">'123A'</span><span class="p">,</span>
           <span class="na">condition</span><span class="p">:</span> <span class="s1">'Excellent'</span><span class="p">,</span>
           <span class="na">dimensionsInches</span><span class="p">:</span> <span class="s1">'18 x 23'</span><span class="p">,</span>
           <span class="na">creatorName</span><span class="p">:</span> <span class="s1">'Cool Guy McGee'</span><span class="p">,</span>
+          <span class="na">auctionName</span><span class="p">:</span> <span class="s1">'My Cool Auction'</span><span class="p">,</span>
           <span class="na">medium</span><span class="p">:</span> <span class="s1">'mixed media on paper'</span><span class="p">,</span>
           <span class="na">dimensionsCentimeters</span><span class="p">:</span> <span class="s1">'45.7 x 58.4'</span><span class="p">,</span>
           <span class="na">assetSoldAt</span><span class="p">:</span> <span class="s1">'2019-03-21T16:30:06.030Z'</span><span class="p">,</span>
@@ -93,9 +95,11 @@ files are downloaded an re-hosted by Codex during processing.)</p>
         <span class="p">],</span>
 
         <span class="na">additionalMetadata</span><span class="p">:</span> <span class="p">{</span>
+          <span class="na">lotNumber</span><span class="p">:</span> <span class="s1">'123A'</span><span class="p">,</span>
           <span class="na">condition</span><span class="p">:</span> <span class="s1">'Poor'</span><span class="p">,</span>
           <span class="na">medium</span><span class="p">:</span> <span class="s1">'linocut in 4 colors'</span><span class="p">,</span>
           <span class="na">creatorName</span><span class="p">:</span> <span class="s1">'Cool Guy McGee'</span><span class="p">,</span>
+          <span class="na">auctionName</span><span class="p">:</span> <span class="s1">'My Cool Auction'</span><span class="p">,</span>
           <span class="na">dimensionsInches</span><span class="p">:</span> <span class="s1">'7 1/2 x 11 3/4'</span><span class="p">,</span>
           <span class="na">dimensionsCentimeters</span><span class="p">:</span> <span class="s1">'19.1 x 29.8'</span><span class="p">,</span>
           <span class="na">assetSoldAt</span><span class="p">:</span> <span class="s1">'2019-03-20T14:30:06.030Z'</span><span class="p">,</span>
@@ -326,14 +330,16 @@ You can then use this JSON response as the <code>metadata</code> array when
 
     <span class="c">&lt;!-- optional --&gt;</span>
     <span class="nt">&lt;AdditionalMetadata&gt;</span>
+      <span class="nt">&lt;LotNumber&gt;</span>123A<span class="nt">&lt;/LotNumber&gt;</span>
       <span class="nt">&lt;Condition&gt;</span>Excellent<span class="nt">&lt;/Condition&gt;</span>
       <span class="nt">&lt;Medium&gt;</span>mixed media on paper<span class="nt">&lt;/Medium&gt;</span>
-      <span class="nt">&lt;CreatorSignatureLocation&gt;</span>front, top left<span class="nt">&lt;/CreatorSignatureLocation&gt;</span>
-      <span class="nt">&lt;DimensionsInches&gt;</span>18 x 23<span class="nt">&lt;/DimensionsInches&gt;</span>
-      <span class="nt">&lt;DimensionsCentimeters&gt;</span>45.7 x 58.4<span class="nt">&lt;/DimensionsCentimeters&gt;</span>
       <span class="nt">&lt;CreatorName&gt;</span>Cool Guy McGee<span class="nt">&lt;/CreatorName&gt;</span>
-      <span class="nt">&lt;AssetCreatedAt&gt;</span>1993-01-01T00:00:00.000Z<span class="nt">&lt;/AssetCreatedAt&gt;</span>
+      <span class="nt">&lt;AuctionName&gt;</span>My Cool Auction<span class="nt">&lt;/AuctionName&gt;</span>
+      <span class="nt">&lt;DimensionsInches&gt;</span>18 x 23<span class="nt">&lt;/DimensionsInches&gt;</span>
       <span class="nt">&lt;AssetSoldAt&gt;</span>2019-03-21T16:30:06.030Z<span class="nt">&lt;/AssetSoldAt&gt;</span>
+      <span class="nt">&lt;AssetCreatedAt&gt;</span>1993-01-01T00:00:00.000Z<span class="nt">&lt;/AssetCreatedAt&gt;</span>
+      <span class="nt">&lt;DimensionsCentimeters&gt;</span>45.7 x 58.4<span class="nt">&lt;/DimensionsCentimeters&gt;</span>
+      <span class="nt">&lt;CreatorSignatureLocation&gt;</span>front, top left<span class="nt">&lt;/CreatorSignatureLocation&gt;</span>
     <span class="nt">&lt;/AdditionalMetadata&gt;</span>
 
     <span class="nt">&lt;AuctionHouseMetadata&gt;</span>
