@@ -227,10 +227,10 @@ auctionHouseMetadata | Object                                   | Whitelisted Ad
   "creatorName": "Cool Guy McGee"
   "auctionName": "My Cool Auction",
   "medium": "mixed media on paper",
+  "signatureLocation": "front, top left"
   "dimensionsCentimeters": "45.7 x 58.4",
   "assetSoldAt": "2019-03-21T16:30:06.030Z",
   "assetCreatedAt": "1993-01-01T00:00:00.000Z",
-  "creatorSignatureLocation": "front, top left"
 }
 ```
 
@@ -239,18 +239,21 @@ Record was created. This object is intended to contain information about the
 physical asset such as it's condition and dimensions. This entire object and all
 of it's values are optional.
 
-Property                 | Type                 | Description
------------------------- | -------------------- | ------------------------------
-medium                   | String               | The asset's medium.
-condition                | String               | The asset's condition.
-lotNumber                | String               | The lot number of the auction this asset was part of.
-auctionName              | String               | The name of the auction this asset was part of.
-creatorName              | String               | The name of the asset's creator.
-assetSoldAt              | Date                 | When the asset was sold.
-assetCreatedAt           | Date                 | When the asset was created.
-dimensionsInches         | String               | The asset's dimensions (in inches).
-dimensionsCentimeters    | String               | The asset's dimensions (in centimeters).
-creatorSignatureLocation | String               | The location of the creator's signature.
+Property              | Type   | Description
+--------------------- | ------ | -----------------------------------------------
+make                  | String | The asset's make.
+model                 | String | The asset's model.
+medium                | String | The asset's medium.
+condition             | String | The asset's condition.
+lotNumber             | String | The lot number of the auction this asset was part of.
+auctionName           | String | The name of the auction this asset was part of.
+artistName            | String | The name of the asset's artist.
+creatorName           | String | The name of the asset's creator.
+assetSoldAt           | Date   | When the asset was sold.
+assetCreatedAt        | Date   | When the asset was created.
+dimensionsInches      | String | The asset's dimensions (in inches).
+signatureLocation     | String | The location of the creator's signature.
+dimensionsCentimeters | String | The asset's dimensions (in centimeters).
 
 ## Auction House Metadata
 

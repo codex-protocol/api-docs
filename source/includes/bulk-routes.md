@@ -69,10 +69,10 @@ const options = {
           creatorName: 'Cool Guy McGee',
           auctionName: 'My Cool Auction',
           medium: 'mixed media on paper',
+          signatureLocation: 'front, top left',
           dimensionsCentimeters: '45.7 x 58.4',
           assetSoldAt: '2019-03-21T16:30:06.030Z',
           assetCreatedAt: '1993-01-01T00:00:00.000Z',
-          creatorSignatureLocation: 'front, top left',
         },
 
         auctionHouseMetadata: {
@@ -108,9 +108,9 @@ const options = {
           auctionName: 'My Cool Auction',
           dimensionsInches: '7 1/2 x 11 3/4',
           dimensionsCentimeters: '19.1 x 29.8',
+          signatureLocation: 'back, bottom left',
           assetSoldAt: '2019-03-20T14:30:06.030Z',
           assetCreatedAt: '1976-01-01T00:00:00.000Z',
-          creatorSignatureLocation: 'back, bottom left',
         },
 
         auctionHouseMetadata: {
@@ -292,9 +292,9 @@ metadata  | File Data | The XML file to convert.
       <AuctionName>My Cool Auction</AuctionName>
       <DimensionsInches>18 x 23</DimensionsInches>
       <AssetSoldAt>2019-03-21T16:30:06.030Z</AssetSoldAt>
+      <SignatureLocation>front, top left</SignatureLocation>
       <AssetCreatedAt>1993-01-01T00:00:00.000Z</AssetCreatedAt>
       <DimensionsCentimeters>45.7 x 58.4</DimensionsCentimeters>
-      <CreatorSignatureLocation>front, top left</CreatorSignatureLocation>
     </AdditionalMetadata>
 
     <AuctionHouseMetadata>
