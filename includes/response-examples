@@ -409,10 +409,10 @@ blockchain transactions are public.</p>
   <span class="s2">"creatorName"</span><span class="p">:</span> <span class="s2">"Cool Guy McGee"</span>
   <span class="s2">"auctionName"</span><span class="p">:</span> <span class="s2">"My Cool Auction"</span><span class="p">,</span>
   <span class="s2">"medium"</span><span class="p">:</span> <span class="s2">"mixed media on paper"</span><span class="p">,</span>
+  <span class="s2">"signatureLocation"</span><span class="p">:</span> <span class="s2">"front, top left"</span>
   <span class="s2">"dimensionsCentimeters"</span><span class="p">:</span> <span class="s2">"45.7 x 58.4"</span><span class="p">,</span>
   <span class="s2">"assetSoldAt"</span><span class="p">:</span> <span class="s2">"2019-03-21T16:30:06.030Z"</span><span class="p">,</span>
   <span class="s2">"assetCreatedAt"</span><span class="p">:</span> <span class="s2">"1993-01-01T00:00:00.000Z"</span><span class="p">,</span>
-  <span class="s2">"creatorSignatureLocation"</span><span class="p">:</span> <span class="s2">"front, top left"</span>
 <span class="p">}</span>
 </code></pre>
 <p>This is a list of additional properties about the asset for which the Codex
@@ -427,6 +427,16 @@ of it&#39;s values are optional.</p>
 <th>Description</th>
 </tr>
 </thead><tbody>
+<tr>
+<td>make</td>
+<td>String</td>
+<td>The asset&#39;s make.</td>
+</tr>
+<tr>
+<td>model</td>
+<td>String</td>
+<td>The asset&#39;s model.</td>
+</tr>
 <tr>
 <td>medium</td>
 <td>String</td>
@@ -446,6 +456,11 @@ of it&#39;s values are optional.</p>
 <td>auctionName</td>
 <td>String</td>
 <td>The name of the auction this asset was part of.</td>
+</tr>
+<tr>
+<td>artistName</td>
+<td>String</td>
+<td>The name of the asset&#39;s artist.</td>
 </tr>
 <tr>
 <td>creatorName</td>
@@ -468,14 +483,14 @@ of it&#39;s values are optional.</p>
 <td>The asset&#39;s dimensions (in inches).</td>
 </tr>
 <tr>
+<td>signatureLocation</td>
+<td>String</td>
+<td>The location of the creator&#39;s signature.</td>
+</tr>
+<tr>
 <td>dimensionsCentimeters</td>
 <td>String</td>
 <td>The asset&#39;s dimensions (in centimeters).</td>
-</tr>
-<tr>
-<td>creatorSignatureLocation</td>
-<td>String</td>
-<td>The location of the creator&#39;s signature.</td>
 </tr>
 </tbody></table>
 <h2 id='auction-house-metadata'>Auction House Metadata</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
