@@ -58,6 +58,8 @@ files are downloaded an re-hosted by Codex during processing.)</p>
 
         <span class="na">additionalMetadata</span><span class="p">:</span> <span class="p">{</span>
           <span class="na">lotNumber</span><span class="p">:</span> <span class="s1">'123A'</span><span class="p">,</span>
+          <span class="na">editionNumber</span><span class="p">:</span> <span class="s1">'16'</span>
+          <span class="na">totalEditions</span><span class="p">:</span> <span class="s1">'64'</span>
           <span class="na">condition</span><span class="p">:</span> <span class="s1">'Excellent'</span><span class="p">,</span>
           <span class="na">dimensionsInches</span><span class="p">:</span> <span class="s1">'18 x 23'</span><span class="p">,</span>
           <span class="na">creatorName</span><span class="p">:</span> <span class="s1">'Cool Guy McGee'</span><span class="p">,</span>
@@ -97,6 +99,8 @@ files are downloaded an re-hosted by Codex during processing.)</p>
         <span class="na">additionalMetadata</span><span class="p">:</span> <span class="p">{</span>
           <span class="na">lotNumber</span><span class="p">:</span> <span class="s1">'123A'</span><span class="p">,</span>
           <span class="na">condition</span><span class="p">:</span> <span class="s1">'Poor'</span><span class="p">,</span>
+          <span class="na">editionNumber</span><span class="p">:</span> <span class="s1">'16'</span>
+          <span class="na">totalEditions</span><span class="p">:</span> <span class="s1">'64'</span>
           <span class="na">medium</span><span class="p">:</span> <span class="s1">'linocut in 4 colors'</span><span class="p">,</span>
           <span class="na">creatorName</span><span class="p">:</span> <span class="s1">'Cool Guy McGee'</span><span class="p">,</span>
           <span class="na">auctionName</span><span class="p">:</span> <span class="s1">'My Cool Auction'</span><span class="p">,</span>
@@ -332,6 +336,8 @@ You can then use this JSON response as the <code>metadata</code> array when
     <span class="nt">&lt;AdditionalMetadata&gt;</span>
       <span class="nt">&lt;LotNumber&gt;</span>123A<span class="nt">&lt;/LotNumber&gt;</span>
       <span class="nt">&lt;Condition&gt;</span>Excellent<span class="nt">&lt;/Condition&gt;</span>
+      <span class="nt">&lt;EditionNumber&gt;</span>16<span class="nt">&lt;/EditionNumber&gt;</span>
+      <span class="nt">&lt;TotalEditions&gt;</span>64<span class="nt">&lt;/TotalEditions&gt;</span>
       <span class="nt">&lt;Medium&gt;</span>mixed media on paper<span class="nt">&lt;/Medium&gt;</span>
       <span class="nt">&lt;CreatorName&gt;</span>Cool Guy McGee<span class="nt">&lt;/CreatorName&gt;</span>
       <span class="nt">&lt;AuctionName&gt;</span>My Cool Auction<span class="nt">&lt;/AuctionName&gt;</span>

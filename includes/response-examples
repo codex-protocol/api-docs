@@ -404,6 +404,8 @@ blockchain transactions are public.</p>
 </tbody></table>
 <h2 id='additional-metadata'>Additional Metadata</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
   <span class="s2">"lotNumber"</span><span class="p">:</span> <span class="s2">"123A"</span><span class="p">,</span>
+  <span class="s2">"editionNumber"</span><span class="p">:</span> <span class="s2">"16"</span><span class="p">,</span>
+  <span class="s2">"totalEditions"</span><span class="p">:</span> <span class="s2">"64"</span><span class="p">,</span>
   <span class="s2">"condition"</span><span class="p">:</span> <span class="s2">"Excellent"</span><span class="p">,</span>
   <span class="s2">"dimensionsInches"</span><span class="p">:</span> <span class="s2">"18 x 23"</span><span class="p">,</span>
   <span class="s2">"creatorName"</span><span class="p">:</span> <span class="s2">"Cool Guy McGee"</span>
@@ -471,6 +473,16 @@ of it&#39;s values are optional.</p>
 <td>assetSoldAt</td>
 <td>Date</td>
 <td>When the asset was sold.</td>
+</tr>
+<tr>
+<td>editionNumber</td>
+<td>String</td>
+<td>The asset&#39;s edition number.</td>
+</tr>
+<tr>
+<td>totalEditions</td>
+<td>String</td>
+<td>The asset&#39;s total number of editions.</td>
 </tr>
 <tr>
 <td>assetCreatedAt</td>
