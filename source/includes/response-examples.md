@@ -224,6 +224,7 @@ auctionHouseMetadata | Object                                   | Whitelisted Ad
   "lotNumber": "123A",
   "editionNumber": "16",
   "totalEditions": "64",
+  "salePriceUSD": "1000",
   "condition": "Excellent",
   "dimensionsInches": "18 x 23",
   "creatorName": "Cool Guy McGee"
@@ -252,6 +253,7 @@ auctionName           | String | The name of the auction this asset was part of.
 artistName            | String | The name of the asset's artist.
 creatorName           | String | The name of the asset's creator.
 assetSoldAt           | Date   | When the asset was sold.
+salePriceUSD          | String | The amount in USD the asset sold for.
 editionNumber         | String | The asset's edition number.
 totalEditions         | String | The asset's total number of editions.
 assetCreatedAt        | Date   | When the asset was created.

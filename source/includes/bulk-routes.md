@@ -66,6 +66,7 @@ const options = {
           lotNumber: '123A',
           editionNumber: '16'
           totalEditions: '64'
+          salePriceUSD: '1000',
           condition: 'Excellent',
           dimensionsInches: '18 x 23',
           creatorName: 'Cool Guy McGee',
@@ -107,6 +108,7 @@ const options = {
           condition: 'Poor',
           editionNumber: '16'
           totalEditions: '64'
+          salePriceUSD: '2000',
           medium: 'linocut in 4 colors',
           creatorName: 'Cool Guy McGee',
           auctionName: 'My Cool Auction',
@@ -293,6 +295,7 @@ metadata  | File Data | The XML file to convert.
       <Condition>Excellent</Condition>
       <EditionNumber>16</EditionNumber>
       <TotalEditions>64</TotalEditions>
+      <SalePriceUSD>123A</SalePriceUSD>
       <Medium>mixed media on paper</Medium>
       <CreatorName>Cool Guy McGee</CreatorName>
       <AuctionName>My Cool Auction</AuctionName>
