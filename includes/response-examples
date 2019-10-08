@@ -406,6 +406,7 @@ blockchain transactions are public.</p>
   <span class="s2">"lotNumber"</span><span class="p">:</span> <span class="s2">"123A"</span><span class="p">,</span>
   <span class="s2">"editionNumber"</span><span class="p">:</span> <span class="s2">"16"</span><span class="p">,</span>
   <span class="s2">"totalEditions"</span><span class="p">:</span> <span class="s2">"64"</span><span class="p">,</span>
+  <span class="s2">"salePriceUSD"</span><span class="p">:</span> <span class="s2">"1000"</span><span class="p">,</span>
   <span class="s2">"condition"</span><span class="p">:</span> <span class="s2">"Excellent"</span><span class="p">,</span>
   <span class="s2">"dimensionsInches"</span><span class="p">:</span> <span class="s2">"18 x 23"</span><span class="p">,</span>
   <span class="s2">"creatorName"</span><span class="p">:</span> <span class="s2">"Cool Guy McGee"</span>
@@ -473,6 +474,11 @@ of it&#39;s values are optional.</p>
 <td>assetSoldAt</td>
 <td>Date</td>
 <td>When the asset was sold.</td>
+</tr>
+<tr>
+<td>salePriceUSD</td>
+<td>String</td>
+<td>The amount in USD the asset sold for.</td>
 </tr>
 <tr>
 <td>editionNumber</td>
