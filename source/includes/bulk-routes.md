@@ -44,6 +44,7 @@ const options = {
   },
 
   body: {
+    generateClaimCode: true,
     proxyUserAddress: '0xf17f52151ebef6c7334fad080c5704d77216b732'
     metadata: [
       {
@@ -148,18 +149,19 @@ request(options, (error, response) => {
 
 `POST /v1/client/bulk-transaction/record-mint`
 
-### Webhook Event
+### Webhook Events
 
 Event Name                   | Recipient
 ---------------------------- | -------------------------------------------------
-`bulk-transaction:started`   | Bulk Transaction Creator (and _not_ the proxy user, if specified)
-`bulk-transaction:completed` | Bulk Transaction Creator (and _not_ the proxy user, if specified)
+`bulk-transaction:started`   | Bulk Transaction creator (and _not_ the proxy user, if specified)
+`bulk-transaction:completed` | Bulk Transaction creator (and _not_ the proxy user, if specified)
 
 ### Request Parameters
 
 Parameter                                 | Type    | Description
 ----------------------------------------- | ------- | -----------------------------------
 proxyUserAddress                          | String  | _(Optional)_ The Ethereum address of the user to create these Codex Records for. This field is only for applications with [Proxy Users](#proxy-users).
+generateClaimCode                         | Boolean | _(Optional, default `false`)_ Generate a `claimCode` (and `claimCodeUrl`) that can subsequently be used users of your application to [claim the resulting Bulk Transaction](#claim-a-bulk-transaction), automatically transferring the Codex Records to their account.
 metadata[][name]                          | String  | The plain text name of this Codex Record.
 metadata[][isPrivate]                     | Boolean | _(Optional, default `false`)_ This flag indicates that the metadata for the Codex Record is private and can only be retrieved by the owner, the `approvedAddress`, and the addresses listed in `whitelistedAddresses` / `whitelistedEmails`.
 metadata[][isHistoricalProvenancePrivate] | Boolean | _(Optional, default `true`)_ This flag indicates whether or not [historical provenance](#historical-provenance) (i.e. `metadata[][files]`) should be hidden, regardless of the value of `isPrivate`.
@@ -411,3 +413,75 @@ Parameter    | Type   | Default    | Description
 limit        | Number | 100        | How many records to retrieve. Use with `offset` to paginate through Bulk Transactions.
 offset       | Number | 0          | How many records to skip before applying the `limit`. Use with `limit` to paginate through Bulk Transactions.
 order        | String | -createdAt | To sort in chronological order, specify this value as `createdAt`.
+
+
+## Claim a Bulk Transaction
+
+If your application creates Codex Records with the intention of transferring
+them to your users, it is possible to automate this by
+[creating Codex Records in bulk](#create-codex-records-in-bulk) with the
+`generateClaimCode` boolean set to `true`. This will cause the resulting Bulk
+Transaction to have a `claimCode` (and `claimCodeUrl`) that can be passed on to
+one of your users.
+
+Visiting the `claimCodeUrl` will present the user with a summary of the Bulk
+Transaction and provide a way for them to create a new Codex Viewer account (or
+log into an existing account) to "claim" all Codex Records. After claiming the
+Bulk Transaction, the Codex Records will be automatically transferred to the
+claiming user's account.
+
+<aside class="success">
+  This is a great way to onboard your users onto The Codex Viewer! For example,
+  you can automatically create Codex Records for items won at auction, and send
+  the winner an email with a link to claim the Codex Records for their items.
+</aside>
+
+Here is an example of the Claim Records page (i.e. `claimCodeUrl`):
+
+![](claim-records-screenshot.png)
+
+```javascript
+import request from 'request'
+
+const options = {
+  url: 'https://rinkeby-api.codexprotocol.com/v1/client/claim-records/4ACsjkrR',
+  method: 'post',
+  json: true,
+
+  headers: {
+    Authorization: 'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e',
+  },
+}
+
+request(options, (error, response) => {
+  console.log(response.body.result) // the claimed Bulk Transaction object
+})
+```
+
+> The above API call (eventually) transfers all Codex Records belonging to the Bulk Transaction with `claimCode` "4ACsjkrR" and returns the claimed [Bulk Transaction](#bulk-transaction).
+
+You can also claim a Bulk Transaction programmatically by calling the following
+route. In this case, your application would be claiming another Bulk Transaction
+(not created by your application.)
+
+### HTTP Request
+
+`POST v1/client/claim-records/:claimCode`
+
+### Webhook Events
+
+Event Name                                    | Recipient
+--------------------------------------------- | --------------------------------
+`bulk-transaction:claim:completed:creator`    | Bulk Transaction creator
+`bulk-transaction:claim:completed:claim-user` | The user who claimed the Bulk Transaction
+
+<aside class="notice">
+  There are no corresponding "started" webhook events, since they are fairly
+  unnecessary. You can safely assume the transfer process will start immediately
+  after the request.
+</aside>
+
+<aside class="warning">
+  Note that you may not claim your own Bulk Transactions, since your application
+  already owns those Codex Records.
+</aside>

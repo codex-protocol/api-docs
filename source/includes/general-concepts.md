@@ -98,6 +98,7 @@ Action                                                                      | Ev
 [Canceling a Transfer](#cancel-a-transfer)                                  | `codex-record:address-approved:cancel`
 [Accepting a Transfer](#accept-a-transfer)                                  | `codex-record:transferred:old-owner` and `codex-record:transferred:new-owner`
 [Creating Codex Records in Bulk](#create-codex-records-in-bulk)             | `bulk-transaction:started` and `bulk-transaction:completed`
+[Claiming a Bulk Transaction](#claim-a-bulk-transaction)                    | `bulk-transaction:claim:completed:creator` and `bulk-transaction:claim:completed:claim-user`
 
 ### Webhook Structure
 
@@ -139,19 +140,21 @@ eventData | Varies | The relevant data for this event. Usually a [Codex Record](
 
 The following table lists all webhook events.
 
-Event Name                             | Event Data                            | Description
--------------------------------------- | ------------------------------------- | -----------
-codex-record:created                   | [Codex Record](#codex-record)         | Sent after [creating a Codex Record](#create-a-codex-record), when the Codex Record has been created and logged on the blockchain.
-codex-record:modified                  | [Codex Record](#codex-record)         | Sent after [modifying a Codex Record's metadata](#modify-a-codex-record-39-s-metadata), when the Codex Record has been updated and logged on the blockchain.
-codex-coin:transferred                 | String (amount of CODX transferred)   | Sent when your application receives [CODX](#codx-tokens-amp-fees). Usually this is after [requesting CODX from a testnet faucet](#get-codx-from-faucet) or [purchasing additional CODX on Mainnet](#purchase-codx).
-codex-record:address-whitelisted       | [Codex Record](#codex-record)         | Sent after someone [adds your application to a Codex Record's whitelisted addresses](#get-a-codex-record-39-s-whitelisted-addresses). This event is sent immediately as this is not an asynchronous action.
-codex-record:transferred:new-owner     | [Codex Record](#codex-record)         | Sent after [accepting an incoming transfer](#accept-a-transfer), when the Codex Record has been successfully transferred to your address and logged on the blockchain.
-codex-record:transferred:old-owner     | [Codex Record](#codex-record)         | Sent after someone [accepts one of your application's outgoing transfers](#accept-a-transfer), when the Codex Record has been successfully transferred to the recipient's address and logged on the blockchain.
-codex-record:address-approved:owner    | [Codex Record](#codex-record)         | Sent after [starting a transfer](#start-a-transfer), when the Codex Record's `approvedAddress` has been updated on the blockchain and is ready to be [accepted](#accept-a-transfer) by the recipient.
-codex-record:address-approved:approved | [Codex Record](#codex-record)         | Sent after someone [starts a transfer](#start-a-transfer) to your application, when the Codex Record's `approvedAddress` has been updated on the blockchain and is ready to be [accepted](#accept-a-transfer) by your application.
-codex-record:address-approved:cancel   | [Codex Record](#codex-record)         | Sent after [cancelling a transfer](#start-a-transfer), when the Codex Record's `approvedAddress` has been cleared on the blockchain and can no longer be [accepted](#accept-a-transfer) by the recipient.
-bulk-transaction:started               | [Bulk Transaction](#bulk-transaction) | Sent after [creating Codex Records in bulk](#create-codex-records-in-bulk), when transactions start getting sent to the blockchain.
-bulk-transaction:completed             | [Bulk Transaction](#bulk-transaction) | Sent after [creating Codex Records in bulk](#create-codex-records-in-bulk), when all Codex Records have been created and logged on the blockchain.
+Event Name                                  | Event Data                            | Description
+------------------------------------------- | ------------------------------------- | -----------
+codex-record:created                        | [Codex Record](#codex-record)         | Sent after [creating a Codex Record](#create-a-codex-record), when the Codex Record has been created and logged on the blockchain.
+codex-record:modified                       | [Codex Record](#codex-record)         | Sent after [modifying a Codex Record's metadata](#modify-a-codex-record-39-s-metadata), when the Codex Record has been updated and logged on the blockchain.
+codex-coin:transferred                      | String (amount of CODX transferred)   | Sent when your application receives [CODX](#codx-tokens-amp-fees). Usually this is after [requesting CODX from a testnet faucet](#get-codx-from-faucet) or [purchasing additional CODX on Mainnet](#purchase-codx).
+codex-record:address-whitelisted            | [Codex Record](#codex-record)         | Sent after someone [adds your application to a Codex Record's whitelisted addresses](#get-a-codex-record-39-s-whitelisted-addresses). This event is sent immediately as this is not an asynchronous action.
+codex-record:transferred:new-owner          | [Codex Record](#codex-record)         | Sent after [accepting an incoming transfer](#accept-a-transfer), when the Codex Record has been successfully transferred to your address and logged on the blockchain.
+codex-record:transferred:old-owner          | [Codex Record](#codex-record)         | Sent after someone [accepts one of your application's outgoing transfers](#accept-a-transfer), when the Codex Record has been successfully transferred to the recipient's address and logged on the blockchain.
+codex-record:address-approved:owner         | [Codex Record](#codex-record)         | Sent after [starting a transfer](#start-a-transfer), when the Codex Record's `approvedAddress` has been updated on the blockchain and is ready to be [accepted](#accept-a-transfer) by the recipient.
+codex-record:address-approved:approved      | [Codex Record](#codex-record)         | Sent after someone [starts a transfer](#start-a-transfer) to your application, when the Codex Record's `approvedAddress` has been updated on the blockchain and is ready to be [accepted](#accept-a-transfer) by your application.
+codex-record:address-approved:cancel        | [Codex Record](#codex-record)         | Sent after [cancelling a transfer](#start-a-transfer), when the Codex Record's `approvedAddress` has been cleared on the blockchain and can no longer be [accepted](#accept-a-transfer) by the recipient.
+bulk-transaction:started                    | [Bulk Transaction](#bulk-transaction) | Sent after [creating Codex Records in bulk](#create-codex-records-in-bulk), when transactions start getting sent to the blockchain.
+bulk-transaction:completed                  | [Bulk Transaction](#bulk-transaction) | Sent after [creating Codex Records in bulk](#create-codex-records-in-bulk), when all Codex Records have been created and logged on the blockchain.
+bulk-transaction:claim:completed:creator    | [Bulk Transaction](#bulk-transaction) | Sent after someone [claims your application's Bulk Transaction](#claim-a-bulk-transaction), when all Codex Records have been successfully transferred to the recipient's address and logged on the blockchain.
+bulk-transaction:claim:completed:claim-user | [Bulk Transaction](#bulk-transaction) | Sent after your application [claims a Bulk Transaction](#claim-a-bulk-transaction), when all Codex Records have been successfully transferred to your address and logged on the blockchain.
 <!--
   @NOTE: this event is currently undocumented since contract approval happens
   automatically on behalf of the application:

@@ -440,28 +440,40 @@ creatorAddress | String | The Ethereum address of the client / user created this
 ```javascript
 {
   "id": "5c9162551a54697e9331d88b",
+  "claimUrl": "https://codex-viewer.com/claim-records/4ACsjkrR",
+  "claimStatus": "claimed",
+  "claimCode": "4ACsjkrR",
   "type": "record-mint",
   "status": "complete",
   "recordMintData": {
-    "numCreated": 4,
+    "numCreated": 3,
+    "numClaimed": 3,
     "insertionErrors": [
       "name: Path `name` is required."
+    ],
+    "existingAuctionHouseUniqueIds": [
+      "1234"
     ]
   }
 }
 ```
 
-> In this example, 5 metadata objects were specified when [creating Codex Records in bulk](#create-codex-records-in-bulk), one of which failed due to a missing `name` parameter.
+> In this example, 5 metadata objects were specified when [creating Codex Records in bulk](#create-codex-records-in-bulk), one of which failed due to a missing `name` parameter and another failed due to a duplicate `auctionHouseMetadata.id` already in The Codex API database for your application.
 
 When bulk routes are are called (e.g. when [creating Codex Records in bulk](#create-codex-records-in-bulk)),
 a Bulk Transaction object is returned. This object can be used to monitor the
 progress of an in-progress Bulk Transaction, or to retrieve stats about an
 already-completed Bulk Transaction such as how many Codex Records were created.
 
-Property                        | Type          | Description
-------------------------------- | ------------- | ------------------------------
-id                              | String        | The unique ID of the Bulk Transaction.
-type                            | String        | The type of Bulk Transaction, currently the only value this can have is `record-mint`.
-status                          | String        | One of the following `created`, `pending`, or `complete`. "Created" means the Bulk Transaction is in the queue waiting to be processed, "pending" means it's in progress, and "completed" means the entire Bulk Transaction is done.
-recordMintData[numCreated]      | Number        | If this Bulk Transaction is of type `record-mint`, this is the number of successful Codex Record created. This is updated as records are being minted (i.e. while the `status` is `pending`).
-recordMintData[insertionErrors] | Array[String] | If this Bulk Transaction is of type `record-mint`, this is a list of errors that occurred while inserting the soon-to-be-created metadata records.
+Property                                      | Type          | Description
+--------------------------------------------- | ------------- | ----------------
+id                                            | String        | The unique ID of the Bulk Transaction.
+type                                          | String        | The type of Bulk Transaction, currently the only value this can have is `record-mint`.
+status                                        | String        | One of the following `created`, `pending`, or `complete`. "Created" means the Bulk Transaction is in the queue waiting to be processed, "pending" means it's in progress, and "completed" means the entire Bulk Transaction is done.
+claimUrl                                      | String        | If `generateClaimCode` was specified when [creating the Bulk Transaction](#create-codex-records-in-bulk), this is the url which can be used to claim this Bulk Transaction via [The Codex Viewer](#the-codex-viewer).
+claimCode                                     | String        | If `generateClaimCode` was specified when [creating the Bulk Transaction](#create-codex-records-in-bulk), this is the code which can be used to [claim this Bulk Transaction](#claim-a-bulk-transaction) via The Codex API.
+claimStatus                                   | String        | One of the following `unclaimed`, `pending`, or `claimed`. "Unclaimed" means the Bulk Transaction is waiting to be claimed, "pending" means it's currently transferring Codex Records to the claiming user, and "claimed" means the claim process is complete.
+recordMintData[numCreated]                    | Number        | If this Bulk Transaction is of type `record-mint`, this is the number of Codex Records successfully created. This value is only updated when the status transitions from `pending` to `complete`.
+recordMintData[numClaimed]                    | Number        | If this Bulk Transaction is of type `record-mint`, and `generateClaimCode` was specified when [creating the Bulk Transaction](#create-codex-records-in-bulk), this is the number of Codex Records successfully transferred to the claiming user. This value is only updated when the claimStatus transitions from `pending` to `claimed`.
+recordMintData[insertionErrors]               | Array[String] | If this Bulk Transaction is of type `record-mint`, this is a list of errors that occurred while inserting the soon-to-be-created metadata records.
+recordMintData[existingAuctionHouseUniqueIds] | Array[String] | If this Bulk Transaction is of type `record-mint`, this is a list of the specified `auctionHouseMetadata.id` values that correspond to an already-existing Codex Record in The Codex API database for your application. (Duplicates are not created.)
