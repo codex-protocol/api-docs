@@ -110,6 +110,10 @@ to them as successful.</p>
 <td><a href="#create-codex-records-in-bulk">Creating Codex Records in Bulk</a></td>
 <td><code>bulk-transaction:started</code> and <code>bulk-transaction:completed</code></td>
 </tr>
+<tr>
+<td><a href="#claim-a-bulk-transaction">Claiming a Bulk Transaction</a></td>
+<td><code>bulk-transaction:claim:completed:creator</code> and <code>bulk-transaction:claim:completed:claim-user</code></td>
+</tr>
 </tbody></table>
 <h3 id='webhook-structure'>Webhook Structure</h3>
 <blockquote>
@@ -234,6 +238,16 @@ request with an <code>application/json</code> body containing the following data
 <td>bulk-transaction:completed</td>
 <td><a href="#bulk-transaction">Bulk Transaction</a></td>
 <td>Sent after <a href="#create-codex-records-in-bulk">creating Codex Records in bulk</a>, when all Codex Records have been created and logged on the blockchain.</td>
+</tr>
+<tr>
+<td>bulk-transaction:claim:completed:creator</td>
+<td><a href="#bulk-transaction">Bulk Transaction</a></td>
+<td>Sent after someone <a href="#claim-a-bulk-transaction">claims your application&#39;s Bulk Transaction</a>, when all Codex Records have been successfully transferred to the recipient&#39;s address and logged on the blockchain.</td>
+</tr>
+<tr>
+<td>bulk-transaction:claim:completed:claim-user</td>
+<td><a href="#bulk-transaction">Bulk Transaction</a></td>
+<td>Sent after your application <a href="#claim-a-bulk-transaction">claims a Bulk Transaction</a>, when all Codex Records have been successfully transferred to your address and logged on the blockchain.</td>
 </tr>
 </tbody></table>
 

@@ -788,18 +788,25 @@ is stored in the The Codex API database.</p>
 </aside>
 <h2 id='bulk-transaction'>Bulk Transaction</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
   <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"5c9162551a54697e9331d88b"</span><span class="p">,</span>
+  <span class="s2">"claimUrl"</span><span class="p">:</span> <span class="s2">"https://codex-viewer.com/claim-records/4ACsjkrR"</span><span class="p">,</span>
+  <span class="s2">"claimStatus"</span><span class="p">:</span> <span class="s2">"claimed"</span><span class="p">,</span>
+  <span class="s2">"claimCode"</span><span class="p">:</span> <span class="s2">"4ACsjkrR"</span><span class="p">,</span>
   <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"record-mint"</span><span class="p">,</span>
   <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"complete"</span><span class="p">,</span>
   <span class="s2">"recordMintData"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s2">"numCreated"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="s2">"numCreated"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="s2">"numClaimed"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
     <span class="s2">"insertionErrors"</span><span class="p">:</span> <span class="p">[</span>
       <span class="s2">"name: Path `name` is required."</span>
+    <span class="p">],</span>
+    <span class="s2">"existingAuctionHouseUniqueIds"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">"1234"</span>
     <span class="p">]</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre>
 <blockquote>
-<p>In this example, 5 metadata objects were specified when <a href="#create-codex-records-in-bulk">creating Codex Records in bulk</a>, one of which failed due to a missing <code>name</code> parameter.</p>
+<p>In this example, 5 metadata objects were specified when <a href="#create-codex-records-in-bulk">creating Codex Records in bulk</a>, one of which failed due to a missing <code>name</code> parameter and another failed due to a duplicate <code>auctionHouseMetadata.id</code> already in The Codex API database for your application.</p>
 </blockquote>
 
 <p>When bulk routes are are called (e.g. when <a href="#create-codex-records-in-bulk">creating Codex Records in bulk</a>),
@@ -830,13 +837,38 @@ already-completed Bulk Transaction such as how many Codex Records were created.<
 <td>One of the following <code>created</code>, <code>pending</code>, or <code>complete</code>. &quot;Created&quot; means the Bulk Transaction is in the queue waiting to be processed, &quot;pending&quot; means it&#39;s in progress, and &quot;completed&quot; means the entire Bulk Transaction is done.</td>
 </tr>
 <tr>
+<td>claimUrl</td>
+<td>String</td>
+<td>If <code>generateClaimCode</code> was specified when <a href="#create-codex-records-in-bulk">creating the Bulk Transaction</a>, this is the url which can be used to claim this Bulk Transaction via <a href="#the-codex-viewer">The Codex Viewer</a>.</td>
+</tr>
+<tr>
+<td>claimCode</td>
+<td>String</td>
+<td>If <code>generateClaimCode</code> was specified when <a href="#create-codex-records-in-bulk">creating the Bulk Transaction</a>, this is the code which can be used to <a href="#claim-a-bulk-transaction">claim this Bulk Transaction</a> via The Codex API.</td>
+</tr>
+<tr>
+<td>claimStatus</td>
+<td>String</td>
+<td>One of the following <code>unclaimed</code>, <code>pending</code>, or <code>claimed</code>. &quot;Unclaimed&quot; means the Bulk Transaction is waiting to be claimed, &quot;pending&quot; means it&#39;s currently transferring Codex Records to the claiming user, and &quot;claimed&quot; means the claim process is complete.</td>
+</tr>
+<tr>
 <td>recordMintData[numCreated]</td>
 <td>Number</td>
-<td>If this Bulk Transaction is of type <code>record-mint</code>, this is the number of successful Codex Record created. This is updated as records are being minted (i.e. while the <code>status</code> is <code>pending</code>).</td>
+<td>If this Bulk Transaction is of type <code>record-mint</code>, this is the number of Codex Records successfully created. This value is only updated when the status transitions from <code>pending</code> to <code>complete</code>.</td>
+</tr>
+<tr>
+<td>recordMintData[numClaimed]</td>
+<td>Number</td>
+<td>If this Bulk Transaction is of type <code>record-mint</code>, and <code>generateClaimCode</code> was specified when <a href="#create-codex-records-in-bulk">creating the Bulk Transaction</a>, this is the number of Codex Records successfully transferred to the claiming user. This value is only updated when the claimStatus transitions from <code>pending</code> to <code>claimed</code>.</td>
 </tr>
 <tr>
 <td>recordMintData[insertionErrors]</td>
 <td>Array[String]</td>
 <td>If this Bulk Transaction is of type <code>record-mint</code>, this is a list of errors that occurred while inserting the soon-to-be-created metadata records.</td>
+</tr>
+<tr>
+<td>recordMintData[existingAuctionHouseUniqueIds]</td>
+<td>Array[String]</td>
+<td>If this Bulk Transaction is of type <code>record-mint</code>, this is a list of the specified <code>auctionHouseMetadata.id</code> values that correspond to an already-existing Codex Record in The Codex API database for your application. (Duplicates are not created.)</td>
 </tr>
 </tbody></table>

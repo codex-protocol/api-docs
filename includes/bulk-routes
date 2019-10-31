@@ -38,6 +38,7 @@ files are downloaded an re-hosted by Codex during processing.)</p>
   <span class="p">},</span>
 
   <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">generateClaimCode</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
     <span class="na">proxyUserAddress</span><span class="p">:</span> <span class="s1">'0xf17f52151ebef6c7334fad080c5704d77216b732'</span>
     <span class="na">metadata</span><span class="p">:</span> <span class="p">[</span>
       <span class="p">{</span>
@@ -140,7 +141,7 @@ files are downloaded an re-hosted by Codex during processing.)</p>
 </blockquote>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code>POST /v1/client/bulk-transaction/record-mint</code></p>
-<h3 id='webhook-event'>Webhook Event</h3>
+<h3 id='webhook-events'>Webhook Events</h3>
 <table><thead>
 <tr>
 <th>Event Name</th>
@@ -149,11 +150,11 @@ files are downloaded an re-hosted by Codex during processing.)</p>
 </thead><tbody>
 <tr>
 <td><code>bulk-transaction:started</code></td>
-<td>Bulk Transaction Creator (and <em>not</em> the proxy user, if specified)</td>
+<td>Bulk Transaction creator (and <em>not</em> the proxy user, if specified)</td>
 </tr>
 <tr>
 <td><code>bulk-transaction:completed</code></td>
-<td>Bulk Transaction Creator (and <em>not</em> the proxy user, if specified)</td>
+<td>Bulk Transaction creator (and <em>not</em> the proxy user, if specified)</td>
 </tr>
 </tbody></table>
 <h3 id='request-parameters'>Request Parameters</h3>
@@ -168,6 +169,11 @@ files are downloaded an re-hosted by Codex during processing.)</p>
 <td>proxyUserAddress</td>
 <td>String</td>
 <td><em>(Optional)</em> The Ethereum address of the user to create these Codex Records for. This field is only for applications with <a href="#proxy-users">Proxy Users</a>.</td>
+</tr>
+<tr>
+<td>generateClaimCode</td>
+<td>Boolean</td>
+<td><em>(Optional, default <code>false</code>)</em> Generate a <code>claimCode</code> (and <code>claimCodeUrl</code>) that can subsequently be used users of your application to <a href="#claim-a-bulk-transaction">claim the resulting Bulk Transaction</a>, automatically transferring the Codex Records to their account.</td>
 </tr>
 <tr>
 <td>metadata[][name]</td>
@@ -471,3 +477,78 @@ Bulk Transactions (such as how many Codex Records were created.)</p>
 <td>To sort in chronological order, specify this value as <code>createdAt</code>.</td>
 </tr>
 </tbody></table>
+<h2 id='claim-a-bulk-transaction'>Claim a Bulk Transaction</h2>
+<p>If your application creates Codex Records with the intention of transferring
+them to your users, it is possible to automate this by
+<a href="#create-codex-records-in-bulk">creating Codex Records in bulk</a> with the
+<code>generateClaimCode</code> boolean set to <code>true</code>. This will cause the resulting Bulk
+Transaction to have a <code>claimCode</code> (and <code>claimCodeUrl</code>) that can be passed on to
+one of your users.</p>
+
+<p>Visiting the <code>claimCodeUrl</code> will present the user with a summary of the Bulk
+Transaction and provide a way for them to create a new Codex Viewer account (or
+log into an existing account) to &quot;claim&quot; all Codex Records. After claiming the
+Bulk Transaction, the Codex Records will be automatically transferred to the
+claiming user&#39;s account.</p>
+
+<aside class="success">
+  This is a great way to onboard your users onto The Codex Viewer! For example,
+  you can automatically create Codex Records for items won at auction, and send
+  the winner an email with a link to claim the Codex Records for their items.
+</aside>
+
+<p>Here is an example of the Claim Records page (i.e. <code>claimCodeUrl</code>):</p>
+
+<p><img src="/images/claim-records-screenshot.png" alt="Claim records screenshot" /></p>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client/claim-records/4ACsjkrR'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'post'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// the claimed Bulk Transaction object</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call (eventually) transfers all Codex Records belonging to the Bulk Transaction with <code>claimCode</code> &quot;4ACsjkrR&quot; and returns the claimed <a href="#bulk-transaction">Bulk Transaction</a>.</p>
+</blockquote>
+
+<p>You can also claim a Bulk Transaction programmatically by calling the following
+route. In this case, your application would be claiming another Bulk Transaction
+(not created by your application.)</p>
+<h3 id='http-request-5'>HTTP Request</h3>
+<p><code>POST v1/client/claim-records/:claimCode</code></p>
+<h3 id='webhook-events-2'>Webhook Events</h3>
+<table><thead>
+<tr>
+<th>Event Name</th>
+<th>Recipient</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>bulk-transaction:claim:completed:creator</code></td>
+<td>Bulk Transaction creator</td>
+</tr>
+<tr>
+<td><code>bulk-transaction:claim:completed:claim-user</code></td>
+<td>The user who claimed the Bulk Transaction</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+  There are no corresponding "started" webhook events, since they are fairly
+  unnecessary. You can safely assume the transfer process will start immediately
+  after the request.
+</aside>
+
+<aside class="warning">
+  Note that you may not claim your own Bulk Transactions, since your application
+  already owns those Codex Records.
+</aside>

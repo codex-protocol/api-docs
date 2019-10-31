@@ -348,6 +348,9 @@
                   <li>
                     <a href="#get-all-bulk-transactions" class="toc-h2 toc-link" data-title="Get All Bulk Transactions">Get All Bulk Transactions</a>
                   </li>
+                  <li>
+                    <a href="#claim-a-bulk-transaction" class="toc-h2 toc-link" data-title="Claim a Bulk Transaction">Claim a Bulk Transaction</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -2537,6 +2540,7 @@ files are downloaded an re-hosted by Codex during processing.)</p>
   <span class="p">},</span>
 
   <span class="na">body</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">generateClaimCode</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
     <span class="na">proxyUserAddress</span><span class="p">:</span> <span class="s1">'0xf17f52151ebef6c7334fad080c5704d77216b732'</span>
     <span class="na">metadata</span><span class="p">:</span> <span class="p">[</span>
       <span class="p">{</span>
@@ -2639,7 +2643,7 @@ files are downloaded an re-hosted by Codex during processing.)</p>
 </blockquote>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code>POST /v1/client/bulk-transaction/record-mint</code></p>
-<h3 id='webhook-event'>Webhook Event</h3>
+<h3 id='webhook-events'>Webhook Events</h3>
 <table><thead>
 <tr>
 <th>Event Name</th>
@@ -2648,11 +2652,11 @@ files are downloaded an re-hosted by Codex during processing.)</p>
 </thead><tbody>
 <tr>
 <td><code>bulk-transaction:started</code></td>
-<td>Bulk Transaction Creator (and <em>not</em> the proxy user, if specified)</td>
+<td>Bulk Transaction creator (and <em>not</em> the proxy user, if specified)</td>
 </tr>
 <tr>
 <td><code>bulk-transaction:completed</code></td>
-<td>Bulk Transaction Creator (and <em>not</em> the proxy user, if specified)</td>
+<td>Bulk Transaction creator (and <em>not</em> the proxy user, if specified)</td>
 </tr>
 </tbody></table>
 <h3 id='request-parameters'>Request Parameters</h3>
@@ -2667,6 +2671,11 @@ files are downloaded an re-hosted by Codex during processing.)</p>
 <td>proxyUserAddress</td>
 <td>String</td>
 <td><em>(Optional)</em> The Ethereum address of the user to create these Codex Records for. This field is only for applications with <a href="#proxy-users">Proxy Users</a>.</td>
+</tr>
+<tr>
+<td>generateClaimCode</td>
+<td>Boolean</td>
+<td><em>(Optional, default <code>false</code>)</em> Generate a <code>claimCode</code> (and <code>claimCodeUrl</code>) that can subsequently be used users of your application to <a href="#claim-a-bulk-transaction">claim the resulting Bulk Transaction</a>, automatically transferring the Codex Records to their account.</td>
 </tr>
 <tr>
 <td>metadata[][name]</td>
@@ -2970,6 +2979,81 @@ Bulk Transactions (such as how many Codex Records were created.)</p>
 <td>To sort in chronological order, specify this value as <code>createdAt</code>.</td>
 </tr>
 </tbody></table>
+<h2 id='claim-a-bulk-transaction'>Claim a Bulk Transaction</h2>
+<p>If your application creates Codex Records with the intention of transferring
+them to your users, it is possible to automate this by
+<a href="#create-codex-records-in-bulk">creating Codex Records in bulk</a> with the
+<code>generateClaimCode</code> boolean set to <code>true</code>. This will cause the resulting Bulk
+Transaction to have a <code>claimCode</code> (and <code>claimCodeUrl</code>) that can be passed on to
+one of your users.</p>
+
+<p>Visiting the <code>claimCodeUrl</code> will present the user with a summary of the Bulk
+Transaction and provide a way for them to create a new Codex Viewer account (or
+log into an existing account) to &quot;claim&quot; all Codex Records. After claiming the
+Bulk Transaction, the Codex Records will be automatically transferred to the
+claiming user&#39;s account.</p>
+
+<aside class="success">
+  This is a great way to onboard your users onto The Codex Viewer! For example,
+  you can automatically create Codex Records for items won at auction, and send
+  the winner an email with a link to claim the Codex Records for their items.
+</aside>
+
+<p>Here is an example of the Claim Records page (i.e. <code>claimCodeUrl</code>):</p>
+
+<p><img src="images/claim-records-screenshot.png" alt="Claim records screenshot" /></p>
+<pre class="highlight javascript tab-javascript"><code><span class="kr">import</span> <span class="nx">request</span> <span class="nx">from</span> <span class="s1">'request'</span>
+
+<span class="kr">const</span> <span class="nx">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">url</span><span class="p">:</span> <span class="s1">'https://rinkeby-api.codexprotocol.com/v1/client/claim-records/4ACsjkrR'</span><span class="p">,</span>
+  <span class="na">method</span><span class="p">:</span> <span class="s1">'post'</span><span class="p">,</span>
+  <span class="na">json</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+
+  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Authorization</span><span class="p">:</span> <span class="s1">'Bearer d49694e5a3459759cc7ac1741de246e184e51d6e'</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+
+<span class="nx">request</span><span class="p">(</span><span class="nx">options</span><span class="p">,</span> <span class="p">(</span><span class="nx">error</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">result</span><span class="p">)</span> <span class="c1">// the claimed Bulk Transaction object</span>
+<span class="p">})</span>
+</code></pre>
+<blockquote>
+<p>The above API call (eventually) transfers all Codex Records belonging to the Bulk Transaction with <code>claimCode</code> &quot;4ACsjkrR&quot; and returns the claimed <a href="#bulk-transaction">Bulk Transaction</a>.</p>
+</blockquote>
+
+<p>You can also claim a Bulk Transaction programmatically by calling the following
+route. In this case, your application would be claiming another Bulk Transaction
+(not created by your application.)</p>
+<h3 id='http-request-5'>HTTP Request</h3>
+<p><code>POST v1/client/claim-records/:claimCode</code></p>
+<h3 id='webhook-events-2'>Webhook Events</h3>
+<table><thead>
+<tr>
+<th>Event Name</th>
+<th>Recipient</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>bulk-transaction:claim:completed:creator</code></td>
+<td>Bulk Transaction creator</td>
+</tr>
+<tr>
+<td><code>bulk-transaction:claim:completed:claim-user</code></td>
+<td>The user who claimed the Bulk Transaction</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+  There are no corresponding "started" webhook events, since they are fairly
+  unnecessary. You can safely assume the transfer process will start immediately
+  after the request.
+</aside>
+
+<aside class="warning">
+  Note that you may not claim your own Bulk Transactions, since your application
+  already owns those Codex Records.
+</aside>
 <h1 id='general-concepts'>General Concepts</h1>
 <p>This section explains miscellaneous concepts referenced throughout this
 documentation.</p>
@@ -3081,6 +3165,10 @@ to them as successful.</p>
 <tr>
 <td><a href="#create-codex-records-in-bulk">Creating Codex Records in Bulk</a></td>
 <td><code>bulk-transaction:started</code> and <code>bulk-transaction:completed</code></td>
+</tr>
+<tr>
+<td><a href="#claim-a-bulk-transaction">Claiming a Bulk Transaction</a></td>
+<td><code>bulk-transaction:claim:completed:creator</code> and <code>bulk-transaction:claim:completed:claim-user</code></td>
 </tr>
 </tbody></table>
 <h3 id='webhook-structure'>Webhook Structure</h3>
@@ -3206,6 +3294,16 @@ request with an <code>application/json</code> body containing the following data
 <td>bulk-transaction:completed</td>
 <td><a href="#bulk-transaction">Bulk Transaction</a></td>
 <td>Sent after <a href="#create-codex-records-in-bulk">creating Codex Records in bulk</a>, when all Codex Records have been created and logged on the blockchain.</td>
+</tr>
+<tr>
+<td>bulk-transaction:claim:completed:creator</td>
+<td><a href="#bulk-transaction">Bulk Transaction</a></td>
+<td>Sent after someone <a href="#claim-a-bulk-transaction">claims your application&#39;s Bulk Transaction</a>, when all Codex Records have been successfully transferred to the recipient&#39;s address and logged on the blockchain.</td>
+</tr>
+<tr>
+<td>bulk-transaction:claim:completed:claim-user</td>
+<td><a href="#bulk-transaction">Bulk Transaction</a></td>
+<td>Sent after your application <a href="#claim-a-bulk-transaction">claims a Bulk Transaction</a>, when all Codex Records have been successfully transferred to your address and logged on the blockchain.</td>
 </tr>
 </tbody></table>
 
@@ -4324,18 +4422,25 @@ is stored in the The Codex API database.</p>
 </aside>
 <h2 id='bulk-transaction'>Bulk Transaction</h2><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
   <span class="s2">"id"</span><span class="p">:</span> <span class="s2">"5c9162551a54697e9331d88b"</span><span class="p">,</span>
+  <span class="s2">"claimUrl"</span><span class="p">:</span> <span class="s2">"https://codex-viewer.com/claim-records/4ACsjkrR"</span><span class="p">,</span>
+  <span class="s2">"claimStatus"</span><span class="p">:</span> <span class="s2">"claimed"</span><span class="p">,</span>
+  <span class="s2">"claimCode"</span><span class="p">:</span> <span class="s2">"4ACsjkrR"</span><span class="p">,</span>
   <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"record-mint"</span><span class="p">,</span>
   <span class="s2">"status"</span><span class="p">:</span> <span class="s2">"complete"</span><span class="p">,</span>
   <span class="s2">"recordMintData"</span><span class="p">:</span> <span class="p">{</span>
-    <span class="s2">"numCreated"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="s2">"numCreated"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="s2">"numClaimed"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
     <span class="s2">"insertionErrors"</span><span class="p">:</span> <span class="p">[</span>
       <span class="s2">"name: Path `name` is required."</span>
+    <span class="p">],</span>
+    <span class="s2">"existingAuctionHouseUniqueIds"</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s2">"1234"</span>
     <span class="p">]</span>
   <span class="p">}</span>
 <span class="p">}</span>
 </code></pre>
 <blockquote>
-<p>In this example, 5 metadata objects were specified when <a href="#create-codex-records-in-bulk">creating Codex Records in bulk</a>, one of which failed due to a missing <code>name</code> parameter.</p>
+<p>In this example, 5 metadata objects were specified when <a href="#create-codex-records-in-bulk">creating Codex Records in bulk</a>, one of which failed due to a missing <code>name</code> parameter and another failed due to a duplicate <code>auctionHouseMetadata.id</code> already in The Codex API database for your application.</p>
 </blockquote>
 
 <p>When bulk routes are are called (e.g. when <a href="#create-codex-records-in-bulk">creating Codex Records in bulk</a>),
@@ -4366,14 +4471,39 @@ already-completed Bulk Transaction such as how many Codex Records were created.<
 <td>One of the following <code>created</code>, <code>pending</code>, or <code>complete</code>. &quot;Created&quot; means the Bulk Transaction is in the queue waiting to be processed, &quot;pending&quot; means it&#39;s in progress, and &quot;completed&quot; means the entire Bulk Transaction is done.</td>
 </tr>
 <tr>
+<td>claimUrl</td>
+<td>String</td>
+<td>If <code>generateClaimCode</code> was specified when <a href="#create-codex-records-in-bulk">creating the Bulk Transaction</a>, this is the url which can be used to claim this Bulk Transaction via <a href="#the-codex-viewer">The Codex Viewer</a>.</td>
+</tr>
+<tr>
+<td>claimCode</td>
+<td>String</td>
+<td>If <code>generateClaimCode</code> was specified when <a href="#create-codex-records-in-bulk">creating the Bulk Transaction</a>, this is the code which can be used to <a href="#claim-a-bulk-transaction">claim this Bulk Transaction</a> via The Codex API.</td>
+</tr>
+<tr>
+<td>claimStatus</td>
+<td>String</td>
+<td>One of the following <code>unclaimed</code>, <code>pending</code>, or <code>claimed</code>. &quot;Unclaimed&quot; means the Bulk Transaction is waiting to be claimed, &quot;pending&quot; means it&#39;s currently transferring Codex Records to the claiming user, and &quot;claimed&quot; means the claim process is complete.</td>
+</tr>
+<tr>
 <td>recordMintData[numCreated]</td>
 <td>Number</td>
-<td>If this Bulk Transaction is of type <code>record-mint</code>, this is the number of successful Codex Record created. This is updated as records are being minted (i.e. while the <code>status</code> is <code>pending</code>).</td>
+<td>If this Bulk Transaction is of type <code>record-mint</code>, this is the number of Codex Records successfully created. This value is only updated when the status transitions from <code>pending</code> to <code>complete</code>.</td>
+</tr>
+<tr>
+<td>recordMintData[numClaimed]</td>
+<td>Number</td>
+<td>If this Bulk Transaction is of type <code>record-mint</code>, and <code>generateClaimCode</code> was specified when <a href="#create-codex-records-in-bulk">creating the Bulk Transaction</a>, this is the number of Codex Records successfully transferred to the claiming user. This value is only updated when the claimStatus transitions from <code>pending</code> to <code>claimed</code>.</td>
 </tr>
 <tr>
 <td>recordMintData[insertionErrors]</td>
 <td>Array[String]</td>
 <td>If this Bulk Transaction is of type <code>record-mint</code>, this is a list of errors that occurred while inserting the soon-to-be-created metadata records.</td>
+</tr>
+<tr>
+<td>recordMintData[existingAuctionHouseUniqueIds]</td>
+<td>Array[String]</td>
+<td>If this Bulk Transaction is of type <code>record-mint</code>, this is a list of the specified <code>auctionHouseMetadata.id</code> values that correspond to an already-existing Codex Record in The Codex API database for your application. (Duplicates are not created.)</td>
 </tr>
 </tbody></table>
 <h1 id='errors'>Errors</h1>
