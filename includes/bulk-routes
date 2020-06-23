@@ -42,8 +42,6 @@ files are downloaded an re-hosted by Codex during processing.)</p>
     <span class="na">proxyUserAddress</span><span class="p">:</span> <span class="s1">'0xf17f52151ebef6c7334fad080c5704d77216b732'</span>
     <span class="na">metadata</span><span class="p">:</span> <span class="p">[</span>
       <span class="p">{</span>
-        <span class="na">isPrivate</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-        <span class="na">isHistoricalProvenancePrivate</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
         <span class="na">name</span><span class="p">:</span> <span class="s1">'Really Cool Codex Record #1'</span><span class="p">,</span>
         <span class="na">description</span><span class="p">:</span> <span class="s1">'This is a really cool Codex Record!'</span><span class="p">,</span>
 
@@ -55,6 +53,16 @@ files are downloaded an re-hosted by Codex during processing.)</p>
         <span class="na">fileUrls</span><span class="p">:</span> <span class="p">[</span>
           <span class="s1">'https://example.com/files/author-notes.txt'</span><span class="p">,</span>
           <span class="s1">'https://example.com/files/certificate-of-authenticity.pdf'</span><span class="p">,</span>
+        <span class="p">],</span>
+
+        <span class="na">isPrivate</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="na">isHistoricalProvenancePrivate</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+        <span class="na">whitelistedEmails</span><span class="p">:</span> <span class="p">[</span>
+          <span class="s1">'user-1@example.com'</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="na">whitelistedAddresses</span><span class="p">:</span> <span class="p">[</span>
+          <span class="s1">'0xf17f52151ebef6c7334fad080c5704d77216b732'</span><span class="p">,</span>
+          <span class="s1">'0xc5fdf4076b8f3a5357c5e395ab970b5b54098fef'</span><span class="p">,</span>
         <span class="p">],</span>
 
         <span class="na">additionalMetadata</span><span class="p">:</span> <span class="p">{</span>
@@ -84,8 +92,6 @@ files are downloaded an re-hosted by Codex during processing.)</p>
         <span class="p">},</span>
       <span class="p">},</span>
       <span class="p">{</span>
-        <span class="na">isPrivate</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
-        <span class="na">isHistoricalProvenancePrivate</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
         <span class="na">name</span><span class="p">:</span> <span class="s1">'Really Cool Codex Record #2'</span><span class="p">,</span>
         <span class="na">description</span><span class="p">:</span> <span class="s1">'This is also a really cool Codex Record!'</span><span class="p">,</span>
 
@@ -97,6 +103,16 @@ files are downloaded an re-hosted by Codex during processing.)</p>
         <span class="na">fileUrls</span><span class="p">:</span> <span class="p">[</span>
           <span class="s1">'https://example.com/files/more-author-notes.txt'</span><span class="p">,</span>
           <span class="s1">'https://example.com/files/another-certificate-of-authenticity.pdf'</span><span class="p">,</span>
+        <span class="p">],</span>
+
+        <span class="na">isPrivate</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="na">isHistoricalProvenancePrivate</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="na">whitelistedEmails</span><span class="p">:</span> <span class="p">[</span>
+          <span class="s1">'user-2@example.com'</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="na">whitelistedAddresses</span><span class="p">:</span> <span class="p">[</span>
+          <span class="s1">'0x821aea9a577a9b44299b9c15c88cf3087f3b5544'</span><span class="p">,</span>
+          <span class="s1">'0x0d1d4e623d10f9fba5db95830f7d3839406c6af2'</span><span class="p">,</span>
         <span class="p">],</span>
 
         <span class="na">additionalMetadata</span><span class="p">:</span> <span class="p">{</span>
@@ -181,16 +197,6 @@ files are downloaded an re-hosted by Codex during processing.)</p>
 <td>The plain text name of this Codex Record.</td>
 </tr>
 <tr>
-<td>metadata[][isPrivate]</td>
-<td>Boolean</td>
-<td><em>(Optional, default <code>false</code>)</em> This flag indicates that the metadata for the Codex Record is private and can only be retrieved by the owner, the <code>approvedAddress</code>, and the addresses listed in <code>whitelistedAddresses</code> / <code>whitelistedEmails</code>.</td>
-</tr>
-<tr>
-<td>metadata[][isHistoricalProvenancePrivate]</td>
-<td>Boolean</td>
-<td><em>(Optional, default <code>true</code>)</em> This flag indicates whether or not <a href="#historical-provenance">historical provenance</a> (i.e. <code>metadata[][files]</code>) should be hidden, regardless of the value of <code>isPrivate</code>.</td>
-</tr>
-<tr>
 <td>metadata[][description]</td>
 <td>String</td>
 <td><em>(Optional)</em> The plain text description of this Codex Record. The field can be set to <code>null</code> or simply omitted to leave the description empty.</td>
@@ -220,6 +226,26 @@ files are downloaded an re-hosted by Codex during processing.)</p>
 <td>Object</td>
 <td>An arbitrary list of data specific to your application (this field is ignored if your application is not an auction house.) IF your account is an auction house account, this field is required (as well as the <code>auctionHouseMetadata.id</code> parameter.) See <a href="#auction-house-metadata">Auction House Metadata</a> for details.</td>
 </tr>
+<tr>
+<td>metadata[][isPrivate]</td>
+<td>Boolean</td>
+<td><em>(Optional, default <code>false</code>)</em> This flag indicates that the metadata for the Codex Record is private and can only be retrieved by the owner, the <code>approvedAddress</code>, and the addresses listed in <code>whitelistedAddresses</code> / <code>whitelistedEmails</code>.</td>
+</tr>
+<tr>
+<td>metadata[][isHistoricalProvenancePrivate]</td>
+<td>Boolean</td>
+<td><em>(Optional, default <code>true</code>)</em> This flag indicates whether or not <a href="#historical-provenance">historical provenance</a> (i.e. <code>metadata[][files]</code>) should be hidden, regardless of the value of <code>isPrivate</code>.</td>
+</tr>
+<tr>
+<td>metadata[][whitelistedEmails]</td>
+<td>Array[String]</td>
+<td><em>(Optional)</em> An array of email addresses allowed to view private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records.</td>
+</tr>
+<tr>
+<td>metadata[][whitelistedAddresses]</td>
+<td>Array[String]</td>
+<td><em>(Optional)</em> An array of Ethereum addresses allowed to view private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records.</td>
+</tr>
 </tbody></table>
 
 <aside class="success">
@@ -235,6 +261,13 @@ files are downloaded an re-hosted by Codex during processing.)</p>
   objects contain errors, as many valid records as possible will be created and
   any errors will be returned in the Bulk Transaction object. See
   <a href="#bulk-transaction">Bulk Transaction</a> for details.
+</aside>
+
+<aside class="notice">
+  <code>whitelistedAddresses</code> and <code>whitelistedEmails</code> allow
+  users to provide read-only access for any email or Ethereum address. See
+  <a href="#get-a-codex-record-39-s-whitelisted-addresses">Get a Codex Record's
+  Whitelisted Addresses</a> (and subsequent sections) for details.
 </aside>
 
 <aside class="notice">
@@ -329,8 +362,6 @@ You can then use this JSON response as the <code>metadata</code> array when
   <span class="nt">&lt;Record&gt;</span>
     <span class="c">&lt;!-- required --&gt;</span>
     <span class="nt">&lt;Name&gt;</span>Really Cool Codex Record #1<span class="nt">&lt;/Name&gt;</span>
-    <span class="nt">&lt;IsPrivate&gt;</span>false<span class="nt">&lt;/IsPrivate&gt;</span>
-    <span class="nt">&lt;IsHistoricalProvenancePrivate&gt;</span>false<span class="nt">&lt;/IsHistoricalProvenancePrivate&gt;</span>
     <span class="nt">&lt;Description&gt;</span>This is a really cool Codex Record!<span class="nt">&lt;/Description&gt;</span>
     <span class="nt">&lt;MainImageUrl&gt;</span>https://example.com/images/cool-main-image.jpg<span class="nt">&lt;/MainImageUrl&gt;</span>
 
@@ -341,6 +372,9 @@ You can then use this JSON response as the <code>metadata</code> array when
     <span class="c">&lt;!-- optional additional files --&gt;</span>
     <span class="nt">&lt;FileUrl&gt;</span>https://example.com/files/author-notes.txt<span class="nt">&lt;/FileUrl&gt;</span>
     <span class="nt">&lt;FileUrl&gt;</span>https://example.com/files/certificate-of-authenticity.pdf<span class="nt">&lt;/FileUrl&gt;</span>
+
+    <span class="nt">&lt;IsPrivate&gt;</span>false<span class="nt">&lt;/IsPrivate&gt;</span>
+    <span class="nt">&lt;IsHistoricalProvenancePrivate&gt;</span>false<span class="nt">&lt;/IsHistoricalProvenancePrivate&gt;</span>
 
     <span class="c">&lt;!-- optional --&gt;</span>
     <span class="nt">&lt;AdditionalMetadata&gt;</span>
