@@ -123,8 +123,6 @@ const options = {
   // by using "formData" here instead of "body", request will send this request
   //  as multipart/form-data, which is necessary for sending file data
   formData: {
-    isPrivate: false,
-    isHistoricalProvenancePrivate: true,
     name: 'Really Cool Codex Record',
     description: 'This is a really cool Codex Record!',
     mainImage: fs.createReadStream('/tmp/uploads/cool-main-image.jpg'),
@@ -135,6 +133,17 @@ const options = {
     files: [
       fs.createReadStream('/tmp/uploads/author-notes.txt'),
       fs.createReadStream('/tmp/uploads/certificate-of-authenticity.pdf'),
+    ],
+    isPrivate: false,
+    isHistoricalProvenancePrivate: true,
+    whitelistedEmails: [
+      'user@example.com',
+    ],
+    whitelistedAddresses: [
+      '0xf17f52151ebef6c7334fad080c5704d77216b732',
+      '0xc5fdf4076b8f3a5357c5e395ab970b5b54098fef',
+      '0x821aea9a577a9b44299b9c15c88cf3087f3b5544',
+      '0x0d1d4e623d10f9fba5db95830f7d3839406c6af2',
     ],
   },
 }
@@ -162,14 +171,23 @@ Event Name             | Recipient
 Parameter                     | Type             | Description
 ----------------------------- | ---------------- | --------------------------------------
 name                          | String           | The plain text name of this Codex Record.
-isPrivate                     | Boolean          | _(Optional, default `true`)_ This flag indicates that the metadata for the Codex Record is private and can only be retrieved by the owner, the `approvedAddress`, and the addresses listed in `whitelistedAddresses` / `whitelistedEmails`.
-isHistoricalProvenancePrivate | Boolean          | _(Optional, default `true`)_ This flag indicates whether or not [historical provenance](#historical-provenance) (i.e. `files`) should be hidden, regardless of the value of `isPrivate`.
 description                   | String           | _(Optional)_ The plain text description of this Codex Record. The field can be set to `null` or simply omitted to leave the description empty.
 mainImage                     | File Data        | The main image of this Codex Record.
 images                        | Array[File Data] | _(Optional)_ An array of supplemental images that belong to this metadata.
 files                         | Array[File Data] | _(Optional)_ An array of supplemental files that belong to this metadata. This is considered the "[historical provenance](#historical-provenance)" of the Codex Record.
 additionalMetadata            | Object           | _(Optional)_ A list of additional metadata about this asset. See [Additional Metadata](#additional-metadata) for details.
 auctionHouseMetadata          | Object           | _(Optional)_ An arbitrary list of data specific to your application (this field is ignored if your application is not an auction house.) See [Auction House Metadata](#auction-house-metadata) for details.
+isPrivate                     | Boolean          | _(Optional, default `true`)_ This flag indicates that the metadata for the Codex Record is private and can only be retrieved by the owner, the `approvedAddress`, and the addresses listed in `whitelistedAddresses` / `whitelistedEmails`.
+isHistoricalProvenancePrivate | Boolean          | _(Optional, default `true`)_ This flag indicates whether or not [historical provenance](#historical-provenance) (i.e. `files`) should be hidden, regardless of the value of `isPrivate`.
+whitelistedEmails             | Array[String]    | _(Optional)_ An array of email addresses allowed to view private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records.
+whitelistedAddresses          | Array[String]    | _(Optional)_ An array of Ethereum addresses allowed to view private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records.
+
+<aside class="notice">
+  <code>whitelistedAddresses</code> and <code>whitelistedEmails</code> allow
+  users to provide read-only access for any email or Ethereum address. See
+  <a href="#get-a-codex-record-39-s-whitelisted-addresses">Get a Codex Record's
+  Whitelisted Addresses</a> (and subsequent sections) for details.
+</aside>
 
 
 ## Modify a Codex Record

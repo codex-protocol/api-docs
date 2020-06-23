@@ -48,8 +48,6 @@ const options = {
     proxyUserAddress: '0xf17f52151ebef6c7334fad080c5704d77216b732'
     metadata: [
       {
-        isPrivate: true,
-        isHistoricalProvenancePrivate: true,
         name: 'Really Cool Codex Record #1',
         description: 'This is a really cool Codex Record!',
 
@@ -61,6 +59,16 @@ const options = {
         fileUrls: [
           'https://example.com/files/author-notes.txt',
           'https://example.com/files/certificate-of-authenticity.pdf',
+        ],
+
+        isPrivate: true,
+        isHistoricalProvenancePrivate: true,
+        whitelistedEmails: [
+          'user-1@example.com',
+        ],
+        whitelistedAddresses: [
+          '0xf17f52151ebef6c7334fad080c5704d77216b732',
+          '0xc5fdf4076b8f3a5357c5e395ab970b5b54098fef',
         ],
 
         additionalMetadata: {
@@ -90,8 +98,6 @@ const options = {
         },
       },
       {
-        isPrivate: false,
-        isHistoricalProvenancePrivate: false,
         name: 'Really Cool Codex Record #2',
         description: 'This is also a really cool Codex Record!',
 
@@ -103,6 +109,16 @@ const options = {
         fileUrls: [
           'https://example.com/files/more-author-notes.txt',
           'https://example.com/files/another-certificate-of-authenticity.pdf',
+        ],
+
+        isPrivate: false,
+        isHistoricalProvenancePrivate: false,
+        whitelistedEmails: [
+          'user-2@example.com',
+        ],
+        whitelistedAddresses: [
+          '0x821aea9a577a9b44299b9c15c88cf3087f3b5544',
+          '0x0d1d4e623d10f9fba5db95830f7d3839406c6af2',
         ],
 
         additionalMetadata: {
@@ -158,19 +174,21 @@ Event Name                   | Recipient
 
 ### Request Parameters
 
-Parameter                                 | Type    | Description
------------------------------------------ | ------- | -----------------------------------
-proxyUserAddress                          | String  | _(Optional)_ The Ethereum address of the user to create these Codex Records for. This field is only for applications with [Proxy Users](#proxy-users).
-generateClaimCode                         | Boolean | _(Optional, default `false`)_ Generate a `claimCode` (and `claimCodeUrl`) that can subsequently be used users of your application to [claim the resulting Bulk Transaction](#claim-a-bulk-transaction), automatically transferring the Codex Records to their account.
-metadata[][name]                          | String  | The plain text name of this Codex Record.
-metadata[][isPrivate]                     | Boolean | _(Optional, default `false`)_ This flag indicates that the metadata for the Codex Record is private and can only be retrieved by the owner, the `approvedAddress`, and the addresses listed in `whitelistedAddresses` / `whitelistedEmails`.
-metadata[][isHistoricalProvenancePrivate] | Boolean | _(Optional, default `true`)_ This flag indicates whether or not [historical provenance](#historical-provenance) (i.e. `metadata[][files]`) should be hidden, regardless of the value of `isPrivate`.
-metadata[][description]                   | String  | _(Optional)_ The plain text description of this Codex Record. The field can be set to `null` or simply omitted to leave the description empty.
-metadata[][mainImageUrl]                  | String  | The main image of this Codex Record.
-metadata[][imageUrls]                     | String  | _(Optional)_ An array of supplemental images that belong to this metadata.
-metadata[][fileUrls]                      | String  | _(Optional)_ An array of supplemental files that belong to this metadata. This is considered the "[historical provenance](#historical-provenance)" of the Codex Record.
-metadata[][additionalMetadata]            | Object  | _(Optional)_ A list of additional metadata about this asset. See [Additional Metadata](#additional-metadata) for details.
-metadata[][auctionHouseMetadata]          | Object  | An arbitrary list of data specific to your application (this field is ignored if your application is not an auction house.) IF your account is an auction house account, this field is required (as well as the `auctionHouseMetadata.id` parameter.) See [Auction House Metadata](#auction-house-metadata) for details.
+Parameter                                 | Type          | Description
+----------------------------------------- | ------------- | --------------------
+proxyUserAddress                          | String        | _(Optional)_ The Ethereum address of the user to create these Codex Records for. This field is only for applications with [Proxy Users](#proxy-users).
+generateClaimCode                         | Boolean       | _(Optional, default `false`)_ Generate a `claimCode` (and `claimCodeUrl`) that can subsequently be used users of your application to [claim the resulting Bulk Transaction](#claim-a-bulk-transaction), automatically transferring the Codex Records to their account.
+metadata[][name]                          | String        | The plain text name of this Codex Record.
+metadata[][description]                   | String        | _(Optional)_ The plain text description of this Codex Record. The field can be set to `null` or simply omitted to leave the description empty.
+metadata[][mainImageUrl]                  | String        | The main image of this Codex Record.
+metadata[][imageUrls]                     | String        | _(Optional)_ An array of supplemental images that belong to this metadata.
+metadata[][fileUrls]                      | String        | _(Optional)_ An array of supplemental files that belong to this metadata. This is considered the "[historical provenance](#historical-provenance)" of the Codex Record.
+metadata[][additionalMetadata]            | Object        | _(Optional)_ A list of additional metadata about this asset. See [Additional Metadata](#additional-metadata) for details.
+metadata[][auctionHouseMetadata]          | Object        | An arbitrary list of data specific to your application (this field is ignored if your application is not an auction house.) IF your account is an auction house account, this field is required (as well as the `auctionHouseMetadata.id` parameter.) See [Auction House Metadata](#auction-house-metadata) for details.
+metadata[][isPrivate]                     | Boolean       | _(Optional, default `false`)_ This flag indicates that the metadata for the Codex Record is private and can only be retrieved by the owner, the `approvedAddress`, and the addresses listed in `whitelistedAddresses` / `whitelistedEmails`.
+metadata[][isHistoricalProvenancePrivate] | Boolean       | _(Optional, default `true`)_ This flag indicates whether or not [historical provenance](#historical-provenance) (i.e. `metadata[][files]`) should be hidden, regardless of the value of `isPrivate`.
+metadata[][whitelistedEmails]             | Array[String] | _(Optional)_ An array of email addresses allowed to view private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records.
+metadata[][whitelistedAddresses]          | Array[String] | _(Optional)_ An array of Ethereum addresses allowed to view private metadata for this Codex Record. This allows users to give people read-only access to their Codex Records.
 
 <aside class="success">
   All files (<code>mainImageUrl</code>, <code>imageUrls</code>, and
@@ -185,6 +203,13 @@ metadata[][auctionHouseMetadata]          | Object  | An arbitrary list of data 
   objects contain errors, as many valid records as possible will be created and
   any errors will be returned in the Bulk Transaction object. See
   <a href="#bulk-transaction">Bulk Transaction</a> for details.
+</aside>
+
+<aside class="notice">
+  <code>whitelistedAddresses</code> and <code>whitelistedEmails</code> allow
+  users to provide read-only access for any email or Ethereum address. See
+  <a href="#get-a-codex-record-39-s-whitelisted-addresses">Get a Codex Record's
+  Whitelisted Addresses</a> (and subsequent sections) for details.
 </aside>
 
 <aside class="notice">
@@ -280,8 +305,6 @@ metadata  | File Data | The XML file to convert.
   <Record>
     <!-- required -->
     <Name>Really Cool Codex Record #1</Name>
-    <IsPrivate>false</IsPrivate>
-    <IsHistoricalProvenancePrivate>false</IsHistoricalProvenancePrivate>
     <Description>This is a really cool Codex Record!</Description>
     <MainImageUrl>https://example.com/images/cool-main-image.jpg</MainImageUrl>
 
@@ -292,6 +315,9 @@ metadata  | File Data | The XML file to convert.
     <!-- optional additional files -->
     <FileUrl>https://example.com/files/author-notes.txt</FileUrl>
     <FileUrl>https://example.com/files/certificate-of-authenticity.pdf</FileUrl>
+
+    <IsPrivate>false</IsPrivate>
+    <IsHistoricalProvenancePrivate>false</IsHistoricalProvenancePrivate>
 
     <!-- optional -->
     <AdditionalMetadata>
